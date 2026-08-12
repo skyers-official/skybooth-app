@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sky Booth App</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #17151c;
+            color: #ffffff;
+        }
+
+        .app {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            width: 240px;
+            min-height: 100vh;
+            background: #211e28;
+            padding: 30px 18px;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        .logo span {
+            color: #f5b942;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .menu button {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: #bdb7c8;
+            padding: 14px 15px;
+            text-align: left;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .menu button:hover,
+        .menu button.active {
+            background: #302b38;
+            color: #f5b942;
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            flex: 1;
+            min-width: 0;
+            padding: 35px;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #a9a2b3;
+        }
+
+        .add-event-button {
+            margin-top: 20px;
+            border: none;
+            background: #f5b942;
+            color: #1c1820;
+            padding: 12px 18px;
+            border-radius: 9px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* =========================
+           DASHBOARD CARDS
+        ========================= */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: #211e28;
+            border-radius: 14px;
+            padding: 22px;
+            border: 1px solid #322d3a;
+        }
+
+        .card-title {
+            color: #a9a2b3;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .card-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #f5b942;
+            word-break: break-word;
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+            margin-top: 25px;
+        }
+
+        .section-title {
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* =========================
+           EVENT / LIST CARD
+        ========================= */
+
+        .event {
+            display: block;
+            width: 100%;
+            background: #211e28;
+            border: 1px solid #322d3a;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .event-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .event-info {
+            color: #bdb7c8;
+            margin-top: 7px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .event-form-box h2 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #d3ced9;
+        }
+
+        input,
+        select {
+            width: 100%;
+            border: 1px solid #40394b;
+            background: #17151c;
+            color: #ffffff;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #f5b942;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .cancel-button,
+        .save-button {
+            border: none;
+            padding: 11px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cancel-button {
+            background: #3a3542;
+            color: #ffffff;
+        }
+
+        .save-button {
+            background: #f5b942;
+            color: #1c1820;
+        }
+
+        /* =========================
+           EVENT ACTIONS
+        ========================= */
+
+        .event-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .cancel-event-button,
+        .finish-event-button,
+        .delete-event-button,
+        .maps-button {
+            border: none;
+            padding: 9px 14px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cancel-event-button {
+            background: #3a2222;
+            color: #ff8a8a;
+        }
+
+        .finish-event-button {
+            background: #1f3a2a;
+            color: #7ee0a1;
+        }
+
+        .delete-event-button {
+            background: transparent;
+            color: #ff8a8a;
+            font-size: 17px;
+        }
+
+        .delete-event-button:hover {
+            background: #3a2222;
+        }
+
+        .maps-button {
+            background: #302b38;
+            color: #f5b942;
+            font-size: 13px;
+        }
+
+        .maps-button:hover {
+            background: #26222a;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .event-status {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 5px 9px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .status-active {
+            background: #1f3a2a;
+            color: #7ee0a1;
+        }
+
+        .status-cancelled {
+            background: #3a2222;
+            color: #ff8a8a;
+        }
+
+        .status-finished {
+            background: #2b3140;
+            color: #9ab8ff;
+        }
+
+        /* =========================
+           FINANCE LIST
+        ========================= */
+
+        #finance-list {
+            display: block;
+            width: 100%;
+            min-height: 1px;
+        }
+
+        .finance-card {
+            display: block;
+            width: 100%;
+            background: #211e28;
+            border: 1px solid #322d3a;
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .finance-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .finance-info {
+            color: #bdb7c8;
+            margin-top: 7px;
+            line-height: 1.5;
+        }
+
+        .finance-income {
+            color: #f5b942;
+            font-size: 17px;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .app {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                min-height: auto;
+                padding: 20px 15px;
+            }
+
+            .logo {
+                margin-bottom: 20px;
+            }
+
+            .menu {
+                flex-direction: row;
+                overflow-x: auto;
+            }
+
+            .menu button {
+                min-width: 120px;
+                text-align: center;
+            }
+
+            .content {
+                padding: 22px 15px;
+            }
+
+            .header h1 {
+                font-size: 25px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            📸 SKY<span>.BOOTH</span>
+        </div>
+
+        <div class="menu">
+
+            <button
+                class="active"
+                onclick="showPage('dashboard')"
+            >
+                🏠 Dashboard
+            </button>
+
+            <button
+                onclick="showPage('event')"
+            >
+                📸 Event
+            </button>
+
+            <button
+                onclick="showPage('schedule')"
+            >
+                📅 Jadwal
+            </button>
+
+            <button
+                onclick="showPage('inventory')"
+            >
+                📦 Inventaris
+            </button>
+
+            <button
+                onclick="showPage('finance')"
+            >
+                💰 Keuangan
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         CONTENT
+    ========================= -->
+
+    <main class="content">
+
+
+        <!-- =========================
+             DASHBOARD PAGE
+        ========================= -->
+
+        <div id="dashboard-page">
+
+            <div class="header">
+                <h1>Dashboard</h1>
+                <p>Ringkasan aktivitas Sky Booth</p>
+            </div>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-title">
+                        Total Event
+                    </div>
+
+                    <div
+                        class="card-value"
+                        id="total-event"
+                    >
+                        0
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-title">
+                        Event Selesai
+                    </div>
+
+                    <div
+                        class="card-value"
+                        id="total-finished"
+                    >
+                        0
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-title">
+                        Pendapatan Event Full
+                    </div>
+
+                    <div
+                        class="card-value"
+                        id="total-full-income"
+                    >
+                        Rp0
+                    </div>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-title">
+                        Pendapatan Per Orang
+                    </div>
+
+                    <div
+                        class="card-value"
+                        id="total-person-income"
+                    >
+                        Rp0
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             EVENT PAGE
+        ========================= -->
+
+        <div
+            id="event-page"
+            style="display: none;"
+        >
+
+            <div class="header">
+
+                <h1>Event</h1>
+
+                <p>
+                    Kelola event photobooth kamu
+                </p>
+
+                <button
+                    class="add-event-button"
+                    onclick="showForm()"
+                >
+                    + Tambah Event
+                </button>
+
+            </div>
+
+
+            <!-- FORM EVENT -->
+
+            <div
+                id="event-form"
+                style="display: none;"
+            >
+
+                <div class="section">
+
+                    <div class="event event-form-box">
+
+                        <h2>Tambah Event</h2>
+
+
+                        <label>Nama Event</label>
+
+                        <input
+                            type="text"
+                            id="event-name"
+                            placeholder="Contoh: Wedding Ahmad & Siti"
+                        >
+
+
+                        <label>Klien</label>
+
+                        <input
+                            type="text"
+                            id="event-client"
+                            placeholder="Contoh: Rina"
+                        >
+
+
+                        <label>Tanggal</label>
+
+                        <input
+                            type="date"
+                            id="event-date"
+                        >
+
+
+                        <label>Lokasi</label>
+
+                        <input
+                            type="text"
+                            id="event-location"
+                            placeholder="Contoh: Hotel Grand Indonesia"
+                        >
+
+
+                        <label>Jenis Pendapatan</label>
+
+                        <select
+                            id="income-type"
+                            onchange="toggleIncomeType()"
+                        >
+                            <option value="full">
+                                Dibayar Full Event
+                            </option>
+
+                            <option value="per-person">
+                                Bayar Per Orang
+                            </option>
+                        </select>
+
+
+                        <!-- FULL EVENT -->
+
+                        <div id="full-price-box">
+
+                            <label>Harga Event</label>
+
+                            <input
+                                type="number"
+                                id="event-price"
+                                placeholder="Contoh: 1500000"
+                            >
+
+                        </div>
+
+
+                        <!-- PER ORANG -->
+
+                        <div
+                            id="per-person-price-box"
+                            style="display: none;"
+                        >
+
+                            <label>Harga per Orang</label>
+
+                            <input
+                                type="number"
+                                id="price-per-person"
+                                placeholder="Contoh: 15000"
+                            >
+
+                            <div class="event-info">
+                                Jumlah orang akan diisi setelah event selesai.
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button
+                                type="button"
+                                class="cancel-button"
+                                onclick="hideForm()"
+                            >
+                                Batal
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="save-button"
+                                onclick="saveEvent()"
+                            >
+                                Simpan Event
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- EVENT LIST -->
+
+            <div class="section">
+
+                <div
+                    class="section-title"
+                >
+                    Daftar Event
+                </div>
+
+                <div id="event-list">
+
+                    <div class="event">
+
+                        <div
+                            class="event-name"
+                            id="empty-event"
+                        >
+                            Belum ada event
+                        </div>
+
+                        <div class="event-info">
+                            Tambahkan event pertama kamu.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             SCHEDULE PAGE
+        ========================= -->
+
+        <div
+            id="schedule-page"
+            style="display: none;"
+        >
+
+            <div class="header">
+
+                <h1>Jadwal</h1>
+
+                <p>
+                    Daftar jadwal event Sky Booth
+                </p>
+
+            </div>
+
+
+            <div class="section">
+
+                <div class="event event-form-box">
+
+                    <label>Pilih Bulan</label>
+
+                    <input
+                        type="month"
+                        id="schedule-month"
+                        onchange="loadSchedule()"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="section">
+
+                <div class="section-title">
+                    Event Terjadwal
+                </div>
+
+
+                <div id="schedule-list">
+
+                    <div class="event">
+
+                        <div class="event-name">
+                            Belum ada jadwal
+                        </div>
+
+                        <div class="event-info">
+                            Pilih bulan untuk melihat jadwal event.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             INVENTORY PAGE
+        ========================= -->
+
+        <div
+            id="inventory-page"
+            style="display: none;"
+        >
+
+            <div class="header">
+
+                <h1>Inventaris</h1>
+
+                <p>
+                    Kelola barang dan stok Sky Booth
+                </p>
+
+                <button
+                    class="add-event-button"
+                    onclick="showInventoryForm()"
+                >
+                    + Tambah Barang
+                </button>
+
+            </div>
+
+
+            <!-- FORM INVENTARIS -->
+
+            <div
+                id="inventory-form"
+                style="display: none;"
+            >
+
+                <div class="section">
+
+                    <div class="event event-form-box">
+
+                        <h2>Tambah Barang</h2>
+
+
+                        <label>Nama Barang</label>
+
+                        <input
+                            type="text"
+                            id="item-name"
+                            placeholder="Contoh: Kertas Foto"
+                        >
+
+
+                        <label>Merk</label>
+
+                        <input
+                            type="text"
+                            id="item-brand"
+                            placeholder="Contoh: Quaff"
+                        >
+
+
+                        <label>Kategori</label>
+
+                        <select id="item-category">
+
+                            <option value="cetak">
+                                🖨️ Cetak
+                            </option>
+
+                            <option value="kamera">
+                                📷 Kamera
+                            </option>
+
+                            <option value="properti">
+                                🎭 Properti
+                            </option>
+
+                        </select>
+
+
+                        <label>Jumlah</label>
+
+                        <input
+                            type="number"
+                            id="item-quantity"
+                            placeholder="Contoh: 100"
+                        >
+
+
+                        <label>Harga Satuan</label>
+
+                        <input
+                            type="number"
+                            id="item-price"
+                            placeholder="Contoh: 15000"
+                        >
+
+
+                        <div class="form-actions">
+
+                            <button
+                                type="button"
+                                class="cancel-button"
+                                onclick="hideInventoryForm()"
+                            >
+                                Batal
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="save-button"
+                                onclick="saveInventory()"
+                            >
+                                Simpan Barang
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- LIST INVENTARIS -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Daftar Inventaris
+                </div>
+
+
+                <div id="inventory-list">
+
+                    <div class="event">
+
+                        <div class="event-name">
+                            Belum ada barang
+                        </div>
+
+                        <div class="event-info">
+                            Tambahkan barang pertama kamu.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             FINANCE PAGE
+        ========================= -->
+
+        <div
+            id="finance-page"
+            style="display: none;"
+        >
+
+            <div class="header">
+
+                <h1>Keuangan</h1>
+
+                <p>
+                    Ringkasan pendapatan Sky Booth
+                </p>
+
+            </div>
+
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <div class="card-title">
+                        Total Event Selesai
+                    </div>
+
+                    <div
+                        class="card-value"
+                        id="finance-total-events"
+                    >
+                        0
+                    </div>
+
+                </div>
+
+
+                <div class="card">
+
+                    <div class="card-title">
+                        Total Pendapatan
+                    </div>
+
+                    <div
+                        class="card-value"
+                        id="finance-total-income"
+                    >
+                        Rp0
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FILTER KEUANGAN -->
+
+            <div class="section">
+
+                <div class="event event-form-box">
+
+                    <label>Pilih Bulan</label>
+
+                    <input
+                        type="month"
+                        id="finance-month"
+                        onchange="loadFinance()"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- RIWAYAT PENDAPATAN -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Riwayat Pendapatan
+                </div>
+
+
+                <div id="finance-list">
+
+                    <div class="finance-card">
+
+                        <div class="finance-name">
+                            Belum ada pendapatan
+                        </div>
+
+                        <div class="finance-info">
+                            Event selesai akan muncul di sini.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
