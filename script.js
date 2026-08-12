@@ -1,65 +1,21 @@
-console.log("Sky Booth berhasil terhubung!");
+console.log("Sky Booth + Supabase berhasil terhubung!");
 
 
 // =========================
-// DATA LOCAL STORAGE
+// SUPABASE CONFIG
 // =========================
 
-function getEvents() {
+const SUPABASE_URL =
+    "https://bhdeyuddovnptfhilslm.supabase.co";
 
-    return JSON.parse(
-        localStorage.getItem("skyboothEvents")
-    ) || [];
+const SUPABASE_KEY =
+    "sb_publishable_dDeBrxwCiSii6eyAjl3N9g_jU8FZoUh";
 
-}
-
-
-function saveEvents(events) {
-
-    localStorage.setItem(
-        "skyboothEvents",
-        JSON.stringify(events)
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
     );
-
-}
-
-
-function getHistory() {
-
-    return JSON.parse(
-        localStorage.getItem("skyboothHistory")
-    ) || [];
-
-}
-
-
-function saveHistory(history) {
-
-    localStorage.setItem(
-        "skyboothHistory",
-        JSON.stringify(history)
-    );
-
-}
-
-
-function getInventory() {
-
-    return JSON.parse(
-        localStorage.getItem("skyboothInventory")
-    ) || [];
-
-}
-
-
-function saveInventory(items) {
-
-    localStorage.setItem(
-        "skyboothInventory",
-        JSON.stringify(items)
-    );
-
-}
 
 
 // =========================
@@ -78,7 +34,7 @@ function formatRupiah(value) {
 // NAVIGASI HALAMAN
 // =========================
 
-function showPage(page) {
+async function showPage(page) {
 
     const pages = [
         "dashboard",
@@ -97,10 +53,7 @@ function showPage(page) {
             );
 
         if (pageElement) {
-
-            pageElement.style.display =
-                "none";
-
+            pageElement.style.display = "none";
         }
 
     });
@@ -113,10 +66,7 @@ function showPage(page) {
 
 
     if (selectedPage) {
-
-        selectedPage.style.display =
-            "block";
-
+        selectedPage.style.display = "block";
     }
 
 
@@ -127,9 +77,7 @@ function showPage(page) {
 
 
     buttons.forEach(function(button) {
-
         button.classList.remove("active");
-
     });
 
 
@@ -143,44 +91,28 @@ function showPage(page) {
 
 
     if (clickedButton) {
-
         clickedButton.classList.add("active");
-
     }
 
 
     if (page === "dashboard") {
-
-        updateDashboard();
-
+        await updateDashboard();
     }
-
 
     if (page === "event") {
-
-        loadEvents();
-
+        await loadEvents();
     }
-
 
     if (page === "schedule") {
-
-        loadSchedule();
-
+        await loadSchedule();
     }
-
 
     if (page === "inventory") {
-
-        loadInventory();
-
+        await loadInventory();
     }
 
-
     if (page === "finance") {
-
-        loadFinance();
-
+        await loadFinance();
     }
 
 }
@@ -190,62 +122,66 @@ function showPage(page) {
 // DASHBOARD
 // =========================
 
-function updateDashboard() {
-
-    const events =
-        getEvents();
-
-    const history =
-        getHistory();
-
+async function updateDashboard() {
 
     const totalEventElement =
-        document.getElementById(
-            "total-event"
-        );
+        document.getElementById("total-event");
 
     const totalFinishedElement =
-        document.getElementById(
-            "total-finished"
-        );
+        document.getElementById("total-finished");
 
     const totalFullIncomeElement =
-        document.getElementById(
-            "total-full-income"
-        );
+        document.getElementById("total-full-income");
 
     const totalPersonIncomeElement =
-        document.getElementById(
-            "total-person-income"
+        document.getElementById("total-person-income");
+
+
+    const {
+        data: events,
+        error
+    } = await supabaseClient
+        .from("events")
+        .select("*");
+
+
+    if (error) {
+
+        console.error(
+            "Dashboard error:",
+            error
         );
 
-
-    if (
-        !totalEventElement ||
-        !totalFinishedElement ||
-        !totalFullIncomeElement ||
-        !totalPersonIncomeElement
-    ) {
         return;
     }
 
 
-    // Semua event aktif
-    totalEventElement.textContent =
-        events.length;
+    const allEvents =
+        events || [];
 
 
-    // Event selesai dari history
-    const finishedEvents =
-        history.filter(function(event) {
-
-            return event.status === "selesai";
-
+    const activeEvents =
+        allEvents.filter(function(event) {
+            return event.status === "aktif";
         });
 
 
-    totalFinishedElement.textContent =
-        finishedEvents.length;
+    const finishedEvents =
+        allEvents.filter(function(event) {
+            return event.status === "selesai";
+        });
+
+
+    if (totalEventElement) {
+        totalEventElement.textContent =
+            activeEvents.length;
+    }
+
+
+    if (totalFinishedElement) {
+        totalFinishedElement.textContent =
+            finishedEvents.length;
+    }
 
 
     let totalFullIncome = 0;
@@ -255,35 +191,35 @@ function updateDashboard() {
     finishedEvents.forEach(function(event) {
 
         const income =
-            Number(event.pendapatanFinal) || 0;
+            Number(event.pendapatan_final) || 0;
 
 
-        if (event.incomeType === "full") {
-
+        if (event.income_type === "full") {
             totalFullIncome += income;
-
         }
 
 
-        if (
-            event.incomeType === "per-person" ||
-            event.incomeType === "perPerson" ||
-            event.incomeType === "perOrang"
-        ) {
-
+        if (event.income_type === "per-person") {
             totalPersonIncome += income;
-
         }
 
     });
 
 
-    totalFullIncomeElement.textContent =
-        formatRupiah(totalFullIncome);
+    if (totalFullIncomeElement) {
+
+        totalFullIncomeElement.textContent =
+            formatRupiah(totalFullIncome);
+
+    }
 
 
-    totalPersonIncomeElement.textContent =
-        formatRupiah(totalPersonIncome);
+    if (totalPersonIncomeElement) {
+
+        totalPersonIncomeElement.textContent =
+            formatRupiah(totalPersonIncome);
+
+    }
 
 }
 
@@ -295,16 +231,11 @@ function updateDashboard() {
 function showForm() {
 
     const form =
-        document.getElementById(
-            "event-form"
-        );
+        document.getElementById("event-form");
 
 
     if (form) {
-
-        form.style.display =
-            "block";
-
+        form.style.display = "block";
     }
 
 
@@ -316,16 +247,11 @@ function showForm() {
 function hideForm() {
 
     const form =
-        document.getElementById(
-            "event-form"
-        );
+        document.getElementById("event-form");
 
 
     if (form) {
-
-        form.style.display =
-            "none";
-
+        form.style.display = "none";
     }
 
 
@@ -352,25 +278,18 @@ function clearEventForm() {
             document.getElementById(id);
 
         if (element) {
-
             element.value = "";
-
         }
 
     });
 
 
     const incomeType =
-        document.getElementById(
-            "income-type"
-        );
+        document.getElementById("income-type");
 
 
     if (incomeType) {
-
-        incomeType.value =
-            "full";
-
+        incomeType.value = "full";
     }
 
 
@@ -386,14 +305,10 @@ function clearEventForm() {
 function toggleIncomeType() {
 
     const incomeType =
-        document.getElementById(
-            "income-type"
-        );
+        document.getElementById("income-type");
 
     const fullPriceBox =
-        document.getElementById(
-            "full-price-box"
-        );
+        document.getElementById("full-price-box");
 
     const perPersonPriceBox =
         document.getElementById(
@@ -412,19 +327,13 @@ function toggleIncomeType() {
 
     if (incomeType.value === "full") {
 
-        fullPriceBox.style.display =
-            "block";
-
-        perPersonPriceBox.style.display =
-            "none";
+        fullPriceBox.style.display = "block";
+        perPersonPriceBox.style.display = "none";
 
     } else {
 
-        fullPriceBox.style.display =
-            "none";
-
-        perPersonPriceBox.style.display =
-            "block";
+        fullPriceBox.style.display = "none";
+        perPersonPriceBox.style.display = "block";
 
     }
 
@@ -435,7 +344,7 @@ function toggleIncomeType() {
 // SIMPAN EVENT
 // =========================
 
-function saveEvent() {
+async function saveEvent() {
 
     const namaEvent =
         document.getElementById(
@@ -489,7 +398,6 @@ function saveEvent() {
         );
 
         return;
-
     }
 
 
@@ -498,12 +406,8 @@ function saveEvent() {
         hargaFull <= 0
     ) {
 
-        alert(
-            "Masukkan harga event."
-        );
-
+        alert("Masukkan harga event.");
         return;
-
     }
 
 
@@ -512,62 +416,61 @@ function saveEvent() {
         hargaPerPerson <= 0
     ) {
 
-        alert(
-            "Masukkan harga per orang."
-        );
-
+        alert("Masukkan harga per orang.");
         return;
-
     }
 
 
-    const events =
-        getEvents();
+    const harga =
+        incomeType === "full"
+            ? hargaFull
+            : hargaPerPerson;
 
 
-    const newEvent = {
-
-        id: Date.now(),
-
-        namaEvent: namaEvent,
-
-        klien: klien,
-
-        tanggal: tanggal,
-
-        lokasi: lokasi,
-
-        incomeType: incomeType,
-
-        harga:
-            incomeType === "full"
-                ? hargaFull
-                : hargaPerPerson,
-
-        jumlahOrang: 0,
-
-        pendapatanFinal:
-            incomeType === "full"
-                ? hargaFull
-                : 0,
-
-        status: "aktif"
-
-    };
+    const pendapatanFinal =
+        incomeType === "full"
+            ? hargaFull
+            : 0;
 
 
-    events.push(newEvent);
+    const {
+        error
+    } = await supabaseClient
+        .from("events")
+        .insert([
+            {
+                id: Date.now(),
+                nama_event: namaEvent,
+                klien: klien,
+                tanggal: tanggal,
+                lokasi: lokasi,
+                income_type: incomeType,
+                harga: harga,
+                jumlah_orang: 0,
+                pendapatan_final: pendapatanFinal,
+                status: "aktif"
+            }
+        ]);
 
-    saveEvents(events);
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Gagal menyimpan event: " +
+            error.message
+        );
+
+        return;
+    }
 
 
     hideForm();
 
-    loadEvents();
-
-    updateDashboard();
-
-    loadSchedule();
+    await loadEvents();
+    await updateDashboard();
+    await loadSchedule();
 
 }
 
@@ -576,12 +479,10 @@ function saveEvent() {
 // LOAD EVENT
 // =========================
 
-function loadEvents() {
+async function loadEvents() {
 
     const eventList =
-        document.getElementById(
-            "event-list"
-        );
+        document.getElementById("event-list");
 
 
     if (!eventList) {
@@ -589,14 +490,29 @@ function loadEvents() {
     }
 
 
-    const events =
-        getEvents();
+    const {
+        data: events,
+        error
+    } = await supabaseClient
+        .from("events")
+        .select("*")
+        .eq("status", "aktif")
+        .order("tanggal", {
+            ascending: true
+        });
+
+
+    if (error) {
+
+        console.error(error);
+        return;
+    }
 
 
     eventList.innerHTML = "";
 
 
-    if (events.length === 0) {
+    if (!events || events.length === 0) {
 
         eventList.innerHTML = `
             <div class="event">
@@ -611,16 +527,7 @@ function loadEvents() {
         `;
 
         return;
-
     }
-
-
-    events.sort(function(a, b) {
-
-        return new Date(a.tanggal) -
-            new Date(b.tanggal);
-
-    });
 
 
     events.forEach(function(event) {
@@ -628,14 +535,13 @@ function loadEvents() {
         const card =
             document.createElement("div");
 
-        card.className =
-            "event";
+        card.className = "event";
 
 
         let incomeInfo = "";
 
 
-        if (event.incomeType === "full") {
+        if (event.income_type === "full") {
 
             incomeInfo =
                 "💼 Full Event • " +
@@ -654,11 +560,11 @@ function loadEvents() {
         card.innerHTML = `
 
             <div class="event-name">
-                📸 ${event.namaEvent}
+                📸 ${event.nama_event}
             </div>
 
             <div class="event-info">
-                👤 Klien: ${event.klien}
+                👤 Klien: ${event.klien || "-"}
             </div>
 
             <div class="event-info">
@@ -666,7 +572,7 @@ function loadEvents() {
             </div>
 
             <div class="event-info">
-                📍 ${event.lokasi}
+                📍 ${event.lokasi || "-"}
             </div>
 
             <div class="event-info">
@@ -713,40 +619,35 @@ function loadEvents() {
 // SELESAIKAN EVENT
 // =========================
 
-function finishEvent(id) {
+async function finishEvent(id) {
 
-    const events =
-        getEvents();
+    const {
+        data: event,
+        error
+    } = await supabaseClient
+        .from("events")
+        .select("*")
+        .eq("id", id)
+        .single();
 
-    const eventIndex =
-        events.findIndex(function(event) {
 
-            return event.id === id;
+    if (error || !event) {
 
-        });
-
-
-    if (eventIndex === -1) {
+        console.error(error);
         return;
+
     }
 
 
-    const event =
-        events[eventIndex];
-
-
     let jumlahOrang =
-        Number(event.jumlahOrang) || 0;
+        Number(event.jumlah_orang) || 0;
 
     let pendapatanFinal =
-        Number(event.pendapatanFinal) || 0;
+        Number(event.pendapatan_final) || 0;
 
 
-    // Jika per orang, tanya jumlah orang
     if (
-        event.incomeType === "per-person" ||
-        event.incomeType === "perPerson" ||
-        event.incomeType === "perOrang"
+        event.income_type === "per-person"
     ) {
 
         const inputJumlah =
@@ -755,9 +656,7 @@ function finishEvent(id) {
             );
 
 
-        if (
-            inputJumlah === null
-        ) {
+        if (inputJumlah === null) {
             return;
         }
 
@@ -784,8 +683,7 @@ function finishEvent(id) {
     }
 
 
-    // Jika full event
-    if (event.incomeType === "full") {
+    if (event.income_type === "full") {
 
         pendapatanFinal =
             Number(event.harga) || 0;
@@ -793,47 +691,37 @@ function finishEvent(id) {
     }
 
 
-    const history =
-        getHistory();
+    const {
+        error: updateError
+    } = await supabaseClient
+        .from("events")
+        .update({
+            jumlah_orang: jumlahOrang,
+            pendapatan_final: pendapatanFinal,
+            status: "selesai",
+            tanggal_selesai:
+                new Date().toISOString()
+        })
+        .eq("id", id);
 
 
-    const finishedEvent = {
+    if (updateError) {
 
-        ...event,
+        console.error(updateError);
 
-        jumlahOrang: jumlahOrang,
+        alert(
+            "Gagal menyelesaikan event."
+        );
 
-        pendapatanFinal: pendapatanFinal,
+        return;
 
-        status: "selesai",
-
-        tanggalSelesai:
-            new Date().toISOString()
-
-    };
+    }
 
 
-    history.push(finishedEvent);
-
-    saveHistory(history);
-
-
-    // Hapus dari event aktif
-    events.splice(
-        eventIndex,
-        1
-    );
-
-    saveEvents(events);
-
-
-    loadEvents();
-
-    updateDashboard();
-
-    loadSchedule();
-
-    loadFinance();
+    await loadEvents();
+    await updateDashboard();
+    await loadSchedule();
+    await loadFinance();
 
 }
 
@@ -842,23 +730,7 @@ function finishEvent(id) {
 // BATALKAN EVENT
 // =========================
 
-function cancelEvent(id) {
-
-    const events =
-        getEvents();
-
-    const eventIndex =
-        events.findIndex(function(event) {
-
-            return event.id === id;
-
-        });
-
-
-    if (eventIndex === -1) {
-        return;
-    }
-
+async function cancelEvent(id) {
 
     const confirmCancel =
         confirm(
@@ -871,67 +743,48 @@ function cancelEvent(id) {
     }
 
 
-    const event =
-        events[eventIndex];
+    const {
+        error
+    } = await supabaseClient
+        .from("events")
+        .update({
+            status: "batal",
+            pendapatan_final: 0,
+            tanggal_selesai:
+                new Date().toISOString()
+        })
+        .eq("id", id);
 
 
-    const history =
-        getHistory();
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Gagal membatalkan event."
+        );
+
+        return;
+
+    }
 
 
-    const cancelledEvent = {
-
-        ...event,
-
-        status: "batal",
-
-        pendapatanFinal: 0,
-
-        tanggalSelesai:
-            new Date().toISOString()
-
-    };
-
-
-    history.push(cancelledEvent);
-
-    saveHistory(history);
-
-
-    // Hapus dari event aktif
-    events.splice(
-        eventIndex,
-        1
-    );
-
-    saveEvents(events);
-
-
-    loadEvents();
-
-    updateDashboard();
-
-    loadSchedule();
-
-    loadFinance();
+    await loadEvents();
+    await updateDashboard();
+    await loadSchedule();
+    await loadFinance();
 
 }
 
 
 // =========================
-// HAPUS EVENT AKTIF
+// HAPUS EVENT
 // =========================
 
-function deleteEvent(id) {
-
-    const events =
-        getEvents();
-
+async function deleteEvent(id) {
 
     const confirmDelete =
-        confirm(
-            "Hapus event ini?"
-        );
+        confirm("Hapus event ini?");
 
 
     if (!confirmDelete) {
@@ -939,22 +792,30 @@ function deleteEvent(id) {
     }
 
 
-    const filteredEvents =
-        events.filter(function(event) {
-
-            return event.id !== id;
-
-        });
-
-
-    saveEvents(filteredEvents);
+    const {
+        error
+    } = await supabaseClient
+        .from("events")
+        .delete()
+        .eq("id", id);
 
 
-    loadEvents();
+    if (error) {
 
-    updateDashboard();
+        console.error(error);
 
-    loadSchedule();
+        alert(
+            "Gagal menghapus event."
+        );
+
+        return;
+
+    }
+
+
+    await loadEvents();
+    await updateDashboard();
+    await loadSchedule();
 
 }
 
@@ -963,7 +824,7 @@ function deleteEvent(id) {
 // JADWAL
 // =========================
 
-function loadSchedule() {
+async function loadSchedule() {
 
     const scheduleList =
         document.getElementById(
@@ -984,28 +845,46 @@ function loadSchedule() {
     }
 
 
-    const events =
-        getEvents();
-
     const selectedMonth =
         scheduleMonth.value;
 
 
-    let filteredEvents =
-        events;
-
-
-    if (selectedMonth !== "") {
-
-        filteredEvents =
-            events.filter(function(event) {
-
-                return event.tanggal &&
-                    event.tanggal.startsWith(
-                        selectedMonth
-                    );
-
+    let query =
+        supabaseClient
+            .from("events")
+            .select("*")
+            .eq("status", "aktif")
+            .order("tanggal", {
+                ascending: true
             });
+
+
+    if (selectedMonth) {
+
+        query =
+            query
+                .gte(
+                    "tanggal",
+                    selectedMonth + "-01"
+                )
+                .lt(
+                    "tanggal",
+                    getNextMonth(selectedMonth)
+                );
+
+    }
+
+
+    const {
+        data: events,
+        error
+    } = await query;
+
+
+    if (error) {
+
+        console.error(error);
+        return;
 
     }
 
@@ -1013,7 +892,7 @@ function loadSchedule() {
     scheduleList.innerHTML = "";
 
 
-    if (filteredEvents.length === 0) {
+    if (!events || events.length === 0) {
 
         scheduleList.innerHTML = `
             <div class="event">
@@ -1036,27 +915,18 @@ function loadSchedule() {
     }
 
 
-    filteredEvents.sort(function(a, b) {
-
-        return new Date(a.tanggal) -
-            new Date(b.tanggal);
-
-    });
-
-
-    filteredEvents.forEach(function(event) {
+    events.forEach(function(event) {
 
         const card =
             document.createElement("div");
 
-        card.className =
-            "event";
+        card.className = "event";
 
 
         card.innerHTML = `
 
             <div class="event-name">
-                📸 ${event.namaEvent}
+                📸 ${event.nama_event}
             </div>
 
             <div class="event-info">
@@ -1064,11 +934,11 @@ function loadSchedule() {
             </div>
 
             <div class="event-info">
-                👤 ${event.klien}
+                👤 ${event.klien || "-"}
             </div>
 
             <div class="event-info">
-                📍 ${event.lokasi}
+                📍 ${event.lokasi || "-"}
             </div>
 
         `;
@@ -1077,6 +947,39 @@ function loadSchedule() {
         scheduleList.appendChild(card);
 
     });
+
+}
+
+
+function getNextMonth(month) {
+
+    const parts =
+        month.split("-");
+
+    let year =
+        Number(parts[0]);
+
+    let monthNumber =
+        Number(parts[1]);
+
+
+    monthNumber++;
+
+
+    if (monthNumber === 13) {
+
+        monthNumber = 1;
+        year++;
+
+    }
+
+
+    return (
+        year +
+        "-" +
+        String(monthNumber).padStart(2, "0") +
+        "-01"
+    );
 
 }
 
@@ -1094,10 +997,7 @@ function showInventoryForm() {
 
 
     if (form) {
-
-        form.style.display =
-            "block";
-
+        form.style.display = "block";
     }
 
 }
@@ -1112,10 +1012,7 @@ function hideInventoryForm() {
 
 
     if (form) {
-
-        form.style.display =
-            "none";
-
+        form.style.display = "none";
     }
 
 
@@ -1140,9 +1037,7 @@ function clearInventoryForm() {
             document.getElementById(id);
 
         if (element) {
-
             element.value = "";
-
         }
 
     });
@@ -1155,10 +1050,7 @@ function clearInventoryForm() {
 
 
     if (category) {
-
-        category.value =
-            "cetak";
-
+        category.value = "cetak";
     }
 
 }
@@ -1168,7 +1060,7 @@ function clearInventoryForm() {
 // SIMPAN INVENTARIS
 // =========================
 
-function saveInventory() {
+async function saveInventory() {
 
     const nama =
         document.getElementById(
@@ -1207,14 +1099,32 @@ function saveInventory() {
         );
 
         return;
-
     }
 
 
-    if (jumlah < 0) {
+    const {
+        error
+    } = await supabaseClient
+        .from("inventory")
+        .insert([
+            {
+                id: Date.now(),
+                nama: nama,
+                merk: merk,
+                kategori: kategori,
+                jumlah: jumlah,
+                harga: harga
+            }
+        ]);
+
+
+    if (error) {
+
+        console.error(error);
 
         alert(
-            "Jumlah barang tidak valid."
+            "Gagal menyimpan barang: " +
+            error.message
         );
 
         return;
@@ -1222,33 +1132,9 @@ function saveInventory() {
     }
 
 
-    const inventory =
-        getInventory();
-
-
-    inventory.push({
-
-        id: Date.now(),
-
-        nama: nama,
-
-        merk: merk,
-
-        kategori: kategori,
-
-        jumlah: jumlah,
-
-        harga: harga
-
-    });
-
-
-    saveInventory(inventory);
-
-
     hideInventoryForm();
 
-    loadInventory();
+    await loadInventory();
 
 }
 
@@ -1257,7 +1143,7 @@ function saveInventory() {
 // LOAD INVENTARIS
 // =========================
 
-function loadInventory() {
+async function loadInventory() {
 
     const inventoryList =
         document.getElementById(
@@ -1270,14 +1156,32 @@ function loadInventory() {
     }
 
 
-    const inventory =
-        getInventory();
+    const {
+        data: inventory,
+        error
+    } = await supabaseClient
+        .from("inventory")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        });
+
+
+    if (error) {
+
+        console.error(error);
+        return;
+
+    }
 
 
     inventoryList.innerHTML = "";
 
 
-    if (inventory.length === 0) {
+    if (
+        !inventory ||
+        inventory.length === 0
+    ) {
 
         inventoryList.innerHTML = `
             <div class="event">
@@ -1301,29 +1205,22 @@ function loadInventory() {
         const card =
             document.createElement("div");
 
-        card.className =
-            "event";
+        card.className = "event";
 
 
         let kategoriText = "";
 
 
         if (item.kategori === "cetak") {
-
             kategoriText = "🖨️ Cetak";
-
         }
 
         else if (item.kategori === "kamera") {
-
             kategoriText = "📷 Kamera";
-
         }
 
         else {
-
             kategoriText = "🎭 Properti";
-
         }
 
 
@@ -1346,7 +1243,8 @@ function loadInventory() {
             </div>
 
             <div class="event-info">
-                💰 Harga Satuan: ${formatRupiah(item.harga)}
+                💰 Harga Satuan:
+                ${formatRupiah(item.harga)}
             </div>
 
             <div class="event-actions">
@@ -1375,7 +1273,7 @@ function loadInventory() {
 // HAPUS INVENTARIS
 // =========================
 
-function deleteInventory(id) {
+async function deleteInventory(id) {
 
     const confirmDelete =
         confirm(
@@ -1388,30 +1286,37 @@ function deleteInventory(id) {
     }
 
 
-    const inventory =
-        getInventory();
+    const {
+        error
+    } = await supabaseClient
+        .from("inventory")
+        .delete()
+        .eq("id", id);
 
 
-    const filteredInventory =
-        inventory.filter(function(item) {
+    if (error) {
 
-            return item.id !== id;
+        console.error(error);
 
-        });
+        alert(
+            "Gagal menghapus barang."
+        );
+
+        return;
+
+    }
 
 
-    saveInventory(filteredInventory);
-
-    loadInventory();
+    await loadInventory();
 
 }
 
 
 // =========================
-// LOAD KEUANGAN
+// KEUANGAN
 // =========================
 
-function loadFinance() {
+async function loadFinance() {
 
     const financeList =
         document.getElementById(
@@ -1444,56 +1349,67 @@ function loadFinance() {
     }
 
 
-    const history =
-        getHistory();
-
-
     const selectedMonth =
         financeMonth.value;
 
 
-    // Hanya event yang selesai
-    let filteredHistory =
-        history.filter(function(event) {
-
-            return event.status === "selesai";
-
-        });
-
-
-    // Filter berdasarkan bulan event
-    if (selectedMonth !== "") {
-
-        filteredHistory =
-            filteredHistory.filter(function(event) {
-
-                return event.tanggal &&
-                    event.tanggal.startsWith(
-                        selectedMonth
-                    );
-
+    let query =
+        supabaseClient
+            .from("events")
+            .select("*")
+            .eq("status", "selesai")
+            .order("tanggal", {
+                ascending: false
             });
+
+
+    if (selectedMonth) {
+
+        query =
+            query
+                .gte(
+                    "tanggal",
+                    selectedMonth + "-01"
+                )
+                .lt(
+                    "tanggal",
+                    getNextMonth(selectedMonth)
+                );
 
     }
 
 
-    const totalEvents =
-        filteredHistory.length;
+    const {
+        data: events,
+        error
+    } = await query;
+
+
+    if (error) {
+
+        console.error(error);
+        return;
+
+    }
+
+
+    const finishedEvents =
+        events || [];
 
 
     let totalIncome = 0;
 
 
-    filteredHistory.forEach(function(event) {
+    finishedEvents.forEach(function(event) {
 
         totalIncome +=
-            Number(event.pendapatanFinal) || 0;
+            Number(event.pendapatan_final) || 0;
 
     });
 
 
     totalEventsElement.textContent =
-        totalEvents;
+        finishedEvents.length;
 
     totalIncomeElement.textContent =
         formatRupiah(totalIncome);
@@ -1502,7 +1418,7 @@ function loadFinance() {
     financeList.innerHTML = "";
 
 
-    if (filteredHistory.length === 0) {
+    if (finishedEvents.length === 0) {
 
         financeList.innerHTML = `
 
@@ -1525,43 +1441,26 @@ function loadFinance() {
     }
 
 
-    filteredHistory.sort(function(a, b) {
-
-        return new Date(b.tanggal) -
-            new Date(a.tanggal);
-
-    });
-
-
-    filteredHistory.forEach(function(event) {
+    finishedEvents.forEach(function(event) {
 
         const card =
             document.createElement("div");
 
-        card.className =
-            "finance-card";
+        card.className = "finance-card";
 
 
         let tipeText = "";
 
 
-        if (event.incomeType === "full") {
+        if (event.income_type === "full") {
 
-            tipeText =
-                "💼 Full Event";
+            tipeText = "💼 Full Event";
 
-        }
-
-
-        else if (
-            event.incomeType === "per-person" ||
-            event.incomeType === "perPerson" ||
-            event.incomeType === "perOrang"
-        ) {
+        } else {
 
             tipeText =
                 "👥 Per Orang • " +
-                (Number(event.jumlahOrang) || 0) +
+                (Number(event.jumlah_orang) || 0) +
                 " orang";
 
         }
@@ -1570,7 +1469,7 @@ function loadFinance() {
         card.innerHTML = `
 
             <div class="finance-name">
-                📸 ${event.namaEvent}
+                📸 ${event.nama_event}
             </div>
 
             <div class="finance-info">
@@ -1586,7 +1485,8 @@ function loadFinance() {
             </div>
 
             <div class="finance-income">
-                💰 Pendapatan: ${formatRupiah(event.pendapatanFinal)}
+                💰 Pendapatan:
+                ${formatRupiah(event.pendapatan_final)}
             </div>
 
         `;
@@ -1605,17 +1505,13 @@ function loadFinance() {
 
 document.addEventListener(
     "DOMContentLoaded",
-    function() {
+    async function() {
 
-        updateDashboard();
-
-        loadEvents();
-
-        loadSchedule();
-
-        loadInventory();
-
-        loadFinance();
+        await updateDashboard();
+        await loadEvents();
+        await loadSchedule();
+        await loadInventory();
+        await loadFinance();
 
     }
 );
