@@ -1,3 +1,4 @@
+```javascript
 console.log("Sky Booth + Supabase berhasil terhubung!");
 
 
@@ -44,13 +45,10 @@ async function showPage(page) {
         "finance"
     ];
 
-
     pages.forEach(function(name) {
 
         const pageElement =
-            document.getElementById(
-                name + "-page"
-            );
+            document.getElementById(name + "-page");
 
         if (pageElement) {
             pageElement.style.display = "none";
@@ -60,9 +58,7 @@ async function showPage(page) {
 
 
     const selectedPage =
-        document.getElementById(
-            page + "-page"
-        );
+        document.getElementById(page + "-page");
 
 
     if (selectedPage) {
@@ -71,9 +67,7 @@ async function showPage(page) {
 
 
     const buttons =
-        document.querySelectorAll(
-            ".menu button"
-        );
+        document.querySelectorAll(".menu button");
 
 
     buttons.forEach(function(button) {
@@ -147,17 +141,13 @@ async function updateDashboard() {
 
     if (error) {
 
-        console.error(
-            "Dashboard error:",
-            error
-        );
-
+        console.error("Dashboard error:", error);
         return;
+
     }
 
 
-    const allEvents =
-        events || [];
+    const allEvents = events || [];
 
 
     const activeEvents =
@@ -311,9 +301,7 @@ function toggleIncomeType() {
         document.getElementById("full-price-box");
 
     const perPersonPriceBox =
-        document.getElementById(
-            "per-person-price-box"
-        );
+        document.getElementById("per-person-price-box");
 
 
     if (
@@ -347,42 +335,28 @@ function toggleIncomeType() {
 async function saveEvent() {
 
     const namaEvent =
-        document.getElementById(
-            "event-name"
-        ).value.trim();
+        document.getElementById("event-name").value.trim();
 
     const klien =
-        document.getElementById(
-            "event-client"
-        ).value.trim();
+        document.getElementById("event-client").value.trim();
 
     const tanggal =
-        document.getElementById(
-            "event-date"
-        ).value;
+        document.getElementById("event-date").value;
 
     const lokasi =
-        document.getElementById(
-            "event-location"
-        ).value.trim();
+        document.getElementById("event-location").value.trim();
 
     const incomeType =
-        document.getElementById(
-            "income-type"
-        ).value;
+        document.getElementById("income-type").value;
 
     const hargaFull =
         Number(
-            document.getElementById(
-                "event-price"
-            ).value
+            document.getElementById("event-price").value
         ) || 0;
 
     const hargaPerPerson =
         Number(
-            document.getElementById(
-                "price-per-person"
-            ).value
+            document.getElementById("price-per-person").value
         ) || 0;
 
 
@@ -393,11 +367,9 @@ async function saveEvent() {
         !lokasi
     ) {
 
-        alert(
-            "Mohon isi data event terlebih dahulu."
-        );
-
+        alert("Mohon isi data event terlebih dahulu.");
         return;
+
     }
 
 
@@ -408,6 +380,7 @@ async function saveEvent() {
 
         alert("Masukkan harga event.");
         return;
+
     }
 
 
@@ -418,6 +391,7 @@ async function saveEvent() {
 
         alert("Masukkan harga per orang.");
         return;
+
     }
 
 
@@ -463,6 +437,7 @@ async function saveEvent() {
         );
 
         return;
+
     }
 
 
@@ -506,6 +481,7 @@ async function loadEvents() {
 
         console.error(error);
         return;
+
     }
 
 
@@ -516,6 +492,7 @@ async function loadEvents() {
 
         eventList.innerHTML = `
             <div class="event">
+
                 <div class="event-name">
                     Belum ada event
                 </div>
@@ -523,10 +500,12 @@ async function loadEvents() {
                 <div class="event-info">
                     Tambahkan event pertama kamu.
                 </div>
+
             </div>
         `;
 
         return;
+
     }
 
 
@@ -559,64 +538,52 @@ async function loadEvents() {
 
         card.innerHTML = `
 
-            card.innerHTML = `
+            <div class="event-name">
+                📸 ${event.nama_event}
+            </div>
 
-                <div class="event-name">
-                    ${item.nama}
-                </div>
+            <div class="event-info">
+                👤 Klien: ${event.klien || "-"}
+            </div>
 
-                <div class="event-info">
-                    🏷️ Merk: ${item.merk || "-"}
-                </div>
+            <div class="event-info">
+                📅 ${event.tanggal}
+            </div>
 
-                <div class="event-info">
-                    📂 Kategori: ${kategoriText}
-                </div>
+            <div class="event-info">
+                📍 ${event.lokasi || "-"}
+            </div>
 
-                <div class="event-info">
-                    📦 Jumlah: ${item.jumlah}
-                </div>
+            <div class="event-info">
+                ${incomeInfo}
+            </div>
 
-                ${
-                    item.kategori === "cetak"
-                        ? `
-                            <div class="event-actions">
+            <div class="event-actions">
 
-                                <button
-                                    onclick="updateInventoryStock(${item.id}, -1)"
-                                >
-                                    ➖ Kurangi
-                                </button>
+                <button
+                    class="finish-event-button"
+                    onclick="finishEvent(${event.id})"
+                >
+                    ✓ Selesai
+                </button>
 
-                                <button
-                                    onclick="updateInventoryStock(${item.id}, 1)"
-                                >
-                                    ➕ Tambah
-                                </button>
+                <button
+                    class="cancel-event-button"
+                    onclick="cancelEvent(${event.id})"
+                >
+                    ✕ Batal
+                </button>
 
-                            </div>
-                        `
-                        : ""
-                }
+                <button
+                    class="delete-event-button"
+                    onclick="deleteEvent(${event.id})"
+                >
+                    🗑️
+                </button>
 
-                <div class="event-info">
-                    💰 Harga Satuan:
-                    ${formatRupiah(item.harga)}
-                </div>
+            </div>
 
-                <div class="event-actions">
-
-                    <button
-                        class="delete-event-button"
-                        onclick="deleteInventory(${item.id})"
-                        title="Hapus barang"
-                    >
-                        🗑️
-                    </button>
-
-                </div>
-
-            `;
+        `;
 
 
         eventList.appendChild(card);
@@ -657,14 +624,10 @@ async function finishEvent(id) {
         Number(event.pendapatan_final) || 0;
 
 
-    if (
-        event.income_type === "per-person"
-    ) {
+    if (event.income_type === "per-person") {
 
         const inputJumlah =
-            prompt(
-                "Berapa jumlah orang yang foto?"
-            );
+            prompt("Berapa jumlah orang yang foto?");
 
 
         if (inputJumlah === null) {
@@ -720,10 +683,7 @@ async function finishEvent(id) {
 
         console.error(updateError);
 
-        alert(
-            "Gagal menyelesaikan event."
-        );
-
+        alert("Gagal menyelesaikan event.");
         return;
 
     }
@@ -771,10 +731,7 @@ async function cancelEvent(id) {
 
         console.error(error);
 
-        alert(
-            "Gagal membatalkan event."
-        );
-
+        alert("Gagal membatalkan event.");
         return;
 
     }
@@ -815,10 +772,7 @@ async function deleteEvent(id) {
 
         console.error(error);
 
-        alert(
-            "Gagal menghapus event."
-        );
-
+        alert("Gagal menghapus event.");
         return;
 
     }
@@ -838,14 +792,10 @@ async function deleteEvent(id) {
 async function loadSchedule() {
 
     const scheduleList =
-        document.getElementById(
-            "schedule-list"
-        );
+        document.getElementById("schedule-list");
 
     const scheduleMonth =
-        document.getElementById(
-            "schedule-month"
-        );
+        document.getElementById("schedule-month");
 
 
     if (
@@ -907,6 +857,7 @@ async function loadSchedule() {
 
         scheduleList.innerHTML = `
             <div class="event">
+
                 <div class="event-name">
                     Belum ada jadwal
                 </div>
@@ -918,6 +869,7 @@ async function loadSchedule() {
                             : "Pilih bulan untuk melihat jadwal event."
                     }
                 </div>
+
             </div>
         `;
 
@@ -1002,9 +954,7 @@ function getNextMonth(month) {
 function showInventoryForm() {
 
     const form =
-        document.getElementById(
-            "inventory-form"
-        );
+        document.getElementById("inventory-form");
 
 
     if (form) {
@@ -1017,9 +967,7 @@ function showInventoryForm() {
 function hideInventoryForm() {
 
     const form =
-        document.getElementById(
-            "inventory-form"
-        );
+        document.getElementById("inventory-form");
 
 
     if (form) {
@@ -1055,9 +1003,7 @@ function clearInventoryForm() {
 
 
     const category =
-        document.getElementById(
-            "item-category"
-        );
+        document.getElementById("item-category");
 
 
     if (category) {
@@ -1074,42 +1020,30 @@ function clearInventoryForm() {
 async function saveInventory() {
 
     const nama =
-        document.getElementById(
-            "item-name"
-        ).value.trim();
+        document.getElementById("item-name").value.trim();
 
     const merk =
-        document.getElementById(
-            "item-brand"
-        ).value.trim();
+        document.getElementById("item-brand").value.trim();
 
     const kategori =
-        document.getElementById(
-            "item-category"
-        ).value;
+        document.getElementById("item-category").value;
 
     const jumlah =
         Number(
-            document.getElementById(
-                "item-quantity"
-            ).value
+            document.getElementById("item-quantity").value
         ) || 0;
 
     const harga =
         Number(
-            document.getElementById(
-                "item-price"
-            ).value
+            document.getElementById("item-price").value
         ) || 0;
 
 
     if (!nama) {
 
-        alert(
-            "Masukkan nama barang."
-        );
-
+        alert("Masukkan nama barang.");
         return;
+
     }
 
 
@@ -1157,9 +1091,7 @@ async function saveInventory() {
 async function loadInventory() {
 
     const inventoryList =
-        document.getElementById(
-            "inventory-list"
-        );
+        document.getElementById("inventory-list");
 
 
     if (!inventoryList) {
@@ -1196,6 +1128,7 @@ async function loadInventory() {
 
         inventoryList.innerHTML = `
             <div class="event">
+
                 <div class="event-name">
                     Belum ada barang
                 </div>
@@ -1203,6 +1136,7 @@ async function loadInventory() {
                 <div class="event-info">
                     Tambahkan barang pertama kamu.
                 </div>
+
             </div>
         `;
 
@@ -1252,18 +1186,28 @@ async function loadInventory() {
             <div class="event-info">
                 📦 Jumlah: ${item.jumlah}
             </div>
-                        ${item.kategori === "cetak" ? `
-                <div class="event-actions">
-                    <button onclick="updateInventoryStock(${item.id}, -1)">
-                        ➖ Kurangi
-                    </button>
 
-                    <button onclick="updateInventoryStock(${item.id}, 1)">
-                        ➕ Tambah
-                    </button>
-                </div>
-            ` : ""}
-        
+            ${
+                item.kategori === "cetak"
+                    ? `
+                        <div class="event-actions">
+
+                            <button
+                                onclick="updateInventoryStock(${item.id}, -1)"
+                            >
+                                ➖ Kurangi
+                            </button>
+
+                            <button
+                                onclick="updateInventoryStock(${item.id}, 1)"
+                            >
+                                ➕ Tambah
+                            </button>
+
+                        </div>
+                    `
+                    : ""
+            }
 
             <div class="event-info">
                 💰 Harga Satuan:
@@ -1288,6 +1232,66 @@ async function loadInventory() {
         inventoryList.appendChild(card);
 
     });
+
+}
+
+
+// =========================
+// TAMBAH / KURANG STOK
+// =========================
+
+async function updateInventoryStock(id, perubahan) {
+
+    const {
+        data: item,
+        error
+    } = await supabaseClient
+        .from("inventory")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if (error || !item) {
+
+        console.error(error);
+        alert("Barang tidak ditemukan.");
+        return;
+
+    }
+
+
+    let jumlahBaru =
+        (Number(item.jumlah) || 0) +
+        perubahan;
+
+
+    if (jumlahBaru < 0) {
+        jumlahBaru = 0;
+    }
+
+
+    const {
+        error: updateError
+    } = await supabaseClient
+        .from("inventory")
+        .update({
+            jumlah: jumlahBaru
+        })
+        .eq("id", id);
+
+
+    if (updateError) {
+
+        console.error(updateError);
+
+        alert("Gagal mengubah stok.");
+        return;
+
+    }
+
+
+    await loadInventory();
 
 }
 
@@ -1321,10 +1325,7 @@ async function deleteInventory(id) {
 
         console.error(error);
 
-        alert(
-            "Gagal menghapus barang."
-        );
-
+        alert("Gagal menghapus barang.");
         return;
 
     }
@@ -1342,24 +1343,16 @@ async function deleteInventory(id) {
 async function loadFinance() {
 
     const financeList =
-        document.getElementById(
-            "finance-list"
-        );
+        document.getElementById("finance-list");
 
     const financeMonth =
-        document.getElementById(
-            "finance-month"
-        );
+        document.getElementById("finance-month");
 
     const totalEventsElement =
-        document.getElementById(
-            "finance-total-events"
-        );
+        document.getElementById("finance-total-events");
 
     const totalIncomeElement =
-        document.getElementById(
-            "finance-total-income"
-        );
+        document.getElementById("finance-total-income");
 
 
     if (
@@ -1521,59 +1514,6 @@ async function loadFinance() {
 
 }
 
-// =========================
-// TAMBAH / KURANG STOK
-// =========================
-
-async function updateInventoryStock(id, perubahan) {
-
-    const {
-        data: item,
-        error
-    } = await supabaseClient
-        .from("inventory")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-
-    if (error || !item) {
-        console.error(error);
-        alert("Barang tidak ditemukan.");
-        return;
-    }
-
-
-    let jumlahBaru =
-        (Number(item.jumlah) || 0) + perubahan;
-
-
-    if (jumlahBaru < 0) {
-        jumlahBaru = 0;
-    }
-
-
-    const {
-        error: updateError
-    } = await supabaseClient
-        .from("inventory")
-        .update({
-            jumlah: jumlahBaru
-        })
-        .eq("id", id);
-
-
-    if (updateError) {
-        console.error(updateError);
-        alert("Gagal mengubah stok.");
-        return;
-    }
-
-
-    await loadInventory();
-
-}
-
 
 // =========================
 // LOAD AWAL
@@ -1591,3 +1531,4 @@ document.addEventListener(
 
     }
 );
+```
