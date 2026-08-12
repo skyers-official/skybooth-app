@@ -335,58 +335,22 @@
         ====================================================== */
 
         .menu {
-
-            display:
-                flex;
-
-            flex-direction:
-                column;
-
-            gap:
-                9px;
-
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
         }
-
-
+        
         .menu button {
-
-            width:
-                100%;
-
-            border:
-                1px solid transparent;
-
-            background:
-                transparent;
-
-            color:
-                var(--text-soft);
-
-            padding:
-                13px 15px;
-
-            text-align:
-                left;
-
-            border-radius:
-                14px;
-
-            cursor:
-                pointer;
-
-            font-family:
-                "Poppins",
-                sans-serif;
-
-            font-size:
-                14px;
-
-            font-weight:
-                700;
-
-            transition:
-                0.2s ease;
-
+            min-width: 145px;
+            width: 145px;
+            flex: 0 0 145px;
+        
+            white-space: nowrap;
+            text-align: center;
+        
+            padding: 13px 14px;
         }
 
 
@@ -2209,4 +2173,3 @@
 </body>
 
 </html>
-```
