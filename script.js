@@ -559,53 +559,64 @@ async function loadEvents() {
 
         card.innerHTML = `
 
-            <div class="event-name">
-                📸 ${event.nama_event}
-            </div>
+            card.innerHTML = `
 
-            <div class="event-info">
-                👤 Klien: ${event.klien || "-"}
-            </div>
+                <div class="event-name">
+                    ${item.nama}
+                </div>
 
-            <div class="event-info">
-                📅 ${event.tanggal}
-            </div>
+                <div class="event-info">
+                    🏷️ Merk: ${item.merk || "-"}
+                </div>
 
-            <div class="event-info">
-                📍 ${event.lokasi || "-"}
-            </div>
+                <div class="event-info">
+                    📂 Kategori: ${kategoriText}
+                </div>
 
-            <div class="event-info">
-                ${incomeInfo}
-            </div>
+                <div class="event-info">
+                    📦 Jumlah: ${item.jumlah}
+                </div>
 
-            <div class="event-actions">
+                ${
+                    item.kategori === "cetak"
+                        ? `
+                            <div class="event-actions">
 
-                <button
-                    class="finish-event-button"
-                    onclick="finishEvent(${event.id})"
-                >
-                    ✓ Selesai
-                </button>
+                                <button
+                                    onclick="updateInventoryStock(${item.id}, -1)"
+                                >
+                                    ➖ Kurangi
+                                </button>
 
-                <button
-                    class="cancel-event-button"
-                    onclick="cancelEvent(${event.id})"
-                >
-                    ✕ Batal
-                </button>
+                                <button
+                                    onclick="updateInventoryStock(${item.id}, 1)"
+                                >
+                                    ➕ Tambah
+                                </button>
 
-                <button
-                    class="delete-event-button"
-                    onclick="deleteEvent(${event.id})"
-                    title="Hapus event"
-                >
-                    🗑️
-                </button>
+                            </div>
+                        `
+                        : ""
+                }
 
-            </div>
+                <div class="event-info">
+                    💰 Harga Satuan:
+                    ${formatRupiah(item.harga)}
+                </div>
 
-        `;
+                <div class="event-actions">
+
+                    <button
+                        class="delete-event-button"
+                        onclick="deleteInventory(${item.id})"
+                        title="Hapus barang"
+                    >
+                        🗑️
+                    </button>
+
+                </div>
+
+            `;
 
 
         eventList.appendChild(card);
@@ -1241,6 +1252,18 @@ async function loadInventory() {
             <div class="event-info">
                 📦 Jumlah: ${item.jumlah}
             </div>
+                        ${item.kategori === "cetak" ? `
+                <div class="event-actions">
+                    <button onclick="updateInventoryStock(${item.id}, -1)">
+                        ➖ Kurangi
+                    </button>
+
+                    <button onclick="updateInventoryStock(${item.id}, 1)">
+                        ➕ Tambah
+                    </button>
+                </div>
+            ` : ""}
+        
 
             <div class="event-info">
                 💰 Harga Satuan:
@@ -1495,6 +1518,59 @@ async function loadFinance() {
         financeList.appendChild(card);
 
     });
+
+}
+
+// =========================
+// TAMBAH / KURANG STOK
+// =========================
+
+async function updateInventoryStock(id, perubahan) {
+
+    const {
+        data: item,
+        error
+    } = await supabaseClient
+        .from("inventory")
+        .select("*")
+        .eq("id", id)
+        .single();
+
+
+    if (error || !item) {
+        console.error(error);
+        alert("Barang tidak ditemukan.");
+        return;
+    }
+
+
+    let jumlahBaru =
+        (Number(item.jumlah) || 0) + perubahan;
+
+
+    if (jumlahBaru < 0) {
+        jumlahBaru = 0;
+    }
+
+
+    const {
+        error: updateError
+    } = await supabaseClient
+        .from("inventory")
+        .update({
+            jumlah: jumlahBaru
+        })
+        .eq("id", id);
+
+
+    if (updateError) {
+        console.error(updateError);
+        alert("Gagal mengubah stok.");
+        return;
+    }
+
+
+    await loadInventory();
 
 }
 
