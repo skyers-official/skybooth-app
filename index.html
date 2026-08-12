@@ -1,31 +1,46 @@
 <!DOCTYPE html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Sky Booth App</title>
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Sky Booth</title>
+
 
     <style>
 
-        /* =========================================================
-        FONT
-        ========================================================= */
+        /* =====================================================
+           FONT
+        ====================================================== */
 
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+        @import url(
+            'https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap'
+        );
 
         @font-face {
+
             font-family: "Chicken Pie";
-            src: url("CHICKEN Pie Height.otf") format("opentype");
+
+            src:
+                url("CHICKEN Pie Height.otf")
+                format("opentype");
+
             font-weight: normal;
             font-style: normal;
+
             font-display: swap;
         }
 
 
-        /* =========================================================
-        VARIABLES
-        ========================================================= */
+        /* =====================================================
+           VARIABLES
+        ====================================================== */
 
         :root {
 
@@ -38,32 +53,39 @@
             --text: #21456f;
             --text-soft: #7189a5;
 
-            --glass: rgba(255, 255, 255, 0.48);
-            --glass-strong: rgba(255, 255, 255, 0.62);
-            --glass-border: rgba(255, 255, 255, 0.75);
+            --glass-border:
+                rgba(255,255,255,0.75);
 
             --shadow:
-                0 16px 40px rgba(53, 122, 190, 0.15);
+                0 16px 40px
+                rgba(53,122,190,0.15);
 
             --shadow-soft:
-                0 8px 24px rgba(53, 122, 190, 0.10);
+                0 8px 24px
+                rgba(53,122,190,0.10);
 
         }
 
 
-        /* =========================================================
-        RESET
-        ========================================================= */
+        /* =====================================================
+           RESET
+        ====================================================== */
 
         * {
+
             box-sizing: border-box;
+
             margin: 0;
+
             padding: 0;
+
         }
 
 
         html {
+
             scroll-behavior: smooth;
+
         }
 
 
@@ -71,29 +93,35 @@
 
             min-height: 100vh;
 
-            font-family: "Poppins", sans-serif;
+            font-family:
+                "Poppins",
+                sans-serif;
 
             font-weight: 600;
 
-            color: var(--text);
+            color:
+                var(--text);
 
             background:
 
                 radial-gradient(
                     circle at 10% 15%,
-                    rgba(255,255,255,0.95) 0 7%,
+                    rgba(255,255,255,0.95)
+                    0 7%,
                     transparent 24%
                 ),
 
                 radial-gradient(
                     circle at 90% 20%,
-                    rgba(255,255,255,0.82) 0 8%,
+                    rgba(255,255,255,0.82)
+                    0 8%,
                     transparent 26%
                 ),
 
                 radial-gradient(
                     circle at 25% 95%,
-                    rgba(255,255,255,0.70) 0 9%,
+                    rgba(255,255,255,0.70)
+                    0 9%,
                     transparent 25%
                 ),
 
@@ -106,12 +134,14 @@
 
             background-attachment: fixed;
 
+            padding-bottom: 38px;
+
         }
 
 
-        /* =========================================================
-        TYPOGRAPHY
-        ========================================================= */
+        /* =====================================================
+           TYPOGRAPHY
+        ====================================================== */
 
         h1,
         h2,
@@ -122,164 +152,257 @@
         .event-name,
         .finance-name {
 
-            font-family: "Chicken Pie", sans-serif;
+            font-family:
+                "Chicken Pie",
+                sans-serif;
 
-            font-weight: normal;
+            font-weight:
+                normal;
 
-            letter-spacing: 0.2px;
+            letter-spacing:
+                0.3px;
+
+        }
+
+
+        .header h1,
+        .section-title,
+        .event-form-box h2 {
+
+            text-transform:
+                uppercase;
+
+        }
+
+
+        .event-name,
+        .finance-name {
+
+            text-transform:
+                uppercase;
 
         }
 
 
         .header h1 {
 
-            font-size: 34px;
+            font-size:
+                34px;
 
-            color: var(--navy);
+            color:
+                var(--navy);
 
         }
 
 
         .header p {
 
-            margin-top: 7px;
+            margin-top:
+                7px;
 
-            color: var(--text-soft);
+            color:
+                var(--text-soft);
 
-            font-family: "Poppins", sans-serif;
+            font-family:
+                "Poppins",
+                sans-serif;
 
-            font-weight: 600;
+            font-weight:
+                600;
 
         }
 
 
-        /* =========================================================
-        APP
-        ========================================================= */
+        /* =====================================================
+           APP
+        ====================================================== */
 
         .app {
 
-            min-height: 100vh;
+            min-height:
+                calc(100vh - 38px);
 
-            display: flex;
+            display:
+                flex;
 
-            gap: 20px;
+            gap:
+                20px;
 
-            padding: 18px;
+            padding:
+                18px;
 
         }
 
 
-        /* =========================================================
-        SIDEBAR
-        ========================================================= */
+        /* =====================================================
+           SIDEBAR
+        ====================================================== */
 
         .sidebar {
 
-            width: 245px;
+            width:
+                245px;
 
-            min-height: calc(100vh - 36px);
+            min-height:
+                calc(100vh - 36px);
 
-            flex-shrink: 0;
+            flex-shrink:
+                0;
 
-            padding: 26px 18px;
+            padding:
+                26px 18px;
 
             background:
+
                 linear-gradient(
                     145deg,
                     rgba(255,255,255,0.65),
                     rgba(255,255,255,0.35)
                 );
 
-            border: 1px solid var(--glass-border);
+            border:
+                1px solid
+                var(--glass-border);
 
-            border-radius: 26px;
+            border-radius:
+                26px;
 
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter:
+                blur(24px);
 
-            box-shadow: var(--shadow);
+            -webkit-backdrop-filter:
+                blur(24px);
 
-            position: sticky;
+            box-shadow:
+                var(--shadow);
 
-            top: 18px;
+            position:
+                sticky;
+
+            top:
+                18px;
+
+        }
+
+
+        /* =====================================================
+           BRAND
+        ====================================================== */
+
+        .brand-box {
+
+            text-align:
+                center;
+
+            margin-bottom:
+                35px;
 
         }
 
 
         .logo {
+            margin: 0;
+            padding: 0;
 
-            font-size: 29px;
+            font-family: "Chicken Pie", sans-serif !important;
+            font-size: 31px !important;
+            font-weight: normal !important;
 
-            color: var(--navy);
+            letter-spacing: 0.5px;
 
-            margin-bottom: 35px;
+            color: #2f73d8 !important;
 
-            padding: 4px 8px;
+            -webkit-text-stroke: 1px #ffffff;
 
+            text-shadow:
+                0 2px 0 rgba(255,255,255,0.95),
+                0 4px 8px rgba(20,65,130,0.28);
         }
-
 
         .logo span {
+            color: #2f73d8 !important;
 
-            color: var(--sky-blue-dark);
+            -webkit-text-stroke: 1.5px #ffffff;
 
+            text-shadow:
+                0 2px 0 rgba(255,255,255,0.95),
+                0 4px 8px rgba(20,65,130,0.28);
         }
 
 
-        /* =========================================================
-        MENU
-        ========================================================= */
+        /* =====================================================
+           MENU
+        ====================================================== */
 
         .menu {
 
-            display: flex;
+            display:
+                flex;
 
-            flex-direction: column;
+            flex-direction:
+                column;
 
-            gap: 9px;
+            gap:
+                9px;
 
         }
 
 
         .menu button {
 
-            width: 100%;
+            width:
+                100%;
 
-            border: 1px solid transparent;
+            border:
+                1px solid transparent;
 
-            background: transparent;
+            background:
+                transparent;
 
-            color: var(--text-soft);
+            color:
+                var(--text-soft);
 
-            padding: 13px 15px;
+            padding:
+                13px 15px;
 
-            text-align: left;
+            text-align:
+                left;
 
-            border-radius: 14px;
+            border-radius:
+                14px;
 
-            cursor: pointer;
+            cursor:
+                pointer;
 
-            font-family: "Poppins", sans-serif;
+            font-family:
+                "Poppins",
+                sans-serif;
 
-            font-size: 14px;
+            font-size:
+                14px;
 
-            font-weight: 700;
+            font-weight:
+                700;
 
-            transition: 0.2s ease;
+            transition:
+                0.2s ease;
 
         }
 
 
         .menu button:hover {
 
-            background: rgba(255,255,255,0.45);
+            background:
+                rgba(255,255,255,0.45);
 
-            border-color: var(--glass-border);
+            border-color:
+                var(--glass-border);
 
-            color: var(--navy);
+            color:
+                var(--navy);
 
-            transform: translateY(-1px);
+            transform:
+                translateY(-1px);
 
         }
 
@@ -287,52 +410,64 @@
         .menu button.active {
 
             background:
+
                 linear-gradient(
                     135deg,
                     rgba(88,170,247,0.95),
                     rgba(40,119,200,0.92)
                 );
 
-            color: white;
+            color:
+                white;
 
             border-color:
                 rgba(255,255,255,0.70);
 
             box-shadow:
-                0 10px 25px rgba(40,119,200,0.22);
+                0 10px 25px
+                rgba(40,119,200,0.22);
 
         }
 
 
-        /* =========================================================
-        CONTENT
-        ========================================================= */
+        /* =====================================================
+           CONTENT
+        ====================================================== */
 
         .content {
 
-            flex: 1;
+            flex:
+                1;
 
-            min-width: 0;
+            min-width:
+                0;
 
-            padding: 10px 8px 35px;
+            padding:
+                10px 8px 35px;
 
         }
 
 
-        /* =========================================================
-        DASHBOARD CARDS
-        ========================================================= */
+        /* =====================================================
+           CARDS
+        ====================================================== */
 
         .cards {
 
-            display: grid;
+            display:
+                grid;
 
             grid-template-columns:
-                repeat(auto-fit, minmax(210px, 1fr));
+                repeat(
+                    auto-fit,
+                    minmax(210px,1fr)
+                );
 
-            gap: 18px;
+            gap:
+                18px;
 
-            margin-bottom: 30px;
+            margin-bottom:
+                30px;
 
         }
 
@@ -340,198 +475,265 @@
         .card {
 
             background:
+
                 linear-gradient(
                     145deg,
                     rgba(255,255,255,0.66),
                     rgba(255,255,255,0.36)
                 );
 
-            border: 1px solid var(--glass-border);
+            border:
+                1px solid
+                var(--glass-border);
 
-            border-radius: 21px;
+            border-radius:
+                21px;
 
-            padding: 22px;
+            padding:
+                22px;
 
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter:
+                blur(20px);
 
-            box-shadow: var(--shadow-soft);
+            -webkit-backdrop-filter:
+                blur(20px);
+
+            box-shadow:
+                var(--shadow-soft);
 
         }
 
 
         .card-title {
 
-            font-family: "Poppins", sans-serif;
+            color:
+                var(--text-soft);
 
-            color: var(--text-soft);
+            font-family:
+                "Poppins",
+                sans-serif;
 
-            font-size: 13px;
+            font-size:
+                13px;
 
-            font-weight: 600;
+            font-weight:
+                600;
 
-            margin-bottom: 10px;
+            margin-bottom:
+                10px;
 
         }
 
 
         .card-value {
 
-            font-size: 30px;
+            font-size:
+                30px;
 
-            color: var(--navy);
+            color:
+                var(--navy);
 
         }
 
 
-        /* =========================================================
-        SECTION
-        ========================================================= */
+        /* =====================================================
+           SECTION
+        ====================================================== */
 
         .section {
 
-            margin-top: 28px;
+            margin-top:
+                28px;
 
         }
 
 
         .section-title {
 
-            font-size: 23px;
+            font-size:
+                23px;
 
-            color: var(--navy);
+            color:
+                var(--navy);
 
-            margin-bottom: 14px;
+            margin-bottom:
+                14px;
 
         }
 
 
-        /* =========================================================
-        GLASS BLOCK
-        ========================================================= */
+        /* =====================================================
+           GLASS EVENT
+        ====================================================== */
 
         .event {
 
-            display: block;
+            display:
+                block;
 
-            width: 100%;
+            width:
+                100%;
 
             background:
+
                 linear-gradient(
                     145deg,
                     rgba(255,255,255,0.65),
                     rgba(255,255,255,0.34)
                 );
 
-            border: 1px solid var(--glass-border);
+            border:
+                1px solid
+                var(--glass-border);
 
-            border-radius: 21px;
+            border-radius:
+                21px;
 
-            padding: 20px;
+            padding:
+                20px;
 
-            margin-bottom: 14px;
+            margin-bottom:
+                14px;
 
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter:
+                blur(20px);
 
-            box-shadow: var(--shadow-soft);
+            -webkit-backdrop-filter:
+                blur(20px);
 
-            position: relative;
+            box-shadow:
+                var(--shadow-soft);
 
-            overflow: hidden;
+            position:
+                relative;
+
+            overflow:
+                hidden;
 
         }
 
 
         .event::before {
 
-            content: "";
+            content:
+                "";
 
-            position: absolute;
+            position:
+                absolute;
 
-            width: 130px;
-            height: 130px;
+            width:
+                130px;
 
-            top: -75px;
-            right: -50px;
+            height:
+                130px;
+
+            top:
+                -75px;
+
+            right:
+                -50px;
 
             background:
+
                 radial-gradient(
                     circle,
                     rgba(255,255,255,0.55),
                     transparent 70%
                 );
 
-            pointer-events: none;
+            pointer-events:
+                none;
 
         }
 
 
         .event-name {
 
-            font-size: 20px;
+            font-size:
+                20px;
 
-            color: var(--navy);
+            color:
+                var(--navy);
 
-            margin-bottom: 10px;
+            margin-bottom:
+                10px;
 
         }
 
 
         .event-info {
 
-            font-family: "Poppins", sans-serif;
+            font-family:
+                "Poppins",
+                sans-serif;
 
-            font-size: 13px;
+            font-size:
+                13px;
 
-            font-weight: 600;
+            font-weight:
+                600;
 
-            color: var(--text-soft);
+            color:
+                var(--text-soft);
 
-            margin-top: 7px;
+            margin-top:
+                7px;
 
-            line-height: 1.6;
+            line-height:
+                1.6;
 
         }
 
 
-        /* =========================================================
-        FORMS
-        ========================================================= */
+        /* =====================================================
+           FORMS
+        ====================================================== */
 
         .event-form-box {
 
-            max-width: 650px;
+            max-width:
+                650px;
 
         }
 
 
         .event-form-box h2 {
 
-            font-size: 25px;
+            font-size:
+                25px;
 
-            color: var(--navy);
+            color:
+                var(--navy);
 
-            margin-bottom: 20px;
+            margin-bottom:
+                20px;
 
         }
 
 
         label {
 
-            display: block;
+            display:
+                block;
 
-            margin-top: 15px;
+            margin-top:
+                15px;
 
-            margin-bottom: 8px;
+            margin-bottom:
+                8px;
 
-            font-family: "Poppins", sans-serif;
+            color:
+                var(--navy);
 
-            font-size: 13px;
+            font-family:
+                "Poppins",
+                sans-serif;
 
-            font-weight: 700;
+            font-size:
+                13px;
 
-            color: var(--navy);
+            font-weight:
+                700;
 
         }
 
@@ -539,30 +741,43 @@
         input,
         select {
 
-            width: 100%;
+            width:
+                100%;
 
-            border: 1px solid
+            border:
+                1px solid
                 rgba(255,255,255,0.80);
 
             background:
                 rgba(255,255,255,0.48);
 
-            color: var(--navy);
+            color:
+                var(--navy);
 
-            padding: 12px 13px;
+            padding:
+                12px 13px;
 
-            border-radius: 12px;
+            border-radius:
+                12px;
 
-            font-family: "Poppins", sans-serif;
+            font-family:
+                "Poppins",
+                sans-serif;
 
-            font-size: 14px;
+            font-size:
+                14px;
 
-            font-weight: 600;
+            font-weight:
+                600;
 
-            outline: none;
+            outline:
+                none;
 
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter:
+                blur(10px);
+
+            -webkit-backdrop-filter:
+                blur(10px);
 
             box-shadow:
                 inset 0 1px 0
@@ -573,7 +788,8 @@
 
         input::placeholder {
 
-            color: #8ba0ba;
+            color:
+                #8ba0ba;
 
         }
 
@@ -591,34 +807,43 @@
         }
 
 
-        /* =========================================================
-        BUTTONS
-        ========================================================= */
+        /* =====================================================
+           BUTTONS
+        ====================================================== */
 
         .add-event-button,
         .save-button {
 
-            border: 1px solid
+            border:
+                1px solid
                 rgba(255,255,255,0.70);
 
             background:
+
                 linear-gradient(
                     135deg,
                     var(--sky-blue),
                     var(--sky-blue-dark)
                 );
 
-            color: white;
+            color:
+                white;
 
-            padding: 12px 18px;
+            padding:
+                12px 18px;
 
-            border-radius: 12px;
+            border-radius:
+                12px;
 
-            font-family: "Poppins", sans-serif;
+            font-family:
+                "Poppins",
+                sans-serif;
 
-            font-weight: 700;
+            font-weight:
+                700;
 
-            cursor: pointer;
+            cursor:
+                pointer;
 
             box-shadow:
                 0 10px 22px
@@ -629,73 +854,97 @@
 
         .cancel-button {
 
-            border: 1px solid
+            border:
+                1px solid
                 rgba(255,255,255,0.72);
 
             background:
                 rgba(255,255,255,0.45);
 
-            color: var(--navy);
+            color:
+                var(--navy);
 
-            padding: 11px 16px;
+            padding:
+                11px 16px;
 
-            border-radius: 11px;
+            border-radius:
+                11px;
 
-            font-family: "Poppins", sans-serif;
+            font-family:
+                "Poppins",
+                sans-serif;
 
-            font-weight: 700;
+            font-weight:
+                700;
 
-            cursor: pointer;
+            cursor:
+                pointer;
 
         }
 
 
         .form-actions {
 
-            display: flex;
+            display:
+                flex;
 
-            gap: 10px;
+            gap:
+                10px;
 
-            flex-wrap: wrap;
+            flex-wrap:
+                wrap;
 
-            margin-top: 22px;
+            margin-top:
+                22px;
 
         }
 
 
-        /* =========================================================
-        EVENT ACTIONS
-        ========================================================= */
+        /* =====================================================
+           EVENT ACTIONS
+        ====================================================== */
 
         .event-actions {
 
-            display: flex;
+            display:
+                flex;
 
-            flex-wrap: wrap;
+            flex-wrap:
+                wrap;
 
-            align-items: center;
+            align-items:
+                center;
 
-            gap: 10px;
+            gap:
+                10px;
 
-            margin-top: 16px;
+            margin-top:
+                16px;
 
         }
 
 
         .event-actions button {
 
-            border: 1px solid
+            border:
+                1px solid
                 rgba(255,255,255,0.68);
 
-            padding: 9px 13px;
+            padding:
+                9px 13px;
 
-            border-radius: 10px;
+            border-radius:
+                10px;
 
-            font-family: "Poppins", sans-serif;
+            font-family:
+                "Poppins",
+                sans-serif;
 
-            font-weight: 700;
+            font-weight:
+                700;
 
-            cursor: pointer;
+            cursor:
+                pointer;
 
         }
 
@@ -703,9 +952,10 @@
         .finish-event-button {
 
             background:
-                rgba(66, 181, 126, 0.16);
+                rgba(66,181,126,0.16);
 
-            color: #23734f;
+            color:
+                #23734f;
 
         }
 
@@ -713,9 +963,10 @@
         .cancel-event-button {
 
             background:
-                rgba(239, 108, 108, 0.15);
+                rgba(239,108,108,0.15);
 
-            color: #a83d3d;
+            color:
+                #a83d3d;
 
         }
 
@@ -725,193 +976,317 @@
             background:
                 rgba(255,255,255,0.38);
 
-            color: #d34848;
+            color:
+                #d34848;
 
         }
 
 
-        .maps-button {
-
-            margin-top: 10px;
-
-            border: 1px solid
-                rgba(255,255,255,0.70);
-
-            background:
-                rgba(255,255,255,0.42);
-
-            color: var(--sky-blue-dark);
-
-            padding: 10px 14px;
-
-            border-radius: 11px;
-
-            font-family: "Poppins", sans-serif;
-
-            font-weight: 700;
-
-            cursor: pointer;
-
-        }
-
-
-        /* =========================================================
-        FINANCE
-        ========================================================= */
+        /* =====================================================
+           FINANCE
+        ====================================================== */
 
         #finance-list {
 
-            display: block;
+            display:
+                block;
 
-            width: 100%;
+            width:
+                100%;
 
         }
 
 
         .finance-card {
 
-            display: block;
+            display:
+                block;
 
-            width: 100%;
+            width:
+                100%;
 
             background:
+
                 linear-gradient(
                     145deg,
                     rgba(255,255,255,0.66),
                     rgba(255,255,255,0.35)
                 );
 
-            border: 1px solid var(--glass-border);
+            border:
+                1px solid
+                var(--glass-border);
 
-            border-radius: 21px;
+            border-radius:
+                21px;
 
-            padding: 20px;
+            padding:
+                20px;
 
-            margin-bottom: 14px;
+            margin-bottom:
+                14px;
 
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter:
+                blur(20px);
 
-            box-shadow: var(--shadow-soft);
+            -webkit-backdrop-filter:
+                blur(20px);
+
+            box-shadow:
+                var(--shadow-soft);
 
         }
 
 
         .finance-name {
 
-            font-size: 20px;
+            font-size:
+                20px;
 
-            color: var(--navy);
+            color:
+                var(--navy);
 
-            margin-bottom: 10px;
+            margin-bottom:
+                10px;
 
         }
 
 
         .finance-info {
 
-            font-family: "Poppins", sans-serif;
+            color:
+                var(--text-soft);
 
-            color: var(--text-soft);
+            font-family:
+                "Poppins",
+                sans-serif;
 
-            font-size: 13px;
+            font-size:
+                13px;
 
-            font-weight: 600;
+            font-weight:
+                600;
 
-            margin-top: 7px;
+            margin-top:
+                7px;
 
         }
 
 
         .finance-income {
 
-            margin-top: 12px;
+            margin-top:
+                12px;
 
-            color: var(--sky-blue-dark);
+            color:
+                var(--sky-blue-dark);
 
-            font-family: "Poppins", sans-serif;
+            font-family:
+                "Poppins",
+                sans-serif;
 
-            font-size: 17px;
+            font-size:
+                17px;
 
-            font-weight: 700;
+            font-weight:
+                700;
 
         }
 
 
-        /* =========================================================
-        MOBILE
-        ========================================================= */
+        /* =====================================================
+           RUNNING TEXT
+        ====================================================== */
+
+        .ticker-bar {
+
+            position:
+                fixed;
+
+            left:
+                0;
+
+            right:
+                0;
+
+            bottom:
+                0;
+
+            height:
+                34px;
+
+            overflow:
+                hidden;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            background:
+                rgba(255,255,255,0.58);
+
+            border-top:
+                1px solid
+                rgba(255,255,255,0.78);
+
+            backdrop-filter:
+                blur(18px);
+
+            -webkit-backdrop-filter:
+                blur(18px);
+
+            box-shadow:
+                0 -5px 20px
+                rgba(53,122,190,0.08);
+
+            z-index:
+                9999;
+
+        }
+
+
+        .ticker-track {
+
+            white-space:
+                nowrap;
+
+            display:
+                inline-block;
+
+            padding-left:
+                100%;
+
+            font-family:
+                "Poppins",
+                sans-serif;
+
+            font-size:
+                11px;
+
+            font-weight:
+                600;
+
+            letter-spacing:
+                0.5px;
+
+            color:
+                var(--sky-blue-dark);
+
+            animation:
+                tickerMove
+                22s linear infinite;
+
+        }
+
+
+        @keyframes tickerMove {
+
+            from {
+
+                transform:
+                    translateX(0);
+
+            }
+
+            to {
+
+                transform:
+                    translateX(-100%);
+
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
 
         @media (max-width: 850px) {
 
             .app {
 
-                flex-direction: column;
+                flex-direction:
+                    column;
 
-                padding: 12px;
+                padding:
+                    12px;
 
             }
 
 
             .sidebar {
 
-                position: static;
+                position:
+                    static;
 
-                width: 100%;
+                width:
+                    100%;
 
-                min-height: auto;
+                min-height:
+                    auto;
 
-                padding: 18px;
+                padding:
+                    18px;
 
-                border-radius: 21px;
+                border-radius:
+                    21px;
 
             }
 
 
-            .logo {
+            .brand-box {
 
-                text-align: center;
-
-                margin-bottom: 18px;
+                margin-bottom:
+                    20px;
 
             }
 
 
             .menu {
 
-                flex-direction: row;
+                flex-direction:
+                    row;
 
-                overflow-x: auto;
+                overflow-x:
+                    auto;
 
-                padding-bottom: 3px;
+                padding-bottom:
+                    3px;
 
             }
 
 
             .menu button {
 
-                min-width: 120px;
+                min-width:
+                    120px;
 
-                white-space: nowrap;
+                white-space:
+                    nowrap;
 
-                text-align: center;
+                text-align:
+                    center;
 
             }
 
 
             .content {
 
-                padding: 8px 2px 24px;
+                padding:
+                    8px 2px 24px;
 
             }
 
 
             .header h1 {
 
-                font-size: 29px;
+                font-size:
+                    29px;
 
             }
-
 
         }
 
@@ -920,7 +1295,8 @@
 
             .cards {
 
-                grid-template-columns: 1fr;
+                grid-template-columns:
+                    1fr;
 
             }
 
@@ -929,16 +1305,19 @@
             .event,
             .finance-card {
 
-                border-radius: 18px;
+                border-radius:
+                    18px;
 
-                padding: 17px;
+                padding:
+                    17px;
 
             }
 
 
             .header h1 {
 
-                font-size: 27px;
+                font-size:
+                    27px;
 
             }
 
@@ -946,7 +1325,8 @@
             .event-actions,
             .form-actions {
 
-                width: 100%;
+                width:
+                    100%;
 
             }
 
@@ -954,669 +1334,879 @@
             .event-actions button,
             .form-actions button {
 
-                flex: 1;
+                flex:
+                    1;
+
+            }
+
+
+            .ticker-bar {
+
+                height:
+                    32px;
+
+            }
+
+
+            .ticker-track {
+
+                font-size:
+                    10px;
+
+                animation-duration:
+                    18s;
 
             }
 
         }
 
     </style>
+
 </head>
+
 
 <body>
 
-<div class="app">
 
-    <!-- =========================
-         SIDEBAR
-    ========================= -->
-
-    <aside class="sidebar">
-
-        <div class="logo">
-            📸 SKY<span>.BOOTH</span>
-        </div>
-
-        <div class="menu">
-
-            <button
-                class="active"
-                onclick="showPage('dashboard')"
-            >
-                🏠 Dashboard
-            </button>
-
-            <button
-                onclick="showPage('event')"
-            >
-                📸 Event
-            </button>
-
-            <button
-                onclick="showPage('schedule')"
-            >
-                📅 Jadwal
-            </button>
-
-            <button
-                onclick="showPage('inventory')"
-            >
-                📦 Inventaris
-            </button>
-
-            <button
-                onclick="showPage('finance')"
-            >
-                💰 Keuangan
-            </button>
-
-        </div>
-
-    </aside>
+    <div class="app">
 
 
-    <!-- =========================
-         CONTENT
-    ========================= -->
+        <!-- =================================================
+             SIDEBAR
+        ================================================== -->
 
-    <main class="content">
-
-
-        <!-- =========================
-             DASHBOARD PAGE
-        ========================= -->
-
-        <div id="dashboard-page">
-
-            <div class="header">
-                <h1>Dashboard</h1>
-                <p>Ringkasan aktivitas Sky Booth</p>
-            </div>
-
-            <div class="cards">
-
-                <div class="card">
-                    <div class="card-title">
-                        Total Event
-                    </div>
-
-                    <div
-                        class="card-value"
-                        id="total-event"
-                    >
-                        0
-                    </div>
-                </div>
+        <aside class="sidebar">
 
 
-                <div class="card">
-                    <div class="card-title">
-                        Event Selesai
-                    </div>
+            <div class="brand-box">
 
-                    <div
-                        class="card-value"
-                        id="total-finished"
-                    >
-                        0
-                    </div>
-                </div>
-
-
-                <div class="card">
-                    <div class="card-title">
-                        Pendapatan Event Full
-                    </div>
-
-                    <div
-                        class="card-value"
-                        id="total-full-income"
-                    >
-                        Rp0
-                    </div>
-                </div>
-
-
-                <div class="card">
-                    <div class="card-title">
-                        Pendapatan Per Orang
-                    </div>
-
-                    <div
-                        class="card-value"
-                        id="total-person-income"
-                    >
-                        Rp0
-                    </div>
+                <div class="logo">
+                    SKY<span>.BOOTH</span>
                 </div>
 
             </div>
 
-        </div>
 
+            <div class="menu">
 
-        <!-- =========================
-             EVENT PAGE
-        ========================= -->
-
-        <div
-            id="event-page"
-            style="display: none;"
-        >
-
-            <div class="header">
-
-                <h1>Event</h1>
-
-                <p>
-                    Kelola event photobooth kamu
-                </p>
 
                 <button
-                    class="add-event-button"
-                    onclick="showForm()"
+                    class="active"
+                    onclick="showPage('dashboard')"
                 >
-                    + Tambah Event
+                    🏠 DASHBOARD
                 </button>
+
+
+                <button
+                    onclick="showPage('event')"
+                >
+                    📸 EVENT
+                </button>
+
+
+                <button
+                    onclick="showPage('schedule')"
+                >
+                    📅 JADWAL
+                </button>
+
+
+                <button
+                    onclick="showPage('inventory')"
+                >
+                    📦 INVENTARIS
+                </button>
+
+
+                <button
+                    onclick="showPage('finance')"
+                >
+                    💰 KEUANGAN
+                </button>
+
 
             </div>
 
 
-            <!-- FORM EVENT -->
+        </aside>
+
+
+
+        <!-- =================================================
+             MAIN CONTENT
+        ================================================== -->
+
+        <main class="content">
+
+
+            <!-- =============================================
+                 DASHBOARD
+            ============================================== -->
+
+            <div id="dashboard-page">
+
+
+                <div class="header">
+
+                    <h1>
+                        DASHBOARD
+                    </h1>
+
+                    <p>
+                        Ringkasan aktivitas Sky Booth
+                    </p>
+
+                </div>
+
+
+                <div class="cards">
+
+
+                    <div class="card">
+
+                        <div class="card-title">
+                            Total Event
+                        </div>
+
+                        <div
+                            class="card-value"
+                            id="total-event"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-title">
+                            Event Selesai
+                        </div>
+
+                        <div
+                            class="card-value"
+                            id="total-finished"
+                        >
+                            0
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-title">
+                            Pendapatan Event Full
+                        </div>
+
+                        <div
+                            class="card-value"
+                            id="total-full-income"
+                        >
+                            Rp0
+                        </div>
+
+                    </div>
+
+
+                    <div class="card">
+
+                        <div class="card-title">
+                            Pendapatan Per Orang
+                        </div>
+
+                        <div
+                            class="card-value"
+                            id="total-person-income"
+                        >
+                            Rp0
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =============================================
+                 EVENT
+            ============================================== -->
 
             <div
-                id="event-form"
-                style="display: none;"
+                id="event-page"
+                style="display:none;"
             >
 
-                <div class="section">
 
-                    <div class="event event-form-box">
+                <div class="header">
 
-                        <h2>Tambah Event</h2>
+                    <h1>
+                        EVENT
+                    </h1>
+
+                    <p>
+                        Kelola event photobooth kamu
+                    </p>
 
 
-                        <label>Nama Event</label>
+                    <button
+                        class="add-event-button"
+                        onclick="showForm()"
+                    >
+                        + TAMBAH EVENT
+                    </button>
 
-                        <input
-                            type="text"
-                            id="event-name"
-                            placeholder="Contoh: Wedding Ahmad & Siti"
+                </div>
+
+
+
+                <div
+                    id="event-form"
+                    style="display:none;"
+                >
+
+
+                    <div class="section">
+
+
+                        <div
+                            class="event event-form-box"
                         >
 
 
-                        <label>Klien</label>
-
-                        <input
-                            type="text"
-                            id="event-client"
-                            placeholder="Contoh: Rina"
-                        >
+                            <h2>
+                                TAMBAH EVENT
+                            </h2>
 
 
-                        <label>Tanggal</label>
-
-                        <input
-                            type="date"
-                            id="event-date"
-                        >
-
-
-                        <label>Lokasi</label>
-
-                        <input
-                            type="text"
-                            id="event-location"
-                            placeholder="Contoh: Hotel Grand Indonesia"
-                        >
-
-
-                        <label>Jenis Pendapatan</label>
-
-                        <select
-                            id="income-type"
-                            onchange="toggleIncomeType()"
-                        >
-                            <option value="full">
-                                Dibayar Full Event
-                            </option>
-
-                            <option value="per-person">
-                                Bayar Per Orang
-                            </option>
-                        </select>
-
-
-                        <!-- FULL EVENT -->
-
-                        <div id="full-price-box">
-
-                            <label>Harga Event</label>
+                            <label>
+                                Nama Event
+                            </label>
 
                             <input
-                                type="number"
-                                id="event-price"
-                                placeholder="Contoh: 1500000"
+                                type="text"
+                                id="event-name"
+                                placeholder="Contoh: Wedding Ahmad & Siti"
                             >
+
+
+                            <label>
+                                Klien
+                            </label>
+
+                            <input
+                                type="text"
+                                id="event-client"
+                                placeholder="Contoh: Rina"
+                            >
+
+
+                            <label>
+                                Tanggal
+                            </label>
+
+                            <input
+                                type="date"
+                                id="event-date"
+                            >
+
+
+                            <label>
+                                Lokasi
+                            </label>
+
+                            <input
+                                type="text"
+                                id="event-location"
+                                placeholder="Contoh: Hotel Grand Indonesia"
+                            >
+
+
+                            <label>
+                                Jenis Pendapatan
+                            </label>
+
+
+                            <select
+                                id="income-type"
+                                onchange="toggleIncomeType()"
+                            >
+
+                                <option value="full">
+                                    Dibayar Full Event
+                                </option>
+
+                                <option value="per-person">
+                                    Bayar Per Orang
+                                </option>
+
+                            </select>
+
+
+                            <div
+                                id="full-price-box"
+                            >
+
+
+                                <label>
+                                    Harga Event
+                                </label>
+
+
+                                <input
+                                    type="number"
+                                    id="event-price"
+                                    placeholder="Contoh: 1500000"
+                                >
+
+
+                            </div>
+
+
+                            <div
+                                id="per-person-price-box"
+                                style="display:none;"
+                            >
+
+
+                                <label>
+                                    Harga per Orang
+                                </label>
+
+
+                                <input
+                                    type="number"
+                                    id="price-per-person"
+                                    placeholder="Contoh: 15000"
+                                >
+
+
+                                <div class="event-info">
+                                    Jumlah orang akan diisi setelah event selesai.
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="form-actions">
+
+
+                                <button
+                                    type="button"
+                                    class="cancel-button"
+                                    onclick="hideForm()"
+                                >
+                                    BATAL
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="save-button"
+                                    onclick="saveEvent()"
+                                >
+                                    SIMPAN EVENT
+                                </button>
+
+
+                            </div>
+
 
                         </div>
 
 
-                        <!-- PER ORANG -->
+                    </div>
 
-                        <div
-                            id="per-person-price-box"
-                            style="display: none;"
-                        >
 
-                            <label>Harga per Orang</label>
+                </div>
 
-                            <input
-                                type="number"
-                                id="price-per-person"
-                                placeholder="Contoh: 15000"
-                            >
+
+
+                <div class="section">
+
+
+                    <div class="section-title">
+                        DAFTAR EVENT
+                    </div>
+
+
+                    <div id="event-list">
+
+
+                        <div class="event">
+
+                            <div class="event-name">
+                                BELUM ADA EVENT
+                            </div>
 
                             <div class="event-info">
-                                Jumlah orang akan diisi setelah event selesai.
+                                Tambahkan event pertama kamu.
                             </div>
 
                         </div>
 
 
-                        <div class="form-actions">
-
-                            <button
-                                type="button"
-                                class="cancel-button"
-                                onclick="hideForm()"
-                            >
-                                Batal
-                            </button>
-
-
-                            <button
-                                type="button"
-                                class="save-button"
-                                onclick="saveEvent()"
-                            >
-                                Simpan Event
-                            </button>
-
-                        </div>
-
                     </div>
 
+
                 </div>
+
 
             </div>
 
 
-            <!-- EVENT LIST -->
 
-            <div class="section">
-
-                <div
-                    class="section-title"
-                >
-                    Daftar Event
-                </div>
-
-                <div id="event-list">
-
-                    <div class="event">
-
-                        <div
-                            class="event-name"
-                            id="empty-event"
-                        >
-                            Belum ada event
-                        </div>
-
-                        <div class="event-info">
-                            Tambahkan event pertama kamu.
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================
-             SCHEDULE PAGE
-        ========================= -->
-
-        <div
-            id="schedule-page"
-            style="display: none;"
-        >
-
-            <div class="header">
-
-                <h1>Jadwal</h1>
-
-                <p>
-                    Daftar jadwal event Sky Booth
-                </p>
-
-            </div>
-
-
-            <div class="section">
-
-                <div class="event event-form-box">
-
-                    <label>Pilih Bulan</label>
-
-                    <input
-                        type="month"
-                        id="schedule-month"
-                        onchange="loadSchedule()"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div class="section">
-
-                <div class="section-title">
-                    Event Terjadwal
-                </div>
-
-
-                <div id="schedule-list">
-
-                    <div class="event">
-
-                        <div class="event-name">
-                            Belum ada jadwal
-                        </div>
-
-                        <div class="event-info">
-                            Pilih bulan untuk melihat jadwal event.
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================
-             INVENTORY PAGE
-        ========================= -->
-
-        <div
-            id="inventory-page"
-            style="display: none;"
-        >
-
-            <div class="header">
-
-                <h1>Inventaris</h1>
-
-                <p>
-                    Kelola barang dan stok Sky Booth
-                </p>
-
-                <button
-                    class="add-event-button"
-                    onclick="showInventoryForm()"
-                >
-                    + Tambah Barang
-                </button>
-
-            </div>
-
-
-            <!-- FORM INVENTARIS -->
+            <!-- =============================================
+                 JADWAL
+            ============================================== -->
 
             <div
-                id="inventory-form"
-                style="display: none;"
+                id="schedule-page"
+                style="display:none;"
             >
+
+
+                <div class="header">
+
+                    <h1>
+                        JADWAL
+                    </h1>
+
+                    <p>
+                        Daftar jadwal event Sky Booth
+                    </p>
+
+                </div>
+
 
                 <div class="section">
 
-                    <div class="event event-form-box">
 
-                        <h2>Tambah Barang</h2>
+                    <div
+                        class="event event-form-box"
+                    >
 
-
-                        <label>Nama Barang</label>
-
-                        <input
-                            type="text"
-                            id="item-name"
-                            placeholder="Contoh: Kertas Foto"
-                        >
-
-
-                        <label>Merk</label>
+                        <label>
+                            Pilih Bulan
+                        </label>
 
                         <input
-                            type="text"
-                            id="item-brand"
-                            placeholder="Contoh: Quaff"
+                            type="month"
+                            id="schedule-month"
+                            onchange="loadSchedule()"
                         >
-
-
-                        <label>Kategori</label>
-
-                        <select id="item-category">
-
-                            <option value="cetak">
-                                🖨️ Cetak
-                            </option>
-
-                            <option value="kamera">
-                                📷 Kamera
-                            </option>
-
-                            <option value="properti">
-                                🎭 Properti
-                            </option>
-
-                        </select>
-
-
-                        <label>Jumlah</label>
-
-                        <input
-                            type="number"
-                            id="item-quantity"
-                            placeholder="Contoh: 100"
-                        >
-
-
-                        <label>Harga Satuan</label>
-
-                        <input
-                            type="number"
-                            id="item-price"
-                            placeholder="Contoh: 15000"
-                        >
-
-
-                        <div class="form-actions">
-
-                            <button
-                                type="button"
-                                class="cancel-button"
-                                onclick="hideInventoryForm()"
-                            >
-                                Batal
-                            </button>
-
-
-                            <button
-                                type="button"
-                                class="save-button"
-                                onclick="saveInventory()"
-                            >
-                                Simpan Barang
-                            </button>
-
-                        </div>
 
                     </div>
 
+
                 </div>
+
+
+                <div class="section">
+
+
+                    <div class="section-title">
+                        EVENT TERJADWAL
+                    </div>
+
+
+                    <div id="schedule-list">
+
+
+                        <div class="event">
+
+                            <div class="event-name">
+                                BELUM ADA JADWAL
+                            </div>
+
+                            <div class="event-info">
+                                Pilih bulan untuk melihat jadwal event.
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
 
             </div>
 
 
-            <!-- LIST INVENTARIS -->
 
-            <div class="section">
+            <!-- =============================================
+                 INVENTARIS
+            ============================================== -->
 
-                <div class="section-title">
-                    Daftar Inventaris
+            <div
+                id="inventory-page"
+                style="display:none;"
+            >
+
+
+                <div class="header">
+
+                    <h1>
+                        INVENTARIS
+                    </h1>
+
+                    <p>
+                        Kelola barang dan stok Sky Booth
+                    </p>
+
+
+                    <button
+                        class="add-event-button"
+                        onclick="showInventoryForm()"
+                    >
+                        + TAMBAH BARANG
+                    </button>
+
                 </div>
 
 
-                <div id="inventory-list">
 
-                    <div class="event">
+                <div
+                    id="inventory-form"
+                    style="display:none;"
+                >
 
-                        <div class="event-name">
-                            Belum ada barang
+
+                    <div class="section">
+
+
+                        <div
+                            class="event event-form-box"
+                        >
+
+
+                            <h2>
+                                TAMBAH BARANG
+                            </h2>
+
+
+                            <label>
+                                Nama Barang
+                            </label>
+
+                            <input
+                                type="text"
+                                id="item-name"
+                                placeholder="Contoh: Kertas Foto"
+                            >
+
+
+                            <label>
+                                Merk
+                            </label>
+
+                            <input
+                                type="text"
+                                id="item-brand"
+                                placeholder="Contoh: Quaff"
+                            >
+
+
+                            <label>
+                                Kategori
+                            </label>
+
+                            <select
+                                id="item-category"
+                            >
+
+                                <option value="cetak">
+                                    🖨️ Cetak
+                                </option>
+
+                                <option value="kamera">
+                                    📷 Kamera
+                                </option>
+
+                                <option value="properti">
+                                    🎭 Properti
+                                </option>
+
+                            </select>
+
+
+                            <label>
+                                Jumlah
+                            </label>
+
+                            <input
+                                type="number"
+                                id="item-quantity"
+                                placeholder="Contoh: 100"
+                            >
+
+
+                            <label>
+                                Harga Satuan
+                            </label>
+
+                            <input
+                                type="number"
+                                id="item-price"
+                                placeholder="Contoh: 15000"
+                            >
+
+
+                            <div
+                                class="form-actions"
+                            >
+
+
+                                <button
+                                    type="button"
+                                    class="cancel-button"
+                                    onclick="hideInventoryForm()"
+                                >
+                                    BATAL
+                                </button>
+
+
+                                <button
+                                    type="button"
+                                    class="save-button"
+                                    onclick="saveInventory()"
+                                >
+                                    SIMPAN BARANG
+                                </button>
+
+
+                            </div>
+
+
                         </div>
 
-                        <div class="event-info">
-                            Tambahkan barang pertama kamu.
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="section">
+
+
+                    <div class="section-title">
+                        DAFTAR INVENTARIS
+                    </div>
+
+
+                    <div id="inventory-list">
+
+
+                        <div class="event">
+
+                            <div class="event-name">
+                                BELUM ADA BARANG
+                            </div>
+
+                            <div class="event-info">
+                                Tambahkan barang pertama kamu.
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =============================================
+                 KEUANGAN
+            ============================================== -->
+
+            <div
+                id="finance-page"
+                style="display:none;"
+            >
+
+
+                <div class="header">
+
+                    <h1>
+                        KEUANGAN
+                    </h1>
+
+                    <p>
+                        Ringkasan pendapatan Sky Booth
+                    </p>
+
+                </div>
+
+
+                <div class="cards">
+
+
+                    <div class="card">
+
+                        <div class="card-title">
+                            Total Event Selesai
+                        </div>
+
+                        <div
+                            class="card-value"
+                            id="finance-total-events"
+                        >
+                            0
                         </div>
 
                     </div>
 
+
+                    <div class="card">
+
+                        <div class="card-title">
+                            Total Pendapatan
+                        </div>
+
+                        <div
+                            class="card-value"
+                            id="finance-total-income"
+                        >
+                            Rp0
+                        </div>
+
+                    </div>
+
+
                 </div>
 
+
+                <div class="section">
+
+
+                    <div
+                        class="event event-form-box"
+                    >
+
+                        <label>
+                            Pilih Bulan
+                        </label>
+
+                        <input
+                            type="month"
+                            id="finance-month"
+                            onchange="loadFinance()"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="section">
+
+
+                    <div class="section-title">
+                        RIWAYAT PENDAPATAN
+                    </div>
+
+
+                    <div id="finance-list">
+
+
+                        <div class="finance-card">
+
+
+                            <div class="finance-name">
+                                BELUM ADA PENDAPATAN
+                            </div>
+
+
+                            <div class="finance-info">
+                                Event selesai akan muncul di sini.
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
             </div>
+
+
+        </main>
+
+
+    </div>
+
+
+
+    <!-- =====================================================
+         RUNNING TEXT
+    ====================================================== -->
+
+    <div class="ticker-bar">
+
+        <div class="ticker-track">
+
+            ABADIKAN MOMENMU...!!
+
+            &nbsp; • &nbsp;
+
+            KARENA SETIAP KEBERSAMAAN LAYAK UNTUK DIKENANG
+
+            &nbsp; • &nbsp;
+
+            ABADIKAN MOMENMU...!!
+
+            &nbsp; • &nbsp;
+
+            KARENA SETIAP KEBERSAMAAN LAYAK UNTUK DIKENANG
+
+            &nbsp; • &nbsp;
 
         </div>
 
-
-        <!-- =========================
-             FINANCE PAGE
-        ========================= -->
-
-        <div
-            id="finance-page"
-            style="display: none;"
-        >
-
-            <div class="header">
-
-                <h1>Keuangan</h1>
-
-                <p>
-                    Ringkasan pendapatan Sky Booth
-                </p>
-
-            </div>
+    </div>
 
 
-            <div class="cards">
 
-                <div class="card">
+    <!-- =====================================================
+         SUPABASE
+    ====================================================== -->
 
-                    <div class="card-title">
-                        Total Event Selesai
-                    </div>
-
-                    <div
-                        class="card-value"
-                        id="finance-total-events"
-                    >
-                        0
-                    </div>
-
-                </div>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
 
 
-                <div class="card">
+    <!-- =====================================================
+         APP SCRIPT
+    ====================================================== -->
 
-                    <div class="card-title">
-                        Total Pendapatan
-                    </div>
+    <script
+        src="script.js"
+    ></script>
 
-                    <div
-                        class="card-value"
-                        id="finance-total-income"
-                    >
-                        Rp0
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- FILTER KEUANGAN -->
-
-            <div class="section">
-
-                <div class="event event-form-box">
-
-                    <label>Pilih Bulan</label>
-
-                    <input
-                        type="month"
-                        id="finance-month"
-                        onchange="loadFinance()"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <!-- RIWAYAT PENDAPATAN -->
-
-            <div class="section">
-
-                <div class="section-title">
-                    Riwayat Pendapatan
-                </div>
-
-
-                <div id="finance-list">
-
-                    <div class="finance-card">
-
-                        <div class="finance-name">
-                            Belum ada pendapatan
-                        </div>
-
-                        <div class="finance-info">
-                            Event selesai akan muncul di sini.
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-    </main>
-
-</div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="script.js"></script>
 
 </body>
+
 </html>
+```
