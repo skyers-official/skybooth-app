@@ -1,4 +1,3 @@
-```javascript
 console.log("Sky Booth + Supabase berhasil terhubung!");
 
 
@@ -24,15 +23,13 @@ const supabaseClient =
 // =========================
 
 function formatRupiah(value) {
-
     return "Rp" +
         (Number(value) || 0).toLocaleString("id-ID");
-
 }
 
 
 // =========================
-// NAVIGASI HALAMAN
+// NAVIGASI
 // =========================
 
 async function showPage(page) {
@@ -60,7 +57,6 @@ async function showPage(page) {
     const selectedPage =
         document.getElementById(page + "-page");
 
-
     if (selectedPage) {
         selectedPage.style.display = "block";
     }
@@ -68,7 +64,6 @@ async function showPage(page) {
 
     const buttons =
         document.querySelectorAll(".menu button");
-
 
     buttons.forEach(function(button) {
         button.classList.remove("active");
@@ -82,7 +77,6 @@ async function showPage(page) {
                 "showPage('" + page + "')";
 
         });
-
 
     if (clickedButton) {
         clickedButton.classList.add("active");
@@ -108,7 +102,6 @@ async function showPage(page) {
     if (page === "finance") {
         await loadFinance();
     }
-
 }
 
 
@@ -117,6 +110,31 @@ async function showPage(page) {
 // =========================
 
 async function updateDashboard() {
+
+    const {
+        data: events,
+        error
+    } = await supabaseClient
+        .from("events")
+        .select("*");
+
+    if (error) {
+        console.error("Dashboard error:", error);
+        return;
+    }
+
+    const allEvents = events || [];
+
+    const activeEvents =
+        allEvents.filter(function(event) {
+            return event.status === "aktif";
+        });
+
+    const finishedEvents =
+        allEvents.filter(function(event) {
+            return event.status === "selesai";
+        });
+
 
     const totalEventElement =
         document.getElementById("total-event");
@@ -131,42 +149,10 @@ async function updateDashboard() {
         document.getElementById("total-person-income");
 
 
-    const {
-        data: events,
-        error
-    } = await supabaseClient
-        .from("events")
-        .select("*");
-
-
-    if (error) {
-
-        console.error("Dashboard error:", error);
-        return;
-
-    }
-
-
-    const allEvents = events || [];
-
-
-    const activeEvents =
-        allEvents.filter(function(event) {
-            return event.status === "aktif";
-        });
-
-
-    const finishedEvents =
-        allEvents.filter(function(event) {
-            return event.status === "selesai";
-        });
-
-
     if (totalEventElement) {
         totalEventElement.textContent =
             activeEvents.length;
     }
-
 
     if (totalFinishedElement) {
         totalFinishedElement.textContent =
@@ -210,7 +196,6 @@ async function updateDashboard() {
             formatRupiah(totalPersonIncome);
 
     }
-
 }
 
 
@@ -223,14 +208,11 @@ function showForm() {
     const form =
         document.getElementById("event-form");
 
-
     if (form) {
         form.style.display = "block";
     }
 
-
     toggleIncomeType();
-
 }
 
 
@@ -239,14 +221,11 @@ function hideForm() {
     const form =
         document.getElementById("event-form");
 
-
     if (form) {
         form.style.display = "none";
     }
 
-
     clearEventForm();
-
 }
 
 
@@ -277,14 +256,11 @@ function clearEventForm() {
     const incomeType =
         document.getElementById("income-type");
 
-
     if (incomeType) {
         incomeType.value = "full";
     }
 
-
     toggleIncomeType();
-
 }
 
 
@@ -324,7 +300,6 @@ function toggleIncomeType() {
         perPersonPriceBox.style.display = "block";
 
     }
-
 }
 
 
@@ -369,7 +344,6 @@ async function saveEvent() {
 
         alert("Mohon isi data event terlebih dahulu.");
         return;
-
     }
 
 
@@ -380,7 +354,6 @@ async function saveEvent() {
 
         alert("Masukkan harga event.");
         return;
-
     }
 
 
@@ -391,7 +364,6 @@ async function saveEvent() {
 
         alert("Masukkan harga per orang.");
         return;
-
     }
 
 
@@ -399,12 +371,6 @@ async function saveEvent() {
         incomeType === "full"
             ? hargaFull
             : hargaPerPerson;
-
-
-    const pendapatanFinal =
-        incomeType === "full"
-            ? hargaFull
-            : 0;
 
 
     const {
@@ -421,7 +387,8 @@ async function saveEvent() {
                 income_type: incomeType,
                 harga: harga,
                 jumlah_orang: 0,
-                pendapatan_final: pendapatanFinal,
+                pendapatan_final:
+                    incomeType === "full" ? harga : 0,
                 status: "aktif"
             }
         ]);
@@ -437,7 +404,6 @@ async function saveEvent() {
         );
 
         return;
-
     }
 
 
@@ -446,7 +412,6 @@ async function saveEvent() {
     await loadEvents();
     await updateDashboard();
     await loadSchedule();
-
 }
 
 
@@ -458,7 +423,6 @@ async function loadEvents() {
 
     const eventList =
         document.getElementById("event-list");
-
 
     if (!eventList) {
         return;
@@ -481,7 +445,6 @@ async function loadEvents() {
 
         console.error(error);
         return;
-
     }
 
 
@@ -505,7 +468,6 @@ async function loadEvents() {
         `;
 
         return;
-
     }
 
 
@@ -547,7 +509,7 @@ async function loadEvents() {
             </div>
 
             <div class="event-info">
-                📅 ${event.tanggal}
+                📅 ${event.tanggal || "-"}
             </div>
 
             <div class="event-info">
@@ -589,7 +551,6 @@ async function loadEvents() {
         eventList.appendChild(card);
 
     });
-
 }
 
 
@@ -613,7 +574,6 @@ async function finishEvent(id) {
 
         console.error(error);
         return;
-
     }
 
 
@@ -646,14 +606,12 @@ async function finishEvent(id) {
             );
 
             return;
-
         }
 
 
         pendapatanFinal =
             jumlahOrang *
             (Number(event.harga) || 0);
-
     }
 
 
@@ -661,7 +619,6 @@ async function finishEvent(id) {
 
         pendapatanFinal =
             Number(event.harga) || 0;
-
     }
 
 
@@ -685,7 +642,6 @@ async function finishEvent(id) {
 
         alert("Gagal menyelesaikan event.");
         return;
-
     }
 
 
@@ -693,7 +649,6 @@ async function finishEvent(id) {
     await updateDashboard();
     await loadSchedule();
     await loadFinance();
-
 }
 
 
@@ -733,7 +688,6 @@ async function cancelEvent(id) {
 
         alert("Gagal membatalkan event.");
         return;
-
     }
 
 
@@ -741,7 +695,6 @@ async function cancelEvent(id) {
     await updateDashboard();
     await loadSchedule();
     await loadFinance();
-
 }
 
 
@@ -774,14 +727,12 @@ async function deleteEvent(id) {
 
         alert("Gagal menghapus event.");
         return;
-
     }
 
 
     await loadEvents();
     await updateDashboard();
     await loadSchedule();
-
 }
 
 
@@ -832,7 +783,6 @@ async function loadSchedule() {
                     "tanggal",
                     getNextMonth(selectedMonth)
                 );
-
     }
 
 
@@ -846,7 +796,6 @@ async function loadSchedule() {
 
         console.error(error);
         return;
-
     }
 
 
@@ -874,7 +823,6 @@ async function loadSchedule() {
         `;
 
         return;
-
     }
 
 
@@ -910,7 +858,6 @@ async function loadSchedule() {
         scheduleList.appendChild(card);
 
     });
-
 }
 
 
@@ -930,10 +877,8 @@ function getNextMonth(month) {
 
 
     if (monthNumber === 13) {
-
         monthNumber = 1;
         year++;
-
     }
 
 
@@ -943,7 +888,6 @@ function getNextMonth(month) {
         String(monthNumber).padStart(2, "0") +
         "-01"
     );
-
 }
 
 
@@ -956,11 +900,9 @@ function showInventoryForm() {
     const form =
         document.getElementById("inventory-form");
 
-
     if (form) {
         form.style.display = "block";
     }
-
 }
 
 
@@ -969,14 +911,11 @@ function hideInventoryForm() {
     const form =
         document.getElementById("inventory-form");
 
-
     if (form) {
         form.style.display = "none";
     }
 
-
     clearInventoryForm();
-
 }
 
 
@@ -1005,11 +944,9 @@ function clearInventoryForm() {
     const category =
         document.getElementById("item-category");
 
-
     if (category) {
         category.value = "cetak";
     }
-
 }
 
 
@@ -1043,7 +980,6 @@ async function saveInventory() {
 
         alert("Masukkan nama barang.");
         return;
-
     }
 
 
@@ -1073,14 +1009,11 @@ async function saveInventory() {
         );
 
         return;
-
     }
 
 
     hideInventoryForm();
-
     await loadInventory();
-
 }
 
 
@@ -1093,11 +1026,9 @@ async function loadInventory() {
     const inventoryList =
         document.getElementById("inventory-list");
 
-
     if (!inventoryList) {
         return;
     }
-
 
     const {
         data: inventory,
@@ -1109,22 +1040,14 @@ async function loadInventory() {
             ascending: false
         });
 
-
     if (error) {
-
-        console.error(error);
+        console.error("Load inventory error:", error);
         return;
-
     }
-
 
     inventoryList.innerHTML = "";
 
-
-    if (
-        !inventory ||
-        inventory.length === 0
-    ) {
+    if (!inventory || inventory.length === 0) {
 
         inventoryList.innerHTML = `
             <div class="event">
@@ -1141,9 +1064,7 @@ async function loadInventory() {
         `;
 
         return;
-
     }
-
 
     inventory.forEach(function(item) {
 
@@ -1152,22 +1073,48 @@ async function loadInventory() {
 
         card.className = "event";
 
-
         let kategoriText = "";
-
 
         if (item.kategori === "cetak") {
             kategoriText = "🖨️ Cetak";
-        }
-
-        else if (item.kategori === "kamera") {
+        } else if (item.kategori === "kamera") {
             kategoriText = "📷 Kamera";
-        }
-
-        else {
+        } else {
             kategoriText = "🎭 Properti";
         }
 
+        let stockControls = "";
+
+        if (item.kategori === "cetak") {
+
+            stockControls = `
+                <div class="event-actions">
+
+                    <input
+                        type="number"
+                        min="1"
+                        id="stock-input-${item.id}"
+                        placeholder="Jumlah"
+                        style="width: 120px;"
+                    >
+
+                    <button
+                        type="button"
+                        onclick="updateInventoryStock(${item.id}, 'add')"
+                    >
+                        ➕ Tambah
+                    </button>
+
+                    <button
+                        type="button"
+                        onclick="updateInventoryStock(${item.id}, 'subtract')"
+                    >
+                        ➖ Kurangi
+                    </button>
+
+                </div>
+            `;
+        }
 
         card.innerHTML = `
 
@@ -1187,27 +1134,7 @@ async function loadInventory() {
                 📦 Jumlah: ${item.jumlah}
             </div>
 
-            ${
-                item.kategori === "cetak"
-                    ? `
-                        <div class="event-actions">
-
-                            <button
-                                onclick="updateInventoryStock(${item.id}, -1)"
-                            >
-                                ➖ Kurangi
-                            </button>
-
-                            <button
-                                onclick="updateInventoryStock(${item.id}, 1)"
-                            >
-                                ➕ Tambah
-                            </button>
-
-                        </div>
-                    `
-                    : ""
-            }
+            ${stockControls}
 
             <div class="event-info">
                 💰 Harga Satuan:
@@ -1217,6 +1144,7 @@ async function loadInventory() {
             <div class="event-actions">
 
                 <button
+                    type="button"
                     class="delete-event-button"
                     onclick="deleteInventory(${item.id})"
                     title="Hapus barang"
@@ -1228,11 +1156,9 @@ async function loadInventory() {
 
         `;
 
-
         inventoryList.appendChild(card);
 
     });
-
 }
 
 
@@ -1240,7 +1166,27 @@ async function loadInventory() {
 // TAMBAH / KURANG STOK
 // =========================
 
-async function updateInventoryStock(id, perubahan) {
+async function updateInventoryStock(id, mode) {
+
+    const input =
+        document.getElementById(
+            "stock-input-" + id
+        );
+
+    if (!input) {
+        return;
+    }
+
+    const jumlah =
+        Number(input.value);
+
+    if (
+        !Number.isFinite(jumlah) ||
+        jumlah <= 0
+    ) {
+        alert("Masukkan jumlah yang valid.");
+        return;
+    }
 
     const {
         data: item,
@@ -1251,25 +1197,27 @@ async function updateInventoryStock(id, perubahan) {
         .eq("id", id)
         .single();
 
-
     if (error || !item) {
-
         console.error(error);
         alert("Barang tidak ditemukan.");
         return;
-
     }
-
 
     let jumlahBaru =
-        (Number(item.jumlah) || 0) +
-        perubahan;
+        Number(item.jumlah) || 0;
 
-
-    if (jumlahBaru < 0) {
-        jumlahBaru = 0;
+    if (mode === "add") {
+        jumlahBaru += jumlah;
     }
 
+    if (mode === "subtract") {
+        jumlahBaru -= jumlah;
+    }
+
+    if (jumlahBaru < 0) {
+        alert("Stok tidak boleh kurang dari 0.");
+        return;
+    }
 
     const {
         error: updateError
@@ -1280,19 +1228,13 @@ async function updateInventoryStock(id, perubahan) {
         })
         .eq("id", id);
 
-
     if (updateError) {
-
         console.error(updateError);
-
         alert("Gagal mengubah stok.");
         return;
-
     }
 
-
     await loadInventory();
-
 }
 
 
@@ -1327,12 +1269,10 @@ async function deleteInventory(id) {
 
         alert("Gagal menghapus barang.");
         return;
-
     }
 
 
     await loadInventory();
-
 }
 
 
@@ -1391,7 +1331,6 @@ async function loadFinance() {
                     "tanggal",
                     getNextMonth(selectedMonth)
                 );
-
     }
 
 
@@ -1405,7 +1344,6 @@ async function loadFinance() {
 
         console.error(error);
         return;
-
     }
 
 
@@ -1453,7 +1391,6 @@ async function loadFinance() {
         `;
 
         return;
-
     }
 
 
@@ -1511,7 +1448,6 @@ async function loadFinance() {
         financeList.appendChild(card);
 
     });
-
 }
 
 
@@ -1531,4 +1467,3 @@ document.addEventListener(
 
     }
 );
-```
