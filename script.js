@@ -1,9 +1,9 @@
 console.log("Sky Booth + Supabase berhasil terhubung!");
 
 
-// =========================================================
-// SUPABASE
-// =========================================================
+/* =========================================================
+   SUPABASE
+========================================================= */
 
 const SUPABASE_URL =
     "https://bhdeyuddovnptfhilslm.supabase.co";
@@ -18,27 +18,15 @@ const supabaseClient =
     );
 
 
-// =========================================================
-// UTILITAS
-// =========================================================
+/* =========================================================
+   UTIL
+========================================================= */
 
 function formatRupiah(value) {
 
     return "Rp" +
-        (Number(value) || 0).toLocaleString("id-ID");
-
-}
-
-
-function getCurrentMonth() {
-
-    const now = new Date();
-
-    return (
-        now.getFullYear() +
-        "-" +
-        String(now.getMonth() + 1).padStart(2, "0")
-    );
+        (Number(value) || 0)
+            .toLocaleString("id-ID");
 
 }
 
@@ -50,9 +38,28 @@ function getToday() {
     return (
         now.getFullYear() +
         "-" +
-        String(now.getMonth() + 1).padStart(2, "0") +
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0") +
         "-" +
-        String(now.getDate()).padStart(2, "0")
+        String(
+            now.getDate()
+        ).padStart(2, "0")
+    );
+
+}
+
+
+function getCurrentMonth() {
+
+    const now = new Date();
+
+    return (
+        now.getFullYear() +
+        "-" +
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0")
     );
 
 }
@@ -86,9 +93,9 @@ function getNextMonth(month) {
 }
 
 
-// =========================================================
-// NAVIGASI
-// =========================================================
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
 async function showPage(page) {
 
@@ -100,29 +107,27 @@ async function showPage(page) {
         "finance"
     ];
 
-
     pages.forEach(function(name) {
 
-        const pageElement =
+        const element =
             document.getElementById(
                 name + "-page"
             );
 
-        if (pageElement) {
-            pageElement.style.display = "none";
+        if (element) {
+            element.style.display = "none";
         }
 
     });
 
 
-    const selectedPage =
+    const selected =
         document.getElementById(
             page + "-page"
         );
 
-
-    if (selectedPage) {
-        selectedPage.style.display = "block";
+    if (selected) {
+        selected.style.display = "block";
     }
 
 
@@ -131,23 +136,26 @@ async function showPage(page) {
             ".menu button"
         );
 
-
     buttons.forEach(function(button) {
         button.classList.remove("active");
     });
 
 
-    const clickedButton =
-        Array.from(buttons).find(function(button) {
+    const clicked =
+        Array.from(buttons).find(
+            function(button) {
 
-            return button.getAttribute("onclick") ===
-                "showPage('" + page + "')";
+                return (
+                    button.getAttribute("onclick") ===
+                    "showPage('" + page + "')"
+                );
 
-        });
+            }
+        );
 
 
-    if (clickedButton) {
-        clickedButton.classList.add("active");
+    if (clicked) {
+        clicked.classList.add("active");
     }
 
 
@@ -160,7 +168,22 @@ async function showPage(page) {
     }
 
     if (page === "schedule") {
+
+        const scheduleMonth =
+            document.getElementById(
+                "schedule-month"
+            );
+
+        if (
+            scheduleMonth &&
+            !scheduleMonth.value
+        ) {
+            scheduleMonth.value =
+                getCurrentMonth();
+        }
+
         await loadSchedule();
+
     }
 
     if (page === "inventory") {
@@ -174,9 +197,9 @@ async function showPage(page) {
 }
 
 
-// =========================================================
-// DASHBOARD
-// =========================================================
+/* =========================================================
+   DASHBOARD
+========================================================= */
 
 async function updateDashboard() {
 
@@ -215,94 +238,84 @@ async function updateDashboard() {
         });
 
 
-    const totalEventElement =
+    const totalEvent =
         document.getElementById(
             "total-event"
         );
 
-
-    const totalFinishedElement =
+    const totalFinished =
         document.getElementById(
             "total-finished"
         );
 
-
-    const totalFullIncomeElement =
+    const totalFullIncome =
         document.getElementById(
             "total-full-income"
         );
 
-
-    const totalPersonIncomeElement =
+    const totalPersonIncome =
         document.getElementById(
             "total-person-income"
         );
 
 
-    if (totalEventElement) {
-
-        totalEventElement.textContent =
+    if (totalEvent) {
+        totalEvent.textContent =
             activeEvents.length;
-
     }
 
 
-    if (totalFinishedElement) {
-
-        totalFinishedElement.textContent =
+    if (totalFinished) {
+        totalFinished.textContent =
             finishedEvents.length;
-
     }
 
 
-    let totalFullIncome = 0;
-
-    let totalPersonIncome = 0;
+    let fullIncome = 0;
+    let personIncome = 0;
 
 
     finishedEvents.forEach(function(event) {
 
-        const income =
-            Number(event.pendapatan_final) || 0;
+        const amount =
+            Number(
+                event.pendapatan_final
+            ) || 0;
 
 
-        if (event.income_type === "full") {
-
-            totalFullIncome += income;
-
+        if (
+            event.income_type === "full"
+        ) {
+            fullIncome += amount;
         }
 
 
-        if (event.income_type === "per-person") {
-
-            totalPersonIncome += income;
-
+        if (
+            event.income_type === "per-person"
+        ) {
+            personIncome += amount;
         }
 
     });
 
 
-    if (totalFullIncomeElement) {
-
-        totalFullIncomeElement.textContent =
-            formatRupiah(totalFullIncome);
-
+    if (totalFullIncome) {
+        totalFullIncome.textContent =
+            formatRupiah(fullIncome);
     }
 
 
-    if (totalPersonIncomeElement) {
-
-        totalPersonIncomeElement.textContent =
-            formatRupiah(totalPersonIncome);
-
+    if (totalPersonIncome) {
+        totalPersonIncome.textContent =
+            formatRupiah(personIncome);
     }
 
 }
 
 
-// =========================================================
-// EVENT FORM
-// =========================================================
+/* =========================================================
+   EVENT FORM
+========================================================= */
 
 function showForm() {
 
@@ -311,11 +324,9 @@ function showForm() {
             "event-form"
         );
 
-
     if (form) {
         form.style.display = "block";
     }
-
 
     toggleIncomeType();
 
@@ -329,11 +340,9 @@ function hideForm() {
             "event-form"
         );
 
-
     if (form) {
         form.style.display = "none";
     }
-
 
     clearEventForm();
 
@@ -342,17 +351,14 @@ function hideForm() {
 
 function clearEventForm() {
 
-    const ids = [
+    [
         "event-name",
         "event-client",
         "event-date",
         "event-location",
         "event-price",
         "price-per-person"
-    ];
-
-
-    ids.forEach(function(id) {
+    ].forEach(function(id) {
 
         const element =
             document.getElementById(id);
@@ -368,7 +374,6 @@ function clearEventForm() {
         document.getElementById(
             "income-type"
         );
-
 
     if (incomeType) {
         incomeType.value = "full";
@@ -387,14 +392,12 @@ function toggleIncomeType() {
             "income-type"
         );
 
-
-    const fullPriceBox =
+    const fullBox =
         document.getElementById(
             "full-price-box"
         );
 
-
-    const perPersonPriceBox =
+    const perPersonBox =
         document.getElementById(
             "per-person-price-box"
         );
@@ -402,27 +405,29 @@ function toggleIncomeType() {
 
     if (
         !incomeType ||
-        !fullPriceBox ||
-        !perPersonPriceBox
+        !fullBox ||
+        !perPersonBox
     ) {
         return;
     }
 
 
-    if (incomeType.value === "full") {
+    if (
+        incomeType.value === "full"
+    ) {
 
-        fullPriceBox.style.display =
+        fullBox.style.display =
             "block";
 
-        perPersonPriceBox.style.display =
+        perPersonBox.style.display =
             "none";
 
     } else {
 
-        fullPriceBox.style.display =
+        fullBox.style.display =
             "none";
 
-        perPersonPriceBox.style.display =
+        perPersonBox.style.display =
             "block";
 
     }
@@ -430,9 +435,9 @@ function toggleIncomeType() {
 }
 
 
-// =========================================================
-// SIMPAN EVENT
-// =========================================================
+/* =========================================================
+   SAVE EVENT
+========================================================= */
 
 async function saveEvent() {
 
@@ -441,30 +446,25 @@ async function saveEvent() {
             "event-name"
         ).value.trim();
 
-
     const klien =
         document.getElementById(
             "event-client"
         ).value.trim();
-
 
     const tanggal =
         document.getElementById(
             "event-date"
         ).value;
 
-
     const lokasi =
         document.getElementById(
             "event-location"
         ).value.trim();
 
-
     const incomeType =
         document.getElementById(
             "income-type"
         ).value;
-
 
     const hargaFull =
         Number(
@@ -472,7 +472,6 @@ async function saveEvent() {
                 "event-price"
             ).value
         ) || 0;
-
 
     const hargaPerPerson =
         Number(
@@ -574,9 +573,9 @@ async function saveEvent() {
 }
 
 
-// =========================================================
-// LOAD EVENTS
-// =========================================================
+/* =========================================================
+   LOAD EVENTS
+========================================================= */
 
 async function loadEvents() {
 
@@ -584,7 +583,6 @@ async function loadEvents() {
         document.getElementById(
             "event-list"
         );
-
 
     if (!eventList) {
         return;
@@ -598,15 +596,17 @@ async function loadEvents() {
         .from("events")
         .select("*")
         .eq("status", "aktif")
-        .order("tanggal", {
-            ascending: true
-        });
+        .order(
+            "tanggal",
+            {
+                ascending: true
+            }
+        );
 
 
     if (error) {
 
         console.error(error);
-
         return;
     }
 
@@ -621,7 +621,6 @@ async function loadEvents() {
 
         eventList.innerHTML = `
             <div class="event">
-
                 <div class="event-name">
                     BELUM ADA EVENT
                 </div>
@@ -629,7 +628,6 @@ async function loadEvents() {
                 <div class="event-info">
                     Tambahkan event pertama kamu.
                 </div>
-
             </div>
         `;
 
@@ -640,11 +638,11 @@ async function loadEvents() {
     events.forEach(function(event) {
 
         const card =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
-
-        card.className =
-            "event";
+        card.className = "event";
 
 
         let incomeInfo = "";
@@ -668,7 +666,6 @@ async function loadEvents() {
                     event.harga
                 ) +
                 " / orang";
-
         }
 
 
@@ -678,26 +675,21 @@ async function loadEvents() {
                 📸 ${event.nama_event}
             </div>
 
-
             <div class="event-info">
                 👤 Klien: ${event.klien || "-"}
             </div>
-
 
             <div class="event-info">
                 📅 ${event.tanggal || "-"}
             </div>
 
-
             <div class="event-info">
                 📍 ${event.lokasi || "-"}
             </div>
 
-
             <div class="event-info">
                 ${incomeInfo}
             </div>
-
 
             <div class="event-actions">
 
@@ -709,7 +701,6 @@ async function loadEvents() {
                     ✓ SELESAI
                 </button>
 
-
                 <button
                     type="button"
                     class="cancel-event-button"
@@ -717,7 +708,6 @@ async function loadEvents() {
                 >
                     ✕ BATAL
                 </button>
-
 
                 <button
                     type="button"
@@ -739,9 +729,9 @@ async function loadEvents() {
 }
 
 
-// =========================================================
-// FINISH EVENT
-// =========================================================
+/* =========================================================
+   FINISH EVENT + AUTO FINANCE
+========================================================= */
 
 async function finishEvent(id) {
 
@@ -755,26 +745,31 @@ async function finishEvent(id) {
         .single();
 
 
-    if (error || !event) {
+    if (
+        error ||
+        !event
+    ) {
 
         console.error(error);
 
-        alert("Event tidak ditemukan.");
+        alert(
+            "Event tidak ditemukan."
+        );
 
         return;
     }
 
 
     let jumlahOrang =
-        Number(event.jumlah_orang) || 0;
+        Number(
+            event.jumlah_orang
+        ) || 0;
 
     let pendapatanFinal =
-        Number(event.pendapatan_final) || 0;
+        Number(
+            event.pendapatan_final
+        ) || 0;
 
-
-    // =========================================
-    // HITUNG PENDAPATAN EVENT
-    // =========================================
 
     if (
         event.income_type === "per-person"
@@ -808,7 +803,6 @@ async function finishEvent(id) {
         pendapatanFinal =
             jumlahOrang *
             (Number(event.harga) || 0);
-
     }
 
 
@@ -818,11 +812,12 @@ async function finishEvent(id) {
 
         pendapatanFinal =
             Number(event.harga) || 0;
-
     }
 
 
-    if (pendapatanFinal <= 0) {
+    if (
+        pendapatanFinal <= 0
+    ) {
 
         alert(
             "Pendapatan event belum valid."
@@ -831,10 +826,6 @@ async function finishEvent(id) {
         return;
     }
 
-
-    // =========================================
-    // SELESAIKAN EVENT
-    // =========================================
 
     const {
         error: updateError
@@ -862,9 +853,7 @@ async function finishEvent(id) {
     }
 
 
-    // =========================================
-    // CEK TRANSAKSI EVENT
-    // =========================================
+    /* cek apakah sudah ada transaksi event */
 
     const {
         data: existingTransaction,
@@ -881,22 +870,13 @@ async function finishEvent(id) {
     if (transactionCheckError) {
 
         console.error(
-            "Gagal mengecek transaksi:",
             transactionCheckError
-        );
-
-        alert(
-            "Event selesai, tetapi transaksi Keuangan gagal dicek."
         );
 
     } else if (
         !existingTransaction ||
         existingTransaction.length === 0
     ) {
-
-        // =====================================
-        // BUAT PEMASUKAN OTOMATIS
-        // =====================================
 
         const {
             error: transactionInsertError
@@ -913,7 +893,8 @@ async function finishEvent(id) {
                         event.nama_event,
                     event_id: event.id,
                     transaction_date:
-                        event.tanggal || getToday()
+                        event.tanggal ||
+                        getToday()
                 }
             ]);
 
@@ -921,12 +902,11 @@ async function finishEvent(id) {
         if (transactionInsertError) {
 
             console.error(
-                "Gagal membuat transaksi:",
                 transactionInsertError
             );
 
             alert(
-                "Event berhasil diselesaikan, tetapi pemasukan belum masuk ke Keuangan."
+                "Event selesai, tetapi pemasukan gagal dibuat."
             );
 
         }
@@ -934,34 +914,76 @@ async function finishEvent(id) {
     }
 
 
-    // =========================================
-    // REFRESH SEMUA
-    // =========================================
-
     await loadEvents();
-
     await updateDashboard();
-
     await loadSchedule();
-
-    await loadFinancePage();
+    await loadFinanceSummary();
 
 }
 
 
-// =========================================================
-// DELETE EVENT
-// =========================================================
+/* =========================================================
+   CANCEL EVENT
+========================================================= */
+
+async function cancelEvent(id) {
+
+    const ok =
+        confirm(
+            "Yakin ingin membatalkan event ini?"
+        );
+
+
+    if (!ok) {
+        return;
+    }
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("events")
+        .update({
+            status: "batal",
+            pendapatan_final: 0,
+            tanggal_selesai:
+                new Date().toISOString()
+        })
+        .eq("id", id);
+
+
+    if (error) {
+
+        console.error(error);
+
+        alert(
+            "Gagal membatalkan event."
+        );
+
+        return;
+    }
+
+
+    await loadEvents();
+    await updateDashboard();
+    await loadSchedule();
+
+}
+
+
+/* =========================================================
+   DELETE EVENT
+========================================================= */
 
 async function deleteEvent(id) {
 
-    const confirmDelete =
+    const ok =
         confirm(
             "Hapus event ini?"
         );
 
 
-    if (!confirmDelete) {
+    if (!ok) {
         return;
     }
 
@@ -993,9 +1015,9 @@ async function deleteEvent(id) {
 }
 
 
-// =========================================================
-// JADWAL
-// =========================================================
+/* =========================================================
+   SCHEDULE CALENDAR
+========================================================= */
 
 async function loadSchedule() {
 
@@ -1004,17 +1026,12 @@ async function loadSchedule() {
             "schedule-calendar-grid"
         );
 
-    const scheduleList =
-        document.getElementById(
-            "schedule-list"
-        );
-
-    const scheduleMonth =
+    const monthInput =
         document.getElementById(
             "schedule-month"
         );
 
-    const scheduleTitle =
+    const monthTitle =
         document.getElementById(
             "schedule-month-title"
         );
@@ -1022,23 +1039,23 @@ async function loadSchedule() {
 
     if (
         !calendarGrid ||
-        !scheduleMonth ||
-        !scheduleTitle
+        !monthInput ||
+        !monthTitle
     ) {
         return;
     }
 
 
-    if (!scheduleMonth.value) {
+    if (!monthInput.value) {
 
-        scheduleMonth.value =
+        monthInput.value =
             getCurrentMonth();
 
     }
 
 
     const selectedMonth =
-        scheduleMonth.value;
+        monthInput.value;
 
 
     const [year, month] =
@@ -1073,59 +1090,53 @@ async function loadSchedule() {
         ) % 7;
 
 
-    const monthName =
+    monthTitle.textContent =
         new Intl.DateTimeFormat(
             "id-ID",
             {
                 month: "long",
                 year: "numeric"
             }
-        ).format(
+        )
+        .format(
             new Date(
                 year,
                 month - 1,
                 1
             )
-        );
-
-
-    scheduleTitle.textContent =
-        monthName.toUpperCase();
-
-
-    let query =
-        supabaseClient
-            .from("events")
-            .select("*")
-            .in(
-                "status",
-                [
-                    "aktif",
-                    "selesai"
-                ]
-            )
-            .gte(
-                "tanggal",
-                selectedMonth + "-01"
-            )
-            .lt(
-                "tanggal",
-                getNextMonth(
-                    selectedMonth
-                )
-            )
-            .order(
-                "tanggal",
-                {
-                    ascending: true
-                }
-            );
+        )
+        .toUpperCase();
 
 
     const {
         data: events,
         error
-    } = await query;
+    } = await supabaseClient
+        .from("events")
+        .select("*")
+        .in(
+            "status",
+            [
+                "aktif",
+                "selesai"
+            ]
+        )
+        .gte(
+            "tanggal",
+            selectedMonth + "-01"
+        )
+        .lt(
+            "tanggal",
+            getNextMonth(
+                selectedMonth
+            )
+        )
+        .order(
+            "tanggal",
+            {
+                ascending: true
+            }
+        );
 
 
     if (error) {
@@ -1135,38 +1146,45 @@ async function loadSchedule() {
             error
         );
 
+        calendarGrid.innerHTML = `
+            <div style="
+                grid-column: 1 / -1;
+                padding: 30px;
+                text-align:center;
+                font-family:Poppins,sans-serif;
+                color:#7189a5;
+            ">
+                Gagal memuat kalender.
+            </div>
+        `;
+
         return;
     }
 
 
-    const monthEvents =
-        events || [];
-
-
-    const eventsByDate =
+    const grouped =
         {};
 
 
-    monthEvents.forEach(function(event) {
+    (events || []).forEach(
+        function(event) {
 
-        if (!eventsByDate[event.tanggal]) {
+            if (!grouped[event.tanggal]) {
+                grouped[event.tanggal] = [];
+            }
 
-            eventsByDate[event.tanggal] =
-                [];
+            grouped[event.tanggal].push(
+                event
+            );
 
         }
-
-        eventsByDate[event.tanggal].push(
-            event
-        );
-
-    });
+    );
 
 
     calendarGrid.innerHTML = "";
 
 
-    /* ruang sebelum tanggal 1 */
+    /* kotak kosong sebelum tanggal 1 */
 
     for (
         let i = 0;
@@ -1174,14 +1192,16 @@ async function loadSchedule() {
         i++
     ) {
 
-        const emptyDay =
-            document.createElement("div");
+        const empty =
+            document.createElement(
+                "div"
+            );
 
-        emptyDay.className =
+        empty.className =
             "schedule-day empty";
 
         calendarGrid.appendChild(
-            emptyDay
+            empty
         );
 
     }
@@ -1189,7 +1209,6 @@ async function loadSchedule() {
 
     const today =
         new Date();
-
 
     const todayString =
         today.getFullYear() +
@@ -1219,7 +1238,9 @@ async function loadSchedule() {
 
 
         const dayBox =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         dayBox.className =
             "schedule-day";
@@ -1238,7 +1259,9 @@ async function loadSchedule() {
 
 
         const number =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         number.className =
             "schedule-day-number";
@@ -1247,83 +1270,86 @@ async function loadSchedule() {
             day;
 
 
-        dayBox.appendChild(number);
+        dayBox.appendChild(
+            number
+        );
 
 
         const dayEvents =
-            eventsByDate[
-                dateString
-            ] || [];
+            grouped[dateString] ||
+            [];
 
 
-        dayEvents.forEach(function(event) {
+        dayEvents.forEach(
+            function(event) {
 
-            const eventCard =
-                document.createElement(
-                    "div"
+                const eventCard =
+                    document.createElement(
+                        "div"
+                    );
+
+                eventCard.className =
+                    "schedule-event-card";
+
+
+                const eventName =
+                    document.createElement(
+                        "div"
+                    );
+
+                eventName.className =
+                    "schedule-event-name";
+
+                eventName.textContent =
+                    event.nama_event ||
+                    "-";
+
+
+                const location =
+                    document.createElement(
+                        "div"
+                    );
+
+                location.className =
+                    "schedule-event-location";
+
+                location.textContent =
+                    event.lokasi ||
+                    "-";
+
+
+                const client =
+                    document.createElement(
+                        "div"
+                    );
+
+                client.className =
+                    "schedule-event-client";
+
+                client.textContent =
+                    event.klien ||
+                    "-";
+
+
+                eventCard.appendChild(
+                    eventName
                 );
 
-            eventCard.className =
-                "schedule-event-card";
-
-
-            const eventName =
-                document.createElement(
-                    "div"
+                eventCard.appendChild(
+                    location
                 );
 
-            eventName.className =
-                "schedule-event-name";
-
-            eventName.textContent =
-                event.nama_event ||
-                "-";
-
-
-            const location =
-                document.createElement(
-                    "div"
+                eventCard.appendChild(
+                    client
                 );
 
-            location.className =
-                "schedule-event-location";
 
-            location.textContent =
-                event.lokasi ||
-                "-";
-
-
-            const client =
-                document.createElement(
-                    "div"
+                dayBox.appendChild(
+                    eventCard
                 );
 
-            client.className =
-                "schedule-event-client";
-
-            client.textContent =
-                event.klien ||
-                "-";
-
-
-            eventCard.appendChild(
-                eventName
-            );
-
-            eventCard.appendChild(
-                location
-            );
-
-            eventCard.appendChild(
-                client
-            );
-
-
-            dayBox.appendChild(
-                eventCard
-            );
-
-        });
+            }
+        );
 
 
         calendarGrid.appendChild(
@@ -1332,106 +1358,39 @@ async function loadSchedule() {
 
     }
 
-
-    /* daftar event di bawah kalender */
-
-    if (!scheduleList) {
-        return;
-    }
-
-
-    scheduleList.innerHTML = "";
-
-
-    if (
-        monthEvents.length === 0
-    ) {
-
-        scheduleList.innerHTML = `
-
-            <div class="event">
-
-                <div class="event-name">
-                    BELUM ADA JADWAL
-                </div>
-
-                <div class="event-info">
-                    Tidak ada event pada bulan ini.
-                </div>
-
-            </div>
-
-        `;
-
-        return;
-    }
-
-
-    monthEvents.forEach(function(event) {
-
-        const card =
-            document.createElement(
-                "div"
-            );
-
-        card.className =
-            "event";
-
-
-        card.innerHTML = `
-
-            <div class="event-name">
-                📸 ${event.nama_event}
-            </div>
-
-            <div class="event-info">
-                📅 ${event.tanggal || "-"}
-            </div>
-
-            <div class="event-info">
-                📍 ${event.lokasi || "-"}
-            </div>
-
-            <div class="event-info">
-                👤 ${event.klien || "-"}
-            </div>
-
-        `;
-
-
-        scheduleList.appendChild(
-            card
-        );
-
-    });
-
 }
 
-function changeScheduleMonth(offset) {
 
-    const scheduleMonth =
+function changeScheduleMonth(
+    offset
+) {
+
+    const monthInput =
         document.getElementById(
             "schedule-month"
         );
 
 
-    if (!scheduleMonth) {
+    if (!monthInput) {
         return;
     }
 
 
     const current =
-        scheduleMonth.value ||
+        monthInput.value ||
         getCurrentMonth();
 
 
-    const [year, month] =
+    const [
+        year,
+        month
+    ] =
         current
             .split("-")
             .map(Number);
 
 
-    const newDate =
+    const nextDate =
         new Date(
             year,
             month - 1 + offset,
@@ -1439,16 +1398,15 @@ function changeScheduleMonth(offset) {
         );
 
 
-    const newValue =
-        newDate.getFullYear() +
+    monthInput.value =
+        nextDate.getFullYear() +
         "-" +
         String(
-            newDate.getMonth() + 1
-        ).padStart(2, "0");
-
-
-    scheduleMonth.value =
-        newValue;
+            nextDate.getMonth() + 1
+        ).padStart(
+            2,
+            "0"
+        );
 
 
     loadSchedule();
@@ -1456,9 +1414,9 @@ function changeScheduleMonth(offset) {
 }
 
 
-// =========================================================
-// INVENTORY FORM
-// =========================================================
+/* =========================================================
+   INVENTORY
+========================================================= */
 
 function showInventoryForm() {
 
@@ -1467,9 +1425,9 @@ function showInventoryForm() {
             "inventory-form"
         );
 
-
     if (form) {
-        form.style.display = "block";
+        form.style.display =
+            "block";
     }
 
 }
@@ -1482,11 +1440,10 @@ function hideInventoryForm() {
             "inventory-form"
         );
 
-
     if (form) {
-        form.style.display = "none";
+        form.style.display =
+            "none";
     }
-
 
     clearInventoryForm();
 
@@ -1495,31 +1452,29 @@ function hideInventoryForm() {
 
 function clearInventoryForm() {
 
-    const ids = [
+    [
         "item-name",
         "item-brand",
         "item-quantity",
         "item-price"
-    ];
+    ].forEach(
+        function(id) {
 
+            const element =
+                document.getElementById(id);
 
-    ids.forEach(function(id) {
+            if (element) {
+                element.value = "";
+            }
 
-        const element =
-            document.getElementById(id);
-
-        if (element) {
-            element.value = "";
         }
-
-    });
+    );
 
 
     const category =
         document.getElementById(
             "item-category"
         );
-
 
     if (category) {
         category.value = "cetak";
@@ -1528,10 +1483,6 @@ function clearInventoryForm() {
 }
 
 
-// =========================================================
-// SAVE INVENTORY
-// =========================================================
-
 async function saveInventory() {
 
     const nama =
@@ -1539,18 +1490,15 @@ async function saveInventory() {
             "item-name"
         ).value.trim();
 
-
     const merk =
         document.getElementById(
             "item-brand"
         ).value.trim();
 
-
     const kategori =
         document.getElementById(
             "item-category"
         ).value;
-
 
     const jumlah =
         Number(
@@ -1558,7 +1506,6 @@ async function saveInventory() {
                 "item-quantity"
             ).value
         ) || 0;
-
 
     const harga =
         Number(
@@ -1608,15 +1555,10 @@ async function saveInventory() {
 
 
     hideInventoryForm();
-
     await loadInventory();
 
 }
 
-
-// =========================================================
-// LOAD INVENTORY
-// =========================================================
 
 async function loadInventory() {
 
@@ -1624,7 +1566,6 @@ async function loadInventory() {
         document.getElementById(
             "inventory-list"
         );
-
 
     if (!inventoryList) {
         return;
@@ -1637,18 +1578,17 @@ async function loadInventory() {
     } = await supabaseClient
         .from("inventory")
         .select("*")
-        .order("created_at", {
-            ascending: false
-        });
+        .order(
+            "created_at",
+            {
+                ascending: false
+            }
+        );
 
 
     if (error) {
 
-        console.error(
-            "Load inventory error:",
-            error
-        );
-
+        console.error(error);
         return;
     }
 
@@ -1679,147 +1619,127 @@ async function loadInventory() {
     }
 
 
-    inventory.forEach(function(item) {
+    inventory.forEach(
+        function(item) {
 
-        const card =
-            document.createElement(
-                "div"
-            );
+            const card =
+                document.createElement(
+                    "div"
+                );
 
-
-        card.className =
-            "event";
-
-
-        let kategoriText = "";
+            card.className =
+                "event";
 
 
-        if (
-            item.kategori === "cetak"
-        ) {
-
-            kategoriText =
-                "🖨️ Cetak";
-
-        } else if (
-            item.kategori === "kamera"
-        ) {
-
-            kategoriText =
-                "📷 Kamera";
-
-        } else {
-
-            kategoriText =
-                "🎭 Properti";
-
-        }
+            let kategoriText = "";
 
 
-        let stockControls = "";
+            if (
+                item.kategori === "cetak"
+            ) {
+                kategoriText =
+                    "🖨️ Cetak";
+            }
+            else if (
+                item.kategori === "kamera"
+            ) {
+                kategoriText =
+                    "📷 Kamera";
+            }
+            else {
+                kategoriText =
+                    "🎭 Properti";
+            }
 
 
-        if (
-            item.kategori === "cetak"
-        ) {
+            let stockControls = "";
 
-            stockControls = `
+
+            if (
+                item.kategori === "cetak"
+            ) {
+
+                stockControls = `
+
+                    <div class="event-actions">
+
+                        <input
+                            type="number"
+                            min="1"
+                            id="stock-input-${item.id}"
+                            placeholder="Jumlah"
+                            style="width:120px;"
+                        >
+
+                        <button
+                            type="button"
+                            onclick="updateInventoryStock(${item.id}, 'add')"
+                        >
+                            ➕ TAMBAH
+                        </button>
+
+                        <button
+                            type="button"
+                            onclick="updateInventoryStock(${item.id}, 'subtract')"
+                        >
+                            ➖ KURANGI
+                        </button>
+
+                    </div>
+
+                `;
+            }
+
+
+            card.innerHTML = `
+
+                <div class="event-name">
+                    ${item.nama}
+                </div>
+
+                <div class="event-info">
+                    🏷️ Merk: ${item.merk || "-"}
+                </div>
+
+                <div class="event-info">
+                    📂 Kategori: ${kategoriText}
+                </div>
+
+                <div class="event-info">
+                    📦 Jumlah: ${item.jumlah}
+                </div>
+
+                ${stockControls}
+
+                <div class="event-info">
+                    💰 Harga Satuan:
+                    ${formatRupiah(item.harga)}
+                </div>
 
                 <div class="event-actions">
 
-                    <input
-                        type="number"
-                        min="1"
-                        id="stock-input-${item.id}"
-                        placeholder="Jumlah"
-                        style="width:120px;"
-                    >
-
-
                     <button
                         type="button"
-                        onclick="updateInventoryStock(
-                            ${item.id},
-                            'add'
-                        )"
+                        class="delete-event-button"
+                        onclick="deleteInventory(${item.id})"
                     >
-                        ➕ TAMBAH
-                    </button>
-
-
-                    <button
-                        type="button"
-                        onclick="updateInventoryStock(
-                            ${item.id},
-                            'subtract'
-                        )"
-                    >
-                        ➖ KURANGI
+                        🗑️
                     </button>
 
                 </div>
 
             `;
 
+
+            inventoryList.appendChild(
+                card
+            );
+
         }
-
-
-        card.innerHTML = `
-
-            <div class="event-name">
-                ${item.nama}
-            </div>
-
-
-            <div class="event-info">
-                🏷️ Merk: ${item.merk || "-"}
-            </div>
-
-
-            <div class="event-info">
-                📂 Kategori: ${kategoriText}
-            </div>
-
-
-            <div class="event-info">
-                📦 Jumlah: ${item.jumlah}
-            </div>
-
-
-            ${stockControls}
-
-
-            <div class="event-info">
-                💰 Harga Satuan:
-                ${formatRupiah(item.harga)}
-            </div>
-
-
-            <div class="event-actions">
-
-                <button
-                    type="button"
-                    class="delete-event-button"
-                    onclick="deleteInventory(${item.id})"
-                >
-                    🗑️
-                </button>
-
-            </div>
-
-        `;
-
-
-        inventoryList.appendChild(card);
-
-    });
+    );
 
 }
 
-
-// =========================================================
-// UPDATE STOCK
-// =========================================================
 
 async function updateInventoryStock(
     id,
@@ -1838,7 +1758,9 @@ async function updateInventoryStock(
 
 
     const jumlah =
-        Number(input.value);
+        Number(
+            input.value
+        );
 
 
     if (
@@ -1883,21 +1805,23 @@ async function updateInventoryStock(
         Number(item.jumlah) || 0;
 
 
-    if (mode === "add") {
-
+    if (
+        mode === "add"
+    ) {
         jumlahBaru += jumlah;
-
     }
 
 
-    if (mode === "subtract") {
-
+    if (
+        mode === "subtract"
+    ) {
         jumlahBaru -= jumlah;
-
     }
 
 
-    if (jumlahBaru < 0) {
+    if (
+        jumlahBaru < 0
+    ) {
 
         alert(
             "Stok tidak boleh kurang dari 0."
@@ -1934,19 +1858,15 @@ async function updateInventoryStock(
 }
 
 
-// =========================================================
-// DELETE INVENTORY
-// =========================================================
-
 async function deleteInventory(id) {
 
-    const confirmDelete =
+    const ok =
         confirm(
             "Hapus barang ini dari inventaris?"
         );
 
 
-    if (!confirmDelete) {
+    if (!ok) {
         return;
     }
 
@@ -1976,29 +1896,28 @@ async function deleteInventory(id) {
 }
 
 
-// =========================================================
-// FINANCE UI
-// =========================================================
+/* =========================================================
+   FINANCE
+========================================================= */
 
-async function showFinanceType(type) {
+async function showFinanceType(
+    type
+) {
 
     const incomeSection =
         document.getElementById(
             "income-section"
         );
 
-
     const expenseSection =
         document.getElementById(
             "expense-section"
         );
 
-
     const incomeTab =
         document.getElementById(
             "income-tab"
         );
-
 
     const expenseTab =
         document.getElementById(
@@ -2014,7 +1933,9 @@ async function showFinanceType(type) {
     }
 
 
-    if (type === "income") {
+    if (
+        type === "income"
+    ) {
 
         incomeSection.style.display =
             "block";
@@ -2022,18 +1943,13 @@ async function showFinanceType(type) {
         expenseSection.style.display =
             "none";
 
+        incomeTab?.classList.add(
+            "active"
+        );
 
-        if (incomeTab) {
-            incomeTab.classList.add("active");
-        }
-
-
-        if (expenseTab) {
-            expenseTab.classList.remove("active");
-        }
-
-
-        await loadFinishedEventsForFinance();
+        expenseTab?.classList.remove(
+            "active"
+        );
 
     } else {
 
@@ -2043,105 +1959,30 @@ async function showFinanceType(type) {
         expenseSection.style.display =
             "block";
 
+        incomeTab?.classList.remove(
+            "active"
+        );
 
-        if (incomeTab) {
-            incomeTab.classList.remove("active");
-        }
-
-
-        if (expenseTab) {
-            expenseTab.classList.add("active");
-        }
+        expenseTab?.classList.add(
+            "active"
+        );
 
     }
 
 }
 
 
-function showIncomeCategory(category) {
-
-    const eventSection =
-        document.getElementById(
-            "income-event-section"
-        );
-
-
-    const otherSection =
-        document.getElementById(
-            "income-other-section"
-        );
-
-
-    const cards =
-        document.querySelectorAll(
-            "#income-section .finance-category-card"
-        );
-
-
-    cards.forEach(function(card) {
-        card.classList.remove("active");
-    });
-
-
-    if (category === "event") {
-
-        if (eventSection) {
-            eventSection.style.display =
-                "block";
-        }
-
-
-        if (otherSection) {
-            otherSection.style.display =
-                "none";
-        }
-
-
-        if (cards[0]) {
-            cards[0].classList.add("active");
-        }
-
-
-        loadFinishedEventsForFinance();
-
-    } else {
-
-        if (eventSection) {
-            eventSection.style.display =
-                "none";
-        }
-
-
-        if (otherSection) {
-            otherSection.style.display =
-                "block";
-        }
-
-
-        if (cards[1]) {
-            cards[1].classList.add("active");
-        }
-
-    }
-
-}
-
-
-function showExpenseCategory(category) {
+function showExpenseCategory(
+    category
+) {
 
     const select =
         document.getElementById(
             "expense-category"
         );
 
-
     if (select) {
-
-        select.value =
-            category === "other"
-                ? "other"
-                : category;
-
+        select.value = category;
     }
 
 
@@ -2151,12 +1992,16 @@ function showExpenseCategory(category) {
         );
 
 
-    cards.forEach(function(card) {
-        card.classList.remove("active");
-    });
+    cards.forEach(
+        function(card) {
+            card.classList.remove(
+                "active"
+            );
+        }
+    );
 
 
-    const indexMap = {
+    const map = {
         cetak: 0,
         kamera: 1,
         properti: 2,
@@ -2164,361 +2009,34 @@ function showExpenseCategory(category) {
     };
 
 
-    const index =
-        indexMap[category];
-
-
     if (
-        typeof index === "number" &&
-        cards[index]
+        cards[map[category]]
     ) {
 
-        cards[index].classList.add("active");
-
-    }
-
-}
-
-
-// =========================================================
-// LOAD FINANCE PAGE
-// =========================================================
-
-async function loadFinancePage() {
-
-    const monthInput =
-        document.getElementById(
-            "finance-month"
-        );
-
-
-    if (
-        monthInput &&
-        !monthInput.value
-    ) {
-
-        monthInput.value =
-            getCurrentMonth();
-
-    }
-
-
-    await showFinanceType("income");
-
-    await loadFinishedEventsForFinance();
-
-    await loadFinanceSummary();
-
-}
-
-
-// =========================================================
-// LOAD FINISHED EVENTS FOR INCOME
-// =========================================================
-
-async function loadFinishedEventsForFinance() {
-
-    const select =
-        document.getElementById(
-            "finance-event-select"
-        );
-
-
-    if (!select) {
-        return;
-    }
-
-
-    const {
-        data: events,
-        error
-    } = await supabaseClient
-        .from("events")
-        .select("*")
-        .eq("status", "selesai")
-        .order("tanggal", {
-            ascending: false
-        });
-
-
-    if (error) {
-
-        console.error(error);
-
-        select.innerHTML =
-            `
-            <option value="">
-                Gagal memuat event
-            </option>
-            `;
-
-        return;
-    }
-
-
-    if (
-        !events ||
-        events.length === 0
-    ) {
-
-        select.innerHTML =
-            `
-            <option value="">
-                Belum ada event selesai
-            </option>
-            `;
-
-        return;
-    }
-
-
-    const eventIds =
-        events.map(function(event) {
-            return event.id;
-        });
-
-
-    const {
-        data: transactions,
-        error: transactionError
-    } = await supabaseClient
-        .from("transactions")
-        .select("event_id")
-        .eq("type", "income")
-        .eq("category", "event");
-
-
-    if (transactionError) {
-
-        console.error(transactionError);
-    }
-
-
-    const usedEventIds =
-        new Set(
-            (transactions || [])
-                .map(function(item) {
-                    return item.event_id;
-                })
-                .filter(function(id) {
-                    return id !== null;
-                })
-        );
-
-
-    select.innerHTML =
-        `
-        <option value="">
-            Pilih Event
-        </option>
-        `;
-
-
-    events.forEach(function(event) {
-
-        const option =
-            document.createElement(
-                "option"
+        cards[map[category]]
+            .classList.add(
+                "active"
             );
 
-
-        option.value =
-            event.id;
-
-
-        const amount =
-            Number(
-                event.pendapatan_final
-            ) || 0;
-
-
-        const alreadyAdded =
-            usedEventIds.has(event.id);
-
-
-        option.textContent =
-            alreadyAdded
-                ? "✓ " +
-                  event.nama_event +
-                  " — " +
-                  formatRupiah(amount) +
-                  " (sudah masuk)"
-                : event.nama_event +
-                  " — " +
-                  formatRupiah(amount);
-
-
-        option.disabled =
-            alreadyAdded;
-
-
-        select.appendChild(option);
-
-    });
+    }
 
 }
 
 
-// =========================================================
-// SAVE EVENT INCOME
-// =========================================================
+/* pemasukan event sekarang otomatis,
+   jadi fungsi ini hanya untuk kompatibilitas
+   jika masih ada tombol lama di cache. */
 
-async function saveEventIncome() {
+function showIncomeCategory() {
 
-    const select =
-        document.getElementById(
-            "finance-event-select"
-        );
-
-
-    if (!select) {
-        return;
-    }
-
-
-    const eventId =
-        Number(select.value);
-
-
-    if (!eventId) {
-
-        alert(
-            "Pilih event terlebih dahulu."
-        );
-
-        return;
-    }
-
-
-    const {
-        data: event,
-        error
-    } = await supabaseClient
-        .from("events")
-        .select("*")
-        .eq("id", eventId)
-        .eq("status", "selesai")
-        .single();
-
-
-    if (
-        error ||
-        !event
-    ) {
-
-        console.error(error);
-
-        alert(
-            "Event tidak ditemukan."
-        );
-
-        return;
-    }
-
-
-    const {
-        data: existingTransaction,
-        error: checkError
-    } = await supabaseClient
-        .from("transactions")
-        .select("id")
-        .eq("type", "income")
-        .eq("category", "event")
-        .eq("event_id", eventId)
-        .limit(1);
-
-
-    if (checkError) {
-
-        console.error(checkError);
-
-        alert(
-            "Gagal mengecek transaksi."
-        );
-
-        return;
-    }
-
-
-    if (
-        existingTransaction &&
-        existingTransaction.length > 0
-    ) {
-
-        alert(
-            "Pendapatan event ini sudah masuk ke Keuangan."
-        );
-
-        await loadFinishedEventsForFinance();
-
-        return;
-    }
-
-
-    const amount =
-        Number(
-            event.pendapatan_final
-        ) || 0;
-
-
-    if (amount <= 0) {
-
-        alert(
-            "Event ini belum memiliki pendapatan."
-        );
-
-        return;
-    }
-
-
-    const {
-        error: insertError
-    } = await supabaseClient
-        .from("transactions")
-        .insert([
-            {
-                id: Date.now(),
-                type: "income",
-                category: "event",
-                amount: amount,
-                description:
-                    "Pendapatan event: " +
-                    event.nama_event,
-                event_id: event.id,
-                transaction_date:
-                    event.tanggal || getToday()
-            }
-        ]);
-
-
-    if (insertError) {
-
-        console.error(insertError);
-
-        alert(
-            "Gagal menyimpan pendapatan event: " +
-            insertError.message
-        );
-
-        return;
-    }
-
-
-    alert(
-        "Pendapatan event berhasil dimasukkan ke Keuangan."
-    );
-
-
-    await loadFinishedEventsForFinance();
-
-    await loadFinanceSummary();
+    return;
 
 }
 
 
-// =========================================================
-// SAVE OTHER INCOME
-// =========================================================
+/* =========================================================
+   OTHER INCOME
+========================================================= */
 
 async function saveOtherIncome() {
 
@@ -2527,14 +2045,12 @@ async function saveOtherIncome() {
             "income-other-description"
         ).value.trim();
 
-
     const amount =
         Number(
             document.getElementById(
                 "income-other-amount"
             ).value
         ) || 0;
-
 
     const date =
         document.getElementById(
@@ -2553,7 +2069,9 @@ async function saveOtherIncome() {
     }
 
 
-    if (amount <= 0) {
+    if (
+        amount <= 0
+    ) {
 
         alert(
             "Masukkan nominal pemasukan."
@@ -2597,30 +2115,27 @@ async function saveOtherIncome() {
         "income-other-description"
     ).value = "";
 
-
     document.getElementById(
         "income-other-amount"
     ).value = "";
-
 
     document.getElementById(
         "income-other-date"
     ).value = "";
 
 
+    await loadFinanceSummary();
+
     alert(
         "Pemasukan berhasil disimpan."
     );
 
-
-    await loadFinanceSummary();
-
 }
 
 
-// =========================================================
-// SAVE EXPENSE
-// =========================================================
+/* =========================================================
+   EXPENSE
+========================================================= */
 
 async function saveExpense() {
 
@@ -2629,12 +2144,10 @@ async function saveExpense() {
             "expense-category"
         ).value;
 
-
     const description =
         document.getElementById(
             "expense-description"
         ).value.trim();
-
 
     const amount =
         Number(
@@ -2642,7 +2155,6 @@ async function saveExpense() {
                 "expense-amount"
             ).value
         ) || 0;
-
 
     const date =
         document.getElementById(
@@ -2671,7 +2183,9 @@ async function saveExpense() {
     }
 
 
-    if (amount <= 0) {
+    if (
+        amount <= 0
+    ) {
 
         alert(
             "Masukkan nominal pengeluaran."
@@ -2715,42 +2229,100 @@ async function saveExpense() {
         "expense-description"
     ).value = "";
 
-
     document.getElementById(
         "expense-amount"
     ).value = "";
-
 
     document.getElementById(
         "expense-date"
     ).value = "";
 
 
+    await loadFinanceSummary();
+
     alert(
         "Pengeluaran berhasil disimpan."
     );
 
+}
+
+
+/* =========================================================
+   FINANCE SUMMARY
+========================================================= */
+
+async function loadFinancePage() {
+
+    const monthInput =
+        document.getElementById(
+            "finance-month"
+        );
+
+
+    if (
+        monthInput &&
+        !monthInput.value
+    ) {
+        monthInput.value =
+            getCurrentMonth();
+    }
+
+
+    const incomeDate =
+        document.getElementById(
+            "income-other-date"
+        );
+
+    const expenseDate =
+        document.getElementById(
+            "expense-date"
+        );
+
+
+    if (
+        incomeDate &&
+        !incomeDate.value
+    ) {
+        incomeDate.value =
+            getToday();
+    }
+
+
+    if (
+        expenseDate &&
+        !expenseDate.value
+    ) {
+        expenseDate.value =
+            getToday();
+    }
+
+
+    await showFinanceType(
+        "income"
+    );
 
     await loadFinanceSummary();
 
 }
 
 
-// =========================================================
-// FINANCE SUMMARY
-// =========================================================
-
 async function loadFinanceSummary() {
 
     const monthInput =
-        document.getElementById("finance-month");
+        document.getElementById(
+            "finance-month"
+        );
+
 
     if (!monthInput) {
         return;
     }
 
+
     const selectedMonth =
-        monthInput.value || getCurrentMonth();
+        monthInput.value ||
+        getCurrentMonth();
+
 
     const {
         data: transactions,
@@ -2764,24 +2336,36 @@ async function loadFinanceSummary() {
         )
         .lt(
             "transaction_date",
-            getNextMonth(selectedMonth)
+            getNextMonth(
+                selectedMonth
+            )
         )
-        .order("transaction_date", {
-            ascending: false
-        });
+        .order(
+            "transaction_date",
+            {
+                ascending: false
+            }
+        );
+
 
     if (error) {
+
         console.error(
             "Finance summary error:",
             error
         );
+
         return;
     }
 
-    const list = transactions || [];
+
+    const list =
+        transactions || [];
+
 
     let totalIncome = 0;
     let totalExpense = 0;
+
 
     const expenseByCategory = {
         cetak: 0,
@@ -2790,36 +2374,56 @@ async function loadFinanceSummary() {
         other: 0
     };
 
-    list.forEach(function(transaction) {
 
-        const amount =
-            Number(transaction.amount) || 0;
+    list.forEach(
+        function(transaction) {
 
-        if (transaction.type === "income") {
-            totalIncome += amount;
-        }
+            const amount =
+                Number(
+                    transaction.amount
+                ) || 0;
 
-        if (transaction.type === "expense") {
-
-            totalExpense += amount;
 
             if (
-                Object.prototype.hasOwnProperty.call(
-                    expenseByCategory,
-                    transaction.category
-                )
+                transaction.type === "income"
             ) {
-                expenseByCategory[
-                    transaction.category
-                ] += amount;
+
+                totalIncome +=
+                    amount;
+
+            }
+
+
+            if (
+                transaction.type === "expense"
+            ) {
+
+                totalExpense +=
+                    amount;
+
+
+                if (
+                    Object.prototype.hasOwnProperty.call(
+                        expenseByCategory,
+                        transaction.category
+                    )
+                ) {
+
+                    expenseByCategory[
+                        transaction.category
+                    ] += amount;
+
+                }
+
             }
 
         }
+    );
 
-    });
 
     const profit =
-        totalIncome - totalExpense;
+        totalIncome -
+        totalExpense;
 
 
     const incomeElement =
@@ -2840,17 +2444,25 @@ async function loadFinanceSummary() {
 
     if (incomeElement) {
         incomeElement.textContent =
-            formatRupiah(totalIncome);
+            formatRupiah(
+                totalIncome
+            );
     }
+
 
     if (expenseElement) {
         expenseElement.textContent =
-            formatRupiah(totalExpense);
+            formatRupiah(
+                totalExpense
+            );
     }
+
 
     if (profitElement) {
         profitElement.textContent =
-            formatRupiah(profit);
+            formatRupiah(
+                profit
+            );
     }
 
 
@@ -2862,18 +2474,22 @@ async function loadFinanceSummary() {
     );
 
 
-    await renderFinanceTransactions(list);
+    await renderFinanceTransactions(
+        list
+    );
 
 }
 
 
-// =========================================================
-// FINANCE CHART
-// =========================================================
+/* =========================================================
+   FINANCE CHART
+========================================================= */
 
 function renderFinanceChart(
     totalIncome,
-    totalExpense
+    totalExpense,
+    profit,
+    expenseByCategory
 ) {
 
     const chart =
@@ -2891,6 +2507,7 @@ function renderFinanceChart(
         Math.max(
             totalIncome,
             totalExpense,
+            Math.abs(profit),
             1
         );
 
@@ -2899,8 +2516,9 @@ function renderFinanceChart(
         Math.max(
             18,
             Math.round(
-                (totalIncome / maximum) *
-                180
+                totalIncome /
+                maximum *
+                170
             )
         );
 
@@ -2909,137 +2527,289 @@ function renderFinanceChart(
         Math.max(
             18,
             Math.round(
-                (totalExpense / maximum) *
-                180
+                totalExpense /
+                maximum *
+                170
             )
+        );
+
+
+    const profitHeight =
+        Math.max(
+            18,
+            Math.round(
+                Math.abs(profit) /
+                maximum *
+                170
+            )
+        );
+
+
+    const profitColor =
+        profit >= 0
+            ? "#4ca879"
+            : "#d85b5b";
+
+
+    const rows = [
+        {
+            label: "🖨️ CETAK",
+            value: expenseByCategory.cetak
+        },
+        {
+            label: "📷 KAMERA",
+            value: expenseByCategory.kamera
+        },
+        {
+            label: "🎭 PROPERTI",
+            value: expenseByCategory.properti
+        },
+        {
+            label: "➕ LAINNYA",
+            value: expenseByCategory.other
+        }
+    ];
+
+
+    const maxCategory =
+        Math.max(
+            ...rows.map(
+                function(item) {
+                    return item.value;
+                }
+            ),
+            1
         );
 
 
     chart.innerHTML = `
 
-        <div
-            style="
+        <div style="
+            width:100%;
+            display:flex;
+            flex-direction:column;
+            gap:28px;
+        ">
+
+            <div style="
                 width:100%;
+                height:240px;
                 display:flex;
-                flex-direction:column;
-                gap:16px;
-                align-items:center;
-            "
-        >
+                justify-content:center;
+                align-items:flex-end;
+                gap:28px;
+            ">
 
-            <div
-                style="
-                    width:100%;
+                <div style="
+                    height:100%;
                     display:flex;
-                    justify-content:center;
-                    align-items:flex-end;
-                    gap:36px;
-                    height:210px;
-                "
-            >
+                    flex-direction:column;
+                    align-items:center;
+                    justify-content:flex-end;
+                    gap:7px;
+                    min-width:80px;
+                ">
 
-                <div
-                    style="
-                        height:100%;
-                        display:flex;
-                        flex-direction:column;
-                        align-items:center;
-                        justify-content:flex-end;
-                        gap:8px;
-                    "
-                >
-
-                    <div
-                        style="
-                            font-family:Poppins,sans-serif;
-                            font-weight:700;
-                            font-size:12px;
-                            color:#2877c8;
-                        "
-                    >
+                    <div style="
+                        font-family:Poppins,sans-serif;
+                        font-size:11px;
+                        font-weight:700;
+                        color:#2877c8;
+                    ">
                         ${formatRupiah(totalIncome)}
                     </div>
 
-                    <div
-                        style="
-                            width:70px;
-                            height:${incomeHeight}px;
-                            border-radius:14px 14px 6px 6px;
-                            background:linear-gradient(
-                                180deg,
-                                #69b7ff,
-                                #2f7fd1
-                            );
-                            box-shadow:
-                                0 8px 18px
-                                rgba(40,119,200,0.18);
-                        "
-                    ></div>
+                    <div style="
+                        width:65px;
+                        height:${incomeHeight}px;
+                        border-radius:14px 14px 6px 6px;
+                        background:linear-gradient(
+                            180deg,
+                            #69b7ff,
+                            #2f7fd1
+                        );
+                    "></div>
 
-                    <div
-                        style="
-                            font-family:Poppins,sans-serif;
-                            font-weight:700;
-                            font-size:12px;
-                            color:#21456f;
-                        "
-                    >
+                    <div style="
+                        font-family:Poppins,sans-serif;
+                        font-size:11px;
+                        font-weight:700;
+                        color:#21456f;
+                    ">
                         PEMASUKAN
                     </div>
 
                 </div>
 
 
-                <div
-                    style="
-                        height:100%;
-                        display:flex;
-                        flex-direction:column;
-                        align-items:center;
-                        justify-content:flex-end;
-                        gap:8px;
-                    "
-                >
+                <div style="
+                    height:100%;
+                    display:flex;
+                    flex-direction:column;
+                    align-items:center;
+                    justify-content:flex-end;
+                    gap:7px;
+                    min-width:80px;
+                ">
 
-                    <div
-                        style="
-                            font-family:Poppins,sans-serif;
-                            font-weight:700;
-                            font-size:12px;
-                            color:#a83d3d;
-                        "
-                    >
+                    <div style="
+                        font-family:Poppins,sans-serif;
+                        font-size:11px;
+                        font-weight:700;
+                        color:#a83d3d;
+                    ">
                         ${formatRupiah(totalExpense)}
                     </div>
 
-                    <div
-                        style="
-                            width:70px;
-                            height:${expenseHeight}px;
-                            border-radius:14px 14px 6px 6px;
-                            background:linear-gradient(
-                                180deg,
-                                #f49a9a,
-                                #d85b5b
-                            );
-                            box-shadow:
-                                0 8px 18px
-                                rgba(180,70,70,0.15);
-                        "
-                    ></div>
+                    <div style="
+                        width:65px;
+                        height:${expenseHeight}px;
+                        border-radius:14px 14px 6px 6px;
+                        background:linear-gradient(
+                            180deg,
+                            #f49a9a,
+                            #d85b5b
+                        );
+                    "></div>
 
-                    <div
-                        style="
-                            font-family:Poppins,sans-serif;
-                            font-weight:700;
-                            font-size:12px;
-                            color:#21456f;
-                        "
-                    >
+                    <div style="
+                        font-family:Poppins,sans-serif;
+                        font-size:11px;
+                        font-weight:700;
+                        color:#21456f;
+                    ">
                         PENGELUARAN
                     </div>
 
                 </div>
+
+
+                <div style="
+                    height:100%;
+                    display:flex;
+                    flex-direction:column;
+                    align-items:center;
+                    justify-content:flex-end;
+                    gap:7px;
+                    min-width:80px;
+                ">
+
+                    <div style="
+                        font-family:Poppins,sans-serif;
+                        font-size:11px;
+                        font-weight:700;
+                        color:${profitColor};
+                    ">
+                        ${formatRupiah(profit)}
+                    </div>
+
+                    <div style="
+                        width:65px;
+                        height:${profitHeight}px;
+                        border-radius:14px 14px 6px 6px;
+                        background:${profitColor};
+                        opacity:0.82;
+                    "></div>
+
+                    <div style="
+                        font-family:Poppins,sans-serif;
+                        font-size:11px;
+                        font-weight:700;
+                        color:#21456f;
+                    ">
+                        LABA BERSIH
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div style="
+                width:100%;
+                display:flex;
+                flex-direction:column;
+                gap:11px;
+            ">
+
+                <div style="
+                    font-family:Chicken Pie,sans-serif;
+                    text-transform:uppercase;
+                    font-size:18px;
+                    color:#173b68;
+                ">
+                    RINCIAN PENGELUARAN
+                </div>
+
+                ${
+                    rows.map(
+                        function(item) {
+
+                            const width =
+                                Math.max(
+                                    0,
+                                    Math.round(
+                                        item.value /
+                                        maxCategory *
+                                        100
+                                    )
+                                );
+
+                            return `
+                                <div style="
+                                    width:100%;
+                                    display:grid;
+                                    grid-template-columns:115px 1fr auto;
+                                    align-items:center;
+                                    gap:9px;
+                                ">
+
+                                    <div style="
+                                        font-family:Poppins,sans-serif;
+                                        font-size:11px;
+                                        font-weight:700;
+                                        color:#21456f;
+                                    ">
+                                        ${item.label}
+                                    </div>
+
+                                    <div style="
+                                        width:100%;
+                                        height:10px;
+                                        border-radius:999px;
+                                        background:rgba(47,127,209,0.10);
+                                        overflow:hidden;
+                                    ">
+
+                                        <div style="
+                                            width:${width}%;
+                                            height:100%;
+                                            border-radius:999px;
+                                            background:linear-gradient(
+                                                90deg,
+                                                #69b7ff,
+                                                #2f7fd1
+                                            );
+                                        "></div>
+
+                                    </div>
+
+                                    <div style="
+                                        font-family:Poppins,sans-serif;
+                                        font-size:11px;
+                                        font-weight:700;
+                                        color:#21456f;
+                                        text-align:right;
+                                    ">
+                                        ${formatRupiah(item.value)}
+                                    </div>
+
+                                </div>
+                            `;
+
+                        }
+                    ).join("")
+                }
 
             </div>
 
@@ -3049,9 +2819,9 @@ function renderFinanceChart(
 }
 
 
-// =========================================================
-// RENDER TRANSACTIONS
-// =========================================================
+/* =========================================================
+   FINANCE TRANSACTIONS
+========================================================= */
 
 async function renderFinanceTransactions(
     transactions
@@ -3077,7 +2847,6 @@ async function renderFinanceTransactions(
     ) {
 
         financeList.innerHTML = `
-
             <div class="finance-card">
 
                 <div class="finance-name">
@@ -3089,44 +2858,35 @@ async function renderFinanceTransactions(
                 </div>
 
             </div>
-
         `;
 
         return;
     }
 
 
-    let eventIds = [];
-
-
-    transactions.forEach(function(item) {
-
-        if (
-            item.event_id !== null &&
-            item.event_id !== undefined
-        ) {
-
-            eventIds.push(
-                item.event_id
+    const eventIds =
+        transactions
+            .map(
+                function(item) {
+                    return item.event_id;
+                }
+            )
+            .filter(
+                function(id) {
+                    return id !== null &&
+                        id !== undefined;
+                }
             );
 
-        }
 
-    });
-
-
-    let eventsMap = new Map();
+    const eventsMap =
+        new Map();
 
 
     if (eventIds.length > 0) {
 
-        const uniqueEventIds =
-            [...new Set(eventIds)];
-
-
         const {
-            data: events,
-            error
+            data: events
         } = await supabaseClient
             .from("events")
             .select(
@@ -3134,246 +2894,186 @@ async function renderFinanceTransactions(
             )
             .in(
                 "id",
-                uniqueEventIds
+                [...new Set(eventIds)]
             );
 
 
-        if (!error && events) {
-
-            events.forEach(function(event) {
+        (events || []).forEach(
+            function(event) {
 
                 eventsMap.set(
                     event.id,
                     event.nama_event
                 );
 
-            });
-
-        }
+            }
+        );
 
     }
 
 
-    transactions.forEach(function(transaction) {
+    transactions.forEach(
+        function(transaction) {
 
-        const card =
-            document.createElement(
-                "div"
-            );
-
-
-        card.className =
-            "finance-card";
+            const card =
+                document.createElement(
+                    "div"
+                );
 
 
-        const amount =
-            Number(
-                transaction.amount
-            ) || 0;
+            card.className =
+                "finance-card";
 
 
-        const isIncome =
-            transaction.type === "income";
+            const income =
+                transaction.type ===
+                "income";
 
 
-        let categoryText =
-            transaction.category;
+            let categoryText =
+                transaction.category;
 
 
-        if (
-            transaction.category === "event"
-        ) {
+            if (
+                transaction.type === "income" &&
+                transaction.category === "event"
+            ) {
+                categoryText =
+                    "📸 PENDAPATAN EVENT";
+            }
 
-            categoryText =
-                "📸 PENDAPATAN EVENT";
+            if (
+                transaction.type === "income" &&
+                transaction.category === "other"
+            ) {
+                categoryText =
+                    "➕ PEMASUKAN LAINNYA";
+            }
 
-        }
+            if (
+                transaction.category === "cetak"
+            ) {
+                categoryText =
+                    "🖨️ KEBUTUHAN CETAK";
+            }
 
+            if (
+                transaction.category === "kamera"
+            ) {
+                categoryText =
+                    "📷 KEBUTUHAN KAMERA";
+            }
 
-        if (
-            transaction.category === "other" &&
-            transaction.type === "income"
-        ) {
+            if (
+                transaction.category === "properti"
+            ) {
+                categoryText =
+                    "🎭 KEBUTUHAN PROPERTI";
+            }
 
-            categoryText =
-                "➕ PEMASUKAN LAINNYA";
-
-        }
-
-
-        if (
-            transaction.category === "cetak"
-        ) {
-
-            categoryText =
-                "🖨️ KEBUTUHAN CETAK";
-
-        }
-
-
-        if (
-            transaction.category === "kamera"
-        ) {
-
-            categoryText =
-                "📷 KEBUTUHAN KAMERA";
-
-        }
-
-
-        if (
-            transaction.category === "properti"
-        ) {
-
-            categoryText =
-                "🎭 KEBUTUHAN PROPERTI";
-
-        }
-
-
-        if (
-            transaction.category === "other" &&
-            transaction.type === "expense"
-        ) {
-
-            categoryText =
-                "➕ PENGELUARAN LAINNYA";
-
-        }
-
-
-        const eventName =
-            transaction.event_id !== null
-                ? eventsMap.get(
-                    transaction.event_id
-                )
-                : "";
-
-
-        const amountColor =
-            isIncome
-                ? "#2877c8"
-                : "#a83d3d";
-
-
-        const amountPrefix =
-            isIncome
-                ? "+ "
-                : "- ";
-
-
-        card.innerHTML = `
-
-            <div class="finance-name">
-                ${categoryText}
-            </div>
-
-
-            <div class="finance-info">
-                📅 ${transaction.transaction_date}
-            </div>
-
-
-            <div class="finance-info">
-                ${transaction.description || "-"}
-            </div>
-
-
-            ${
-                eventName
-                    ? `
-                        <div class="finance-info">
-                            📸 EVENT:
-                            ${eventName}
-                        </div>
-                    `
-                    : ""
+            if (
+                transaction.type === "expense" &&
+                transaction.category === "other"
+            ) {
+                categoryText =
+                    "➕ PENGELUARAN LAINNYA";
             }
 
 
-            <div
-                class="finance-income"
-                style="color:${amountColor};"
-            >
-                ${amountPrefix}${formatRupiah(amount)}
-            </div>
-
-        `;
+            const eventName =
+                transaction.event_id !== null
+                    ? eventsMap.get(
+                        transaction.event_id
+                    )
+                    : "";
 
 
-        financeList.appendChild(card);
-
-    });
-
-}
-
-
-// =========================================================
-// FINANCE INITIAL STATE
-// =========================================================
-
-function setDefaultFinanceDate() {
-
-    const incomeDate =
-        document.getElementById(
-            "income-other-date"
-        );
+            const color =
+                income
+                    ? "#2877c8"
+                    : "#a83d3d";
 
 
-    const expenseDate =
-        document.getElementById(
-            "expense-date"
-        );
+            const prefix =
+                income
+                    ? "+ "
+                    : "- ";
 
 
-    if (
-        incomeDate &&
-        !incomeDate.value
-    ) {
+            card.innerHTML = `
 
-        incomeDate.value =
-            getToday();
+                <div class="finance-name">
+                    ${categoryText}
+                </div>
 
-    }
+                <div class="finance-info">
+                    📅 ${transaction.transaction_date}
+                </div>
+
+                <div class="finance-info">
+                    ${transaction.description || "-"}
+                </div>
+
+                ${
+                    eventName
+                        ? `
+                            <div class="finance-info">
+                                📸 EVENT:
+                                ${eventName}
+                            </div>
+                        `
+                        : ""
+                }
+
+                <div
+                    class="finance-income"
+                    style="color:${color};"
+                >
+                    ${prefix}
+                    ${formatRupiah(
+                        transaction.amount
+                    )}
+                </div>
+
+            `;
 
 
-    if (
-        expenseDate &&
-        !expenseDate.value
-    ) {
+            financeList.appendChild(
+                card
+            );
 
-        expenseDate.value =
-            getToday();
-
-    }
-
-}
-
-
-// =========================================================
-// LOAD FINANCE OLD COMPATIBILITY
-// =========================================================
-
-async function loadFinance() {
-
-    await loadFinanceSummary();
+        }
+    );
 
 }
 
 
-// =========================================================
-// INITIAL LOAD
-// =========================================================
+/* =========================================================
+   INITIAL LOAD
+========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     async function() {
 
-        setDefaultFinanceDate();
-
         await updateDashboard();
 
         await loadEvents();
+
+        const scheduleMonth =
+            document.getElementById(
+                "schedule-month"
+            );
+
+        if (
+            scheduleMonth &&
+            !scheduleMonth.value
+        ) {
+
+            scheduleMonth.value =
+                getCurrentMonth();
+        }
+
 
         await loadSchedule();
 
@@ -3383,4 +3083,3 @@ document.addEventListener(
 
     }
 );
-
