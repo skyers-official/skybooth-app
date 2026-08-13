@@ -372,25 +372,22 @@
 
 
         .menu button.active {
+            background: linear-gradient(
+                135deg,
+                #69b7ff,
+                #2f7fd1
+            );
 
-            background:
+            color: #ffffff;
 
-                linear-gradient(
-                    135deg,
-                    rgba(88,170,247,0.95),
-                    rgba(40,119,200,0.92)
-                );
+            border: 1px solid rgba(255,255,255,0.78);
 
-            color:
-                white;
-
-            border-color:
-                rgba(255,255,255,0.70);
+            border-radius: 999px;
 
             box-shadow:
-                0 10px 25px
-                rgba(40,119,200,0.22);
+                0 8px 20px rgba(40,119,200,0.22);
 
+            padding: 12px 18px;
         }
 
 
@@ -1210,31 +1207,26 @@
 
 
             .menu {
-
-                flex-direction:
-                    row;
-
-                overflow-x:
-                    auto;
-
-                padding-bottom:
-                    3px;
-
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                overflow-x: auto;
+                padding: 3px 2px 6px;
             }
-
 
             .menu button {
+                min-width: 145px;
+                width: 145px;
+                flex: 0 0 145px;
 
-                min-width:
-                    120px;
+                white-space: nowrap;
+                text-align: center;
 
-                white-space:
-                    nowrap;
+                padding: 12px 14px;
 
-                text-align:
-                    center;
-
+                border-radius: 999px;
             }
+
 
 
             .content {
