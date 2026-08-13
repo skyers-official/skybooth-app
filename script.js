@@ -759,6 +759,8 @@ async function finishEvent(id) {
 
         console.error(error);
 
+        alert("Event tidak ditemukan.");
+
         return;
     }
 
@@ -766,10 +768,13 @@ async function finishEvent(id) {
     let jumlahOrang =
         Number(event.jumlah_orang) || 0;
 
-
     let pendapatanFinal =
         Number(event.pendapatan_final) || 0;
 
+
+    // =========================================
+    // HITUNG PENDAPATAN EVENT
+    // =========================================
 
     if (
         event.income_type === "per-person"
@@ -817,6 +822,20 @@ async function finishEvent(id) {
     }
 
 
+    if (pendapatanFinal <= 0) {
+
+        alert(
+            "Pendapatan event belum valid."
+        );
+
+        return;
+    }
+
+
+    // =========================================
+    // SELESAIKAN EVENT
+    // =========================================
+
     const {
         error: updateError
     } = await supabaseClient
@@ -843,59 +862,88 @@ async function finishEvent(id) {
     }
 
 
-    await loadEvents();
-    await updateDashboard();
-    await loadSchedule();
-    await loadFinancePage();
-
-}
-
-
-// =========================================================
-// CANCEL EVENT
-// =========================================================
-
-async function cancelEvent(id) {
-
-    const confirmCancel =
-        confirm(
-            "Yakin ingin membatalkan event ini?"
-        );
-
-
-    if (!confirmCancel) {
-        return;
-    }
-
+    // =========================================
+    // CEK TRANSAKSI EVENT
+    // =========================================
 
     const {
-        error
+        data: existingTransaction,
+        error: transactionCheckError
     } = await supabaseClient
-        .from("events")
-        .update({
-            status: "batal",
-            pendapatan_final: 0,
-            tanggal_selesai:
-                new Date().toISOString()
-        })
-        .eq("id", id);
+        .from("transactions")
+        .select("id")
+        .eq("type", "income")
+        .eq("category", "event")
+        .eq("event_id", event.id)
+        .limit(1);
 
 
-    if (error) {
+    if (transactionCheckError) {
 
-        console.error(error);
-
-        alert(
-            "Gagal membatalkan event."
+        console.error(
+            "Gagal mengecek transaksi:",
+            transactionCheckError
         );
 
-        return;
+        alert(
+            "Event selesai, tetapi transaksi Keuangan gagal dicek."
+        );
+
+    } else if (
+        !existingTransaction ||
+        existingTransaction.length === 0
+    ) {
+
+        // =====================================
+        // BUAT PEMASUKAN OTOMATIS
+        // =====================================
+
+        const {
+            error: transactionInsertError
+        } = await supabaseClient
+            .from("transactions")
+            .insert([
+                {
+                    id: Date.now(),
+                    type: "income",
+                    category: "event",
+                    amount: pendapatanFinal,
+                    description:
+                        "Pendapatan event: " +
+                        event.nama_event,
+                    event_id: event.id,
+                    transaction_date:
+                        event.tanggal || getToday()
+                }
+            ]);
+
+
+        if (transactionInsertError) {
+
+            console.error(
+                "Gagal membuat transaksi:",
+                transactionInsertError
+            );
+
+            alert(
+                "Event berhasil diselesaikan, tetapi pemasukan belum masuk ke Keuangan."
+            );
+
+        }
+
     }
 
 
+    // =========================================
+    // REFRESH SEMUA
+    // =========================================
+
     await loadEvents();
+
     await updateDashboard();
+
     await loadSchedule();
+
     await loadFinancePage();
 
 }
@@ -951,23 +999,41 @@ async function deleteEvent(id) {
 
 async function loadSchedule() {
 
+    const calendarGrid =
+        document.getElementById(
+            "schedule-calendar-grid"
+        );
+
     const scheduleList =
         document.getElementById(
             "schedule-list"
         );
-
 
     const scheduleMonth =
         document.getElementById(
             "schedule-month"
         );
 
+    const scheduleTitle =
+        document.getElementById(
+            "schedule-month-title"
+        );
+
 
     if (
-        !scheduleList ||
-        !scheduleMonth
+        !calendarGrid ||
+        !scheduleMonth ||
+        !scheduleTitle
     ) {
         return;
+    }
+
+
+    if (!scheduleMonth.value) {
+
+        scheduleMonth.value =
+            getCurrentMonth();
+
     }
 
 
@@ -975,32 +1041,85 @@ async function loadSchedule() {
         scheduleMonth.value;
 
 
+    const [year, month] =
+        selectedMonth
+            .split("-")
+            .map(Number);
+
+
+    const firstDay =
+        new Date(
+            Date.UTC(
+                year,
+                month - 1,
+                1
+            )
+        );
+
+
+    const daysInMonth =
+        new Date(
+            Date.UTC(
+                year,
+                month,
+                0
+            )
+        ).getUTCDate();
+
+
+    const firstWeekday =
+        (
+            firstDay.getUTCDay() + 6
+        ) % 7;
+
+
+    const monthName =
+        new Intl.DateTimeFormat(
+            "id-ID",
+            {
+                month: "long",
+                year: "numeric"
+            }
+        ).format(
+            new Date(
+                year,
+                month - 1,
+                1
+            )
+        );
+
+
+    scheduleTitle.textContent =
+        monthName.toUpperCase();
+
+
     let query =
         supabaseClient
             .from("events")
             .select("*")
-            .eq("status", "aktif")
-            .order("tanggal", {
-                ascending: true
-            });
-
-
-    if (selectedMonth) {
-
-        query =
-            query
-                .gte(
-                    "tanggal",
-                    selectedMonth + "-01"
+            .in(
+                "status",
+                [
+                    "aktif",
+                    "selesai"
+                ]
+            )
+            .gte(
+                "tanggal",
+                selectedMonth + "-01"
+            )
+            .lt(
+                "tanggal",
+                getNextMonth(
+                    selectedMonth
                 )
-                .lt(
-                    "tanggal",
-                    getNextMonth(
-                        selectedMonth
-                    )
-                );
-
-    }
+            )
+            .order(
+                "tanggal",
+                {
+                    ascending: true
+                }
+            );
 
 
     const {
@@ -1011,8 +1130,212 @@ async function loadSchedule() {
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            "Schedule error:",
+            error
+        );
 
+        return;
+    }
+
+
+    const monthEvents =
+        events || [];
+
+
+    const eventsByDate =
+        {};
+
+
+    monthEvents.forEach(function(event) {
+
+        if (!eventsByDate[event.tanggal]) {
+
+            eventsByDate[event.tanggal] =
+                [];
+
+        }
+
+        eventsByDate[event.tanggal].push(
+            event
+        );
+
+    });
+
+
+    calendarGrid.innerHTML = "";
+
+
+    /* ruang sebelum tanggal 1 */
+
+    for (
+        let i = 0;
+        i < firstWeekday;
+        i++
+    ) {
+
+        const emptyDay =
+            document.createElement("div");
+
+        emptyDay.className =
+            "schedule-day empty";
+
+        calendarGrid.appendChild(
+            emptyDay
+        );
+
+    }
+
+
+    const today =
+        new Date();
+
+
+    const todayString =
+        today.getFullYear() +
+        "-" +
+        String(
+            today.getMonth() + 1
+        ).padStart(2, "0") +
+        "-" +
+        String(
+            today.getDate()
+        ).padStart(2, "0");
+
+
+    for (
+        let day = 1;
+        day <= daysInMonth;
+        day++
+    ) {
+
+        const dateString =
+            selectedMonth +
+            "-" +
+            String(day).padStart(
+                2,
+                "0"
+            );
+
+
+        const dayBox =
+            document.createElement("div");
+
+        dayBox.className =
+            "schedule-day";
+
+
+        if (
+            dateString ===
+            todayString
+        ) {
+
+            dayBox.classList.add(
+                "today"
+            );
+
+        }
+
+
+        const number =
+            document.createElement("div");
+
+        number.className =
+            "schedule-day-number";
+
+        number.textContent =
+            day;
+
+
+        dayBox.appendChild(number);
+
+
+        const dayEvents =
+            eventsByDate[
+                dateString
+            ] || [];
+
+
+        dayEvents.forEach(function(event) {
+
+            const eventCard =
+                document.createElement(
+                    "div"
+                );
+
+            eventCard.className =
+                "schedule-event-card";
+
+
+            const eventName =
+                document.createElement(
+                    "div"
+                );
+
+            eventName.className =
+                "schedule-event-name";
+
+            eventName.textContent =
+                event.nama_event ||
+                "-";
+
+
+            const location =
+                document.createElement(
+                    "div"
+                );
+
+            location.className =
+                "schedule-event-location";
+
+            location.textContent =
+                event.lokasi ||
+                "-";
+
+
+            const client =
+                document.createElement(
+                    "div"
+                );
+
+            client.className =
+                "schedule-event-client";
+
+            client.textContent =
+                event.klien ||
+                "-";
+
+
+            eventCard.appendChild(
+                eventName
+            );
+
+            eventCard.appendChild(
+                location
+            );
+
+            eventCard.appendChild(
+                client
+            );
+
+
+            dayBox.appendChild(
+                eventCard
+            );
+
+        });
+
+
+        calendarGrid.appendChild(
+            dayBox
+        );
+
+    }
+
+
+    /* daftar event di bawah kalender */
+
+    if (!scheduleList) {
         return;
     }
 
@@ -1021,11 +1344,11 @@ async function loadSchedule() {
 
 
     if (
-        !events ||
-        events.length === 0
+        monthEvents.length === 0
     ) {
 
         scheduleList.innerHTML = `
+
             <div class="event">
 
                 <div class="event-name">
@@ -1033,27 +1356,23 @@ async function loadSchedule() {
                 </div>
 
                 <div class="event-info">
-                    ${
-                        selectedMonth
-                            ? "Tidak ada event pada bulan ini."
-                            : "Pilih bulan untuk melihat jadwal event."
-                    }
+                    Tidak ada event pada bulan ini.
                 </div>
 
             </div>
+
         `;
 
         return;
     }
 
 
-    events.forEach(function(event) {
+    monthEvents.forEach(function(event) {
 
         const card =
             document.createElement(
                 "div"
             );
-
 
         card.className =
             "event";
@@ -1065,27 +1384,74 @@ async function loadSchedule() {
                 📸 ${event.nama_event}
             </div>
 
-
             <div class="event-info">
                 📅 ${event.tanggal || "-"}
             </div>
-
-
-            <div class="event-info">
-                👤 ${event.klien || "-"}
-            </div>
-
 
             <div class="event-info">
                 📍 ${event.lokasi || "-"}
             </div>
 
+            <div class="event-info">
+                👤 ${event.klien || "-"}
+            </div>
+
         `;
 
 
-        scheduleList.appendChild(card);
+        scheduleList.appendChild(
+            card
+        );
 
     });
+
+}
+
+function changeScheduleMonth(offset) {
+
+    const scheduleMonth =
+        document.getElementById(
+            "schedule-month"
+        );
+
+
+    if (!scheduleMonth) {
+        return;
+    }
+
+
+    const current =
+        scheduleMonth.value ||
+        getCurrentMonth();
+
+
+    const [year, month] =
+        current
+            .split("-")
+            .map(Number);
+
+
+    const newDate =
+        new Date(
+            year,
+            month - 1 + offset,
+            1
+        );
+
+
+    const newValue =
+        newDate.getFullYear() +
+        "-" +
+        String(
+            newDate.getMonth() + 1
+        ).padStart(2, "0");
+
+
+    scheduleMonth.value =
+        newValue;
+
+
+    loadSchedule();
 
 }
 
@@ -2377,20 +2743,14 @@ async function saveExpense() {
 async function loadFinanceSummary() {
 
     const monthInput =
-        document.getElementById(
-            "finance-month"
-        );
-
+        document.getElementById("finance-month");
 
     if (!monthInput) {
         return;
     }
 
-
     const selectedMonth =
-        monthInput.value ||
-        getCurrentMonth();
-
+        monthInput.value || getCurrentMonth();
 
     const {
         data: transactions,
@@ -2406,65 +2766,60 @@ async function loadFinanceSummary() {
             "transaction_date",
             getNextMonth(selectedMonth)
         )
-        .order(
-            "transaction_date",
-            {
-                ascending: false
-            }
-        );
-
+        .order("transaction_date", {
+            ascending: false
+        });
 
     if (error) {
-
         console.error(
             "Finance summary error:",
             error
         );
-
         return;
     }
 
-
-    const list =
-        transactions || [];
-
+    const list = transactions || [];
 
     let totalIncome = 0;
-
     let totalExpense = 0;
 
+    const expenseByCategory = {
+        cetak: 0,
+        kamera: 0,
+        properti: 0,
+        other: 0
+    };
 
     list.forEach(function(transaction) {
 
         const amount =
-            Number(
-                transaction.amount
-            ) || 0;
+            Number(transaction.amount) || 0;
 
-
-        if (
-            transaction.type === "income"
-        ) {
-
+        if (transaction.type === "income") {
             totalIncome += amount;
-
         }
 
-
-        if (
-            transaction.type === "expense"
-        ) {
+        if (transaction.type === "expense") {
 
             totalExpense += amount;
+
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    expenseByCategory,
+                    transaction.category
+                )
+            ) {
+                expenseByCategory[
+                    transaction.category
+                ] += amount;
+            }
 
         }
 
     });
 
-
     const profit =
-        totalIncome -
-        totalExpense;
+        totalIncome - totalExpense;
 
 
     const incomeElement =
@@ -2472,12 +2827,10 @@ async function loadFinanceSummary() {
             "finance-summary-income"
         );
 
-
     const expenseElement =
         document.getElementById(
             "finance-summary-expense"
         );
-
 
     const profitElement =
         document.getElementById(
@@ -2486,44 +2839,30 @@ async function loadFinanceSummary() {
 
 
     if (incomeElement) {
-
         incomeElement.textContent =
-            formatRupiah(
-                totalIncome
-            );
-
+            formatRupiah(totalIncome);
     }
-
 
     if (expenseElement) {
-
         expenseElement.textContent =
-            formatRupiah(
-                totalExpense
-            );
-
+            formatRupiah(totalExpense);
     }
 
-
     if (profitElement) {
-
         profitElement.textContent =
-            formatRupiah(
-                profit
-            );
-
+            formatRupiah(profit);
     }
 
 
     renderFinanceChart(
         totalIncome,
-        totalExpense
+        totalExpense,
+        profit,
+        expenseByCategory
     );
 
 
-    renderFinanceTransactions(
-        list
-    );
+    await renderFinanceTransactions(list);
 
 }
 
