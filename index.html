@@ -2,6 +2,7 @@
 <html lang="id">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -11,36 +12,67 @@
 
     <title>Sky Booth</title>
 
+
     <style>
 
         @import url(
             'https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap'
         );
 
+
         @font-face {
-            font-family: "Chicken Pie";
-            src: url("CHICKEN Pie Height.otf") format("opentype");
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
+
+            font-family:
+                "Chicken Pie";
+
+            src:
+                url("CHICKEN Pie Height.otf")
+                format("opentype");
+
+            font-weight:
+                normal;
+
+            font-style:
+                normal;
+
+            font-display:
+                swap;
         }
 
-        :root {
-            --sky-light: #eef8ff;
-            --sky: #dceeff;
-            --sky-blue: #58aaf7;
-            --sky-blue-dark: #2877c8;
-            --navy: #173b68;
-            --text: #21456f;
-            --text-soft: #7189a5;
 
-            --glass-border: rgba(255,255,255,0.75);
+        :root {
+
+            --sky-light:
+                #eef8ff;
+
+            --sky:
+                #dceeff;
+
+            --sky-blue:
+                #58aaf7;
+
+            --sky-blue-dark:
+                #2877c8;
+
+            --navy:
+                #173b68;
+
+            --text:
+                #21456f;
+
+            --text-soft:
+                #7189a5;
+
+            --glass-border:
+                rgba(255,255,255,0.75);
 
             --shadow:
-                0 16px 40px rgba(53,122,190,0.15);
+                0 16px 40px
+                rgba(53,122,190,0.15);
 
             --shadow-soft:
-                0 8px 24px rgba(53,122,190,0.10);
+                0 8px 24px
+                rgba(53,122,190,0.10);
         }
 
 
@@ -49,19 +81,29 @@
         ====================================================== */
 
         * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+
+            box-sizing:
+                border-box;
+
+            margin:
+                0;
+
+            padding:
+                0;
         }
 
 
         html {
-            scroll-behavior: smooth;
+
+            scroll-behavior:
+                smooth;
         }
 
 
         body {
-            min-height: 100vh;
+
+            min-height:
+                100vh;
 
             font-family:
                 "Poppins",
@@ -74,6 +116,7 @@
                 var(--text);
 
             background:
+
                 radial-gradient(
                     circle at 10% 15%,
                     rgba(255,255,255,0.95) 0 7%,
@@ -107,6 +150,10 @@
         }
 
 
+        /* =====================================================
+           TYPOGRAPHY
+        ====================================================== */
+
         h1,
         h2,
         h3,
@@ -118,6 +165,7 @@
         .finance-category-name,
         .schedule-month-title,
         .schedule-event-name {
+
             font-family:
                 "Chicken Pie",
                 sans-serif;
@@ -137,16 +185,18 @@
         .event-name,
         .finance-name,
         .finance-category-name {
+
             text-transform:
                 uppercase;
         }
 
 
         /* =====================================================
-           PIN WELCOME SCREEN
+           WELCOME SCREEN
         ====================================================== */
 
         .welcome-screen {
+
             position:
                 fixed;
 
@@ -188,15 +238,23 @@
                     #dceeff,
                     #bfe1ff
                 );
+
+            transition:
+                opacity
+                0.25s ease;
         }
 
 
         .welcome-card {
+
             width:
-                min(380px,100%);
+                min(390px, 100%);
 
             padding:
-                34px 28px 30px;
+                42px 30px;
+
+            text-align:
+                center;
 
             border:
                 1px solid
@@ -206,6 +264,7 @@
                 30px;
 
             background:
+
                 linear-gradient(
                     145deg,
                     rgba(255,255,255,0.68),
@@ -221,28 +280,20 @@
             box-shadow:
                 0 24px 60px
                 rgba(40,119,200,0.18);
-
-            text-align:
-                center;
-        }
-
-
-        .welcome-brand {
-            margin-bottom:
-                24px;
         }
 
 
         .welcome-logo {
+
             font-family:
                 "Chicken Pie",
                 sans-serif;
 
             font-size:
-                43px;
+                46px;
 
             line-height:
-                0.95;
+                1;
 
             color:
                 #2f73d8;
@@ -251,243 +302,52 @@
                 0.8px #ffffff;
 
             text-shadow:
-                0 2px 0 rgba(255,255,255,0.95),
-                0 6px 12px rgba(20,65,130,0.25);
+
+                0 2px 0
+                rgba(255,255,255,0.95),
+
+                0 6px 12px
+                rgba(20,65,130,0.25);
         }
 
 
         .welcome-logo span {
+
             color:
                 #2f73d8;
         }
 
 
-        .welcome-app {
+        .welcome-title {
+
             margin-top:
-                4px;
+                15px;
 
             font-family:
-                "Poppins",
+                "Chicken Pie",
                 sans-serif;
 
             font-size:
-                11px;
-
-            font-weight:
-                700;
+                24px;
 
             letter-spacing:
-                2.2px;
-
-            text-transform:
-                uppercase;
+                0.8px;
 
             color:
-                #7189a5;
+                var(--navy);
         }
 
 
-        .pin-label {
-            font-family:
-                "Poppins",
-                sans-serif;
+        .welcome-button {
 
-            font-size:
-                11px;
-
-            font-weight:
-                700;
-
-            letter-spacing:
-                1.2px;
-
-            color:
-                #7189a5;
-
-            margin-bottom:
-                13px;
-        }
-
-
-        .pin-dots {
-            display:
-                flex;
-
-            justify-content:
-                center;
-
-            gap:
-                11px;
-
-            min-height:
-                18px;
-
-            margin-bottom:
-                14px;
-        }
-
-
-        .pin-dots span {
-            width:
-                10px;
-
-            height:
-                10px;
-
-            border-radius:
-                50%;
-
-            background:
-                rgba(113,137,165,0.22);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.75);
-
-            transition:
-                0.15s ease;
-        }
-
-
-        .pin-dots span.filled {
-            background:
-                #2f73d8;
-
-            box-shadow:
-                0 3px 8px
-                rgba(47,115,216,0.25);
-
-            transform:
-                scale(1.08);
-        }
-
-
-        .pin-error {
-            min-height:
-                19px;
-
-            margin-bottom:
-                5px;
-
-            font-family:
-                "Poppins",
-                sans-serif;
-
-            font-size:
-                11px;
-
-            font-weight:
-                600;
-
-            color:
-                #b04444;
-        }
-
-
-        .pin-keypad {
             width:
                 100%;
 
-            display:
-                grid;
-
-            grid-template-columns:
-                repeat(3,1fr);
-
-            gap:
-                10px;
-
             margin-top:
-                6px;
-        }
+                30px;
 
-
-        .pin-key {
-            height:
-                58px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.78);
-
-            border-radius:
-                17px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(255,255,255,0.72),
-                    rgba(255,255,255,0.38)
-                );
-
-            color:
-                #21456f;
-
-            font-family:
-                "Poppins",
-                sans-serif;
-
-            font-size:
-                20px;
-
-            font-weight:
-                700;
-
-            cursor:
-                pointer;
-
-            box-shadow:
-                0 7px 16px
-                rgba(53,122,190,0.08);
-
-            backdrop-filter:
-                blur(12px);
-
-            -webkit-backdrop-filter:
-                blur(12px);
-
-            transition:
-                transform 0.1s ease,
-                background 0.1s ease;
-        }
-
-
-        .pin-key:hover {
-            background:
-                rgba(255,255,255,0.70);
-        }
-
-
-        .pin-key:active {
-            transform:
-                scale(0.95);
-        }
-
-
-        .pin-zero {
-            grid-column:
-                span 2;
-        }
-
-
-        .pin-delete {
-            font-size:
-                23px;
-
-            color:
-                #7189a5;
-        }
-
-
-        .pin-submit {
-            width:
-                100%;
-
-            height:
-                52px;
-
-            margin-top:
-                14px;
+            padding:
+                14px 20px;
 
             border:
                 1px solid
@@ -497,6 +357,7 @@
                 999px;
 
             background:
+
                 linear-gradient(
                     135deg,
                     #69b7ff,
@@ -528,35 +389,17 @@
         }
 
 
-        .pin-submit:disabled {
-            opacity:
-                0.42;
+        .welcome-button:hover {
 
-            cursor:
-                not-allowed;
-
-            box-shadow:
-                none;
+            transform:
+                translateY(-1px);
         }
 
 
-        .pin-submit:not(:disabled):active {
+        .welcome-button:active {
+
             transform:
                 scale(0.98);
-        }
-
-
-        /* Sembunyikan aplikasi saat belum login */
-
-        body:not(.logged-in) .app {
-            visibility:
-                hidden;
-        }
-
-
-        body:not(.logged-in) .ticker-bar {
-            display:
-                none;
         }
 
 
@@ -565,6 +408,7 @@
         ====================================================== */
 
         .app {
+
             min-height:
                 calc(100vh - 38px);
 
@@ -584,6 +428,7 @@
         ====================================================== */
 
         .sidebar {
+
             width:
                 245px;
 
@@ -603,6 +448,7 @@
                 26px 18px;
 
             background:
+
                 linear-gradient(
                     145deg,
                     rgba(255,255,255,0.65),
@@ -634,6 +480,7 @@
 
 
         .brand-box {
+
             text-align:
                 center;
 
@@ -643,6 +490,7 @@
 
 
         .logo {
+
             font-family:
                 "Chicken Pie",
                 sans-serif !important;
@@ -660,21 +508,22 @@
                 0.8px #ffffff;
 
             text-shadow:
-                0 2px 0 rgba(255,255,255,0.95),
-                0 5px 9px rgba(20,65,130,0.28);
+
+                0 2px 0
+                rgba(255,255,255,0.95),
+
+                0 5px 9px
+                rgba(20,65,130,0.28);
         }
 
 
         .logo span {
+
             color:
                 #2f73d8 !important;
 
             -webkit-text-stroke:
                 0.8px #ffffff;
-
-            text-shadow:
-                0 2px 0 rgba(255,255,255,0.95),
-                0 5px 9px rgba(20,65,130,0.28);
         }
 
 
@@ -683,6 +532,7 @@
         ====================================================== */
 
         .menu {
+
             display:
                 flex;
 
@@ -695,6 +545,7 @@
 
 
         .menu button {
+
             width:
                 100%;
 
@@ -736,6 +587,7 @@
 
 
         .menu button:hover {
+
             background:
                 rgba(255,255,255,0.45);
 
@@ -751,7 +603,9 @@
 
 
         .menu button.active {
+
             background:
+
                 linear-gradient(
                     135deg,
                     #69b7ff,
@@ -778,98 +632,11 @@
 
 
         /* =====================================================
-           LOGOUT
-        ====================================================== */
-
-        .sidebar-logout {
-            width:
-                100%;
-
-            margin-top:
-                auto;
-
-            padding-top:
-                24px;
-        }
-
-
-        .logout-button {
-            display:
-                block;
-
-            width:
-                100%;
-
-            min-height:
-                46px;
-
-            border:
-                1px solid
-                rgba(255,255,255,0.72);
-
-            border-radius:
-                999px;
-
-            background:
-                rgba(255,255,255,0.42);
-
-            color:
-                #a83d3d;
-
-            font-family:
-                "Poppins",
-                sans-serif;
-
-            font-size:
-                13px;
-
-            font-weight:
-                700;
-
-            text-align:
-                center;
-
-            cursor:
-                pointer;
-
-            opacity:
-                1;
-
-            visibility:
-                visible;
-
-            box-shadow:
-                0 6px 16px
-                rgba(53,122,190,0.07);
-
-            transition:
-                0.2s ease;
-        }
-
-
-        .logout-button:hover {
-            background:
-                rgba(239,108,108,0.13);
-
-            color:
-                #8f3030;
-
-            transform:
-                translateY(-1px);
-        }
-
-
-        .logout-button:active {
-            transform:
-                scale(0.98);
-        }
-
-
-        /* =====================================================
            CONTENT
         ====================================================== */
 
         .content {
+
             flex:
                 1;
 
@@ -882,6 +649,7 @@
 
 
         .header h1 {
+
             font-size:
                 34px;
 
@@ -891,6 +659,7 @@
 
 
         .header p {
+
             margin-top:
                 7px;
 
@@ -906,7 +675,12 @@
         }
 
 
+        /* =====================================================
+           CARDS
+        ====================================================== */
+
         .cards {
+
             display:
                 grid;
 
@@ -925,7 +699,9 @@
 
 
         .card {
+
             background:
+
                 linear-gradient(
                     145deg,
                     rgba(255,255,255,0.66),
@@ -954,6 +730,7 @@
 
 
         .card-title {
+
             color:
                 var(--text-soft);
 
@@ -973,6 +750,7 @@
 
 
         .card-value {
+
             font-size:
                 30px;
 
@@ -982,12 +760,14 @@
 
 
         .section {
+
             margin-top:
                 28px;
         }
 
 
         .section-title {
+
             font-size:
                 23px;
 
@@ -1000,11 +780,12 @@
 
 
         /* =====================================================
-           GLASS PANELS
+           EVENT / FINANCE PANEL
         ====================================================== */
 
         .event,
         .finance-card {
+
             display:
                 block;
 
@@ -1012,6 +793,7 @@
                 100%;
 
             background:
+
                 linear-gradient(
                     145deg,
                     rgba(255,255,255,0.65),
@@ -1043,6 +825,7 @@
 
 
         .event {
+
             position:
                 relative;
 
@@ -1052,6 +835,7 @@
 
 
         .event::before {
+
             content:
                 "";
 
@@ -1071,6 +855,7 @@
                 -50px;
 
             background:
+
                 radial-gradient(
                     circle,
                     rgba(255,255,255,0.55),
@@ -1084,6 +869,7 @@
 
         .event-name,
         .finance-name {
+
             font-size:
                 20px;
 
@@ -1097,6 +883,7 @@
 
         .event-info,
         .finance-info {
+
             font-family:
                 "Poppins",
                 sans-serif;
@@ -1119,16 +906,18 @@
 
 
         /* =====================================================
-           FORM
+           FORMS
         ====================================================== */
 
         .event-form-box {
+
             max-width:
                 650px;
         }
 
 
         .event-form-box h2 {
+
             font-size:
                 25px;
 
@@ -1141,6 +930,7 @@
 
 
         label {
+
             display:
                 block;
 
@@ -1167,6 +957,7 @@
 
         input,
         select {
+
             width:
                 100%;
 
@@ -1212,6 +1003,7 @@
 
 
         input::placeholder {
+
             color:
                 #8ba0ba;
         }
@@ -1219,10 +1011,12 @@
 
         input:focus,
         select:focus {
+
             border-color:
                 rgba(40,119,200,0.60);
 
             box-shadow:
+
                 0 0 0 4px
                 rgba(88,170,247,0.11);
         }
@@ -1233,6 +1027,7 @@
         ====================================================== */
 
         .form-actions {
+
             display:
                 flex;
 
@@ -1249,11 +1044,13 @@
 
         .add-event-button,
         .save-button {
+
             border:
                 1px solid
                 rgba(255,255,255,0.70);
 
             background:
+
                 linear-gradient(
                     135deg,
                     var(--sky-blue),
@@ -1286,6 +1083,7 @@
 
 
         .cancel-button {
+
             border:
                 1px solid
                 rgba(255,255,255,0.72);
@@ -1315,6 +1113,7 @@
 
 
         .event-actions {
+
             display:
                 flex;
 
@@ -1333,6 +1132,7 @@
 
 
         .event-actions button {
+
             border:
                 1px solid
                 rgba(255,255,255,0.68);
@@ -1356,6 +1156,7 @@
 
 
         .finish-event-button {
+
             background:
                 rgba(66,181,126,0.16);
 
@@ -1365,6 +1166,7 @@
 
 
         .cancel-event-button {
+
             background:
                 rgba(239,108,108,0.15);
 
@@ -1374,6 +1176,7 @@
 
 
         .delete-event-button {
+
             background:
                 rgba(255,255,255,0.38);
 
@@ -1387,6 +1190,7 @@
         ====================================================== */
 
         .schedule-month-picker {
+
             display:
                 flex;
 
@@ -1405,6 +1209,7 @@
 
 
         .schedule-month-picker label {
+
             margin:
                 0;
 
@@ -1420,6 +1225,7 @@
 
 
         .schedule-month-picker input {
+
             width:
                 230px;
 
@@ -1432,6 +1238,7 @@
 
 
         .schedule-toolbar {
+
             display:
                 flex;
 
@@ -1450,6 +1257,7 @@
 
 
         .schedule-month-title {
+
             min-width:
                 220px;
 
@@ -1461,13 +1269,11 @@
 
             color:
                 var(--navy);
-
-            text-transform:
-                uppercase;
         }
 
 
         .schedule-month-button {
+
             width:
                 42px;
 
@@ -1482,6 +1288,7 @@
                 999px;
 
             background:
+
                 linear-gradient(
                     135deg,
                     rgba(255,255,255,0.72),
@@ -1504,18 +1311,13 @@
             cursor:
                 pointer;
 
-            backdrop-filter:
-                blur(14px);
-
-            -webkit-backdrop-filter:
-                blur(14px);
-
             box-shadow:
                 var(--shadow-soft);
         }
 
 
         .schedule-calendar {
+
             width:
                 100%;
 
@@ -1548,6 +1350,7 @@
 
         .schedule-weekdays,
         .schedule-calendar-grid {
+
             display:
                 grid;
 
@@ -1560,12 +1363,14 @@
 
 
         .schedule-weekdays {
+
             margin-bottom:
                 8px;
         }
 
 
         .schedule-weekdays > div {
+
             text-align:
                 center;
 
@@ -1588,6 +1393,7 @@
 
 
         .schedule-day {
+
             min-height:
                 150px;
 
@@ -1610,12 +1416,14 @@
 
 
         .schedule-day.empty {
+
             background:
                 rgba(255,255,255,0.10);
         }
 
 
         .schedule-day-number {
+
             font-family:
                 "Poppins",
                 sans-serif;
@@ -1636,6 +1444,7 @@
 
         .schedule-day.today
         .schedule-day-number {
+
             display:
                 inline-flex;
 
@@ -1658,6 +1467,7 @@
                 #ffffff;
 
             background:
+
                 linear-gradient(
                     135deg,
                     #69b7ff,
@@ -1667,6 +1477,7 @@
 
 
         .schedule-event-card {
+
             display:
                 block;
 
@@ -1687,6 +1498,7 @@
                 10px;
 
             background:
+
                 linear-gradient(
                     145deg,
                     rgba(255,255,255,0.74),
@@ -1703,6 +1515,7 @@
 
 
         .schedule-event-name {
+
             font-size:
                 12px;
 
@@ -1719,6 +1532,7 @@
 
         .schedule-event-location,
         .schedule-event-client {
+
             font-family:
                 "Poppins",
                 sans-serif;
@@ -1737,17 +1551,12 @@
         }
 
 
-        #schedule-list {
-            display:
-                none !important;
-        }
-
-
         /* =====================================================
            FINANCE
         ====================================================== */
 
         .finance-tabs {
+
             display:
                 flex;
 
@@ -1763,6 +1572,7 @@
 
 
         .finance-tab {
+
             border:
                 1px solid
                 rgba(255,255,255,0.75);
@@ -1795,10 +1605,12 @@
 
 
         .finance-tab.active {
+
             color:
                 #ffffff;
 
             background:
+
                 linear-gradient(
                     135deg,
                     #69b7ff,
@@ -1816,10 +1628,12 @@
 
 
         .finance-category-grid {
+
             display:
                 grid;
 
             grid-template-columns:
+
                 repeat(
                     auto-fit,
                     minmax(210px,1fr)
@@ -1831,11 +1645,13 @@
 
 
         .finance-category-card {
+
             border:
                 1px solid
                 var(--glass-border);
 
             background:
+
                 linear-gradient(
                     145deg,
                     rgba(255,255,255,0.64),
@@ -1869,12 +1685,14 @@
 
 
         .finance-category-card:hover {
+
             transform:
                 translateY(-2px);
         }
 
 
         .finance-category-card.active {
+
             border-color:
                 rgba(88,170,247,0.65);
 
@@ -1885,6 +1703,7 @@
 
 
         .finance-category-icon {
+
             font-size:
                 26px;
 
@@ -1894,6 +1713,7 @@
 
 
         .finance-category-name {
+
             color:
                 var(--navy);
 
@@ -1906,6 +1726,7 @@
 
 
         .finance-category-info {
+
             font-family:
                 "Poppins",
                 sans-serif;
@@ -1925,27 +1746,26 @@
 
 
         .finance-summary-cards {
+
             margin-top:
                 24px;
         }
 
 
-        .finance-summary-cards
-        .card-value {
-            color:
-                var(--sky-blue-dark);
-        }
-
-
         #finance-summary-profit {
+
             color:
                 #23734f;
         }
 
 
         .finance-income {
+
             margin-top:
                 12px;
+
+            color:
+                var(--sky-blue-dark);
 
             font-family:
                 "Poppins",
@@ -1956,13 +1776,11 @@
 
             font-weight:
                 700;
-
-            color:
-                var(--sky-blue-dark);
         }
 
 
         #finance-chart {
+
             width:
                 100%;
 
@@ -2001,6 +1819,7 @@
         ====================================================== */
 
         .ticker-bar {
+
             position:
                 fixed;
 
@@ -2048,6 +1867,7 @@
 
 
         .ticker-track {
+
             white-space:
                 nowrap;
 
@@ -2082,15 +1902,16 @@
         @keyframes tickerMove {
 
             from {
+
                 transform:
                     translateX(0);
             }
 
             to {
+
                 transform:
                     translateX(-100%);
             }
-
         }
 
 
@@ -2101,6 +1922,7 @@
         @media (max-width: 850px) {
 
             .app {
+
                 flex-direction:
                     column;
 
@@ -2110,6 +1932,7 @@
 
 
             .sidebar {
+
                 position:
                     static;
 
@@ -2128,12 +1951,14 @@
 
 
             .brand-box {
+
                 margin-bottom:
                     20px;
             }
 
 
             .menu {
+
                 flex-direction:
                     row;
 
@@ -2149,6 +1974,7 @@
 
 
             .menu button {
+
                 min-width:
                     145px;
 
@@ -2172,38 +1998,22 @@
             }
 
 
-            .sidebar-logout {
-                margin-top:
-                    18px;
-
-                padding-top:
-                    18px;
-
-                border-top:
-                    1px solid
-                    rgba(255,255,255,0.45);
-            }
-
-
-            .logout-button {
-                min-height:
-                    44px;
-            }
-
-
             .content {
+
                 padding:
                     8px 2px 24px;
             }
 
 
             .header h1 {
+
                 font-size:
                     29px;
             }
 
 
             .schedule-day {
+
                 min-width:
                     115px;
 
@@ -2213,16 +2023,38 @@
 
 
             .finance-category-grid {
+
                 grid-template-columns:
                     1fr 1fr;
             }
-
         }
 
 
         @media (max-width: 520px) {
 
+            .welcome-card {
+
+                padding:
+                    34px 22px;
+            }
+
+
+            .welcome-logo {
+
+                font-size:
+                    38px;
+            }
+
+
+            .welcome-title {
+
+                font-size:
+                    21px;
+            }
+
+
             .cards {
+
                 grid-template-columns:
                     1fr;
             }
@@ -2231,6 +2063,7 @@
             .card,
             .event,
             .finance-card {
+
                 border-radius:
                     18px;
 
@@ -2240,6 +2073,7 @@
 
 
             .header h1 {
+
                 font-size:
                     27px;
             }
@@ -2247,6 +2081,7 @@
 
             .event-actions,
             .form-actions {
+
                 width:
                     100%;
             }
@@ -2254,12 +2089,14 @@
 
             .event-actions button,
             .form-actions button {
+
                 flex:
                     1;
             }
 
 
             .schedule-month-title {
+
                 min-width:
                     150px;
 
@@ -2269,6 +2106,7 @@
 
 
             .schedule-day {
+
                 min-width:
                     105px;
 
@@ -2278,6 +2116,7 @@
 
 
             .schedule-event-name {
+
                 font-size:
                     11px;
             }
@@ -2285,45 +2124,49 @@
 
             .schedule-event-location,
             .schedule-event-client {
+
                 font-size:
                     8px;
             }
 
 
             .finance-category-grid {
+
                 grid-template-columns:
                     1fr;
             }
 
 
             .finance-tabs {
+
                 width:
                     100%;
             }
 
 
             .finance-tab {
+
                 flex:
                     1;
             }
 
 
             .ticker-bar {
+
                 height:
                     32px;
             }
 
 
             .ticker-track {
+
                 font-size:
                     10px;
 
                 animation-duration:
                     18s;
             }
-
         }
-
 
     </style>
 
@@ -2334,7 +2177,7 @@
 
 
     <!-- =====================================================
-         WELCOME PIN
+         WELCOME SCREEN
     ====================================================== -->
 
     <div
@@ -2344,142 +2187,20 @@
 
         <div class="welcome-card">
 
-            <div class="welcome-brand">
-
-                <div class="welcome-logo">
-                    SKY<span>.BOOTH</span>
-                </div>
-
-                <div class="welcome-app">
-                    DASHBOARD APPLICATION
-                </div>
-
+            <div class="welcome-logo">
+                SKY<span>.BOOTH</span>
             </div>
 
 
-            <div class="pin-label">
-                MASUKKAN PIN
-            </div>
-
-
-            <div
-                id="pin-dots"
-                class="pin-dots"
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-
-
-            <div
-                id="pin-error"
-                class="pin-error"
-            ></div>
-
-
-            <div class="pin-keypad">
-
-                <button
-                    type="button"
-                    class="pin-key"
-                    data-digit="1"
-                >
-                    1
-                </button>
-
-                <button
-                    type="button"
-                    class="pin-key"
-                    data-digit="2"
-                >
-                    2
-                </button>
-
-                <button
-                    type="button"
-                    class="pin-key"
-                    data-digit="3"
-                >
-                    3
-                </button>
-
-                <button
-                    type="button"
-                    class="pin-key"
-                    data-digit="4"
-                >
-                    4
-                </button>
-
-                <button
-                    type="button"
-                    class="pin-key"
-                    data-digit="5"
-                >
-                    5
-                </button>
-
-                <button
-                    type="button"
-                    class="pin-key"
-                    data-digit="6"
-                >
-                    6
-                </button>
-
-                <button
-                    type="button"
-                    class="pin-key"
-                    data-digit="7"
-                >
-                    7
-                </button>
-
-                <button
-                    type="button"
-                    class="pin-key"
-                    data-digit="8"
-                >
-                    8
-                </button>
-
-                <button
-                    type="button"
-                    class="pin-key"
-                    data-digit="9"
-                >
-                    9
-                </button>
-
-                <button
-                    type="button"
-                    class="pin-key pin-zero"
-                    data-digit="0"
-                >
-                    0
-                </button>
-
-                <button
-                    type="button"
-                    class="pin-key pin-delete"
-                    id="pin-delete"
-                    aria-label="Hapus"
-                >
-                    ←
-                </button>
-
+            <div class="welcome-title">
+                DASHBOARD
             </div>
 
 
             <button
                 type="button"
-                id="pin-submit"
-                class="pin-submit"
-                disabled
+                class="welcome-button"
+                onclick="enterDashboard()"
             >
                 MASUK
             </button>
@@ -2503,6 +2224,7 @@
 
         <aside class="sidebar">
 
+
             <div class="brand-box">
 
                 <div class="logo">
@@ -2514,6 +2236,7 @@
 
             <div class="menu">
 
+
                 <button
                     class="active"
                     onclick="showPage('dashboard')"
@@ -2521,11 +2244,13 @@
                     🏠 DASHBOARD
                 </button>
 
+
                 <button
                     onclick="showPage('event')"
                 >
                     📸 EVENT
                 </button>
+
 
                 <button
                     onclick="showPage('schedule')"
@@ -2533,11 +2258,13 @@
                     📅 JADWAL
                 </button>
 
+
                 <button
                     onclick="showPage('inventory')"
                 >
                     📦 INVENTARIS
                 </button>
+
 
                 <button
                     onclick="showPage('finance')"
@@ -2545,18 +2272,6 @@
                     💰 KEUANGAN
                 </button>
 
-            </div>
-
-
-            <div class="sidebar-logout">
-
-                <button
-                    type="button"
-                    class="logout-button"
-                    onclick="logout()"
-                >
-                    ↪ LOG OUT
-                </button>
 
             </div>
 
@@ -2578,6 +2293,7 @@
             <div
                 id="dashboard-page"
             >
+
 
                 <div class="header">
 
@@ -2674,6 +2390,7 @@
                 style="display:none;"
             >
 
+
                 <div class="header">
 
                     <h1>
@@ -2683,6 +2400,7 @@
                     <p>
                         Kelola event photobooth kamu
                     </p>
+
 
                     <button
                         class="add-event-button"
@@ -2699,11 +2417,14 @@
                     style="display:none;"
                 >
 
+
                     <div class="section">
+
 
                         <div
                             class="event event-form-box"
                         >
+
 
                             <h2>
                                 TAMBAH EVENT
@@ -2778,6 +2499,7 @@
                                 id="full-price-box"
                             >
 
+
                                 <label>
                                     Harga Event
                                 </label>
@@ -2788,6 +2510,7 @@
                                     placeholder="Contoh: 1500000"
                                 >
 
+
                             </div>
 
 
@@ -2795,6 +2518,7 @@
                                 id="per-person-price-box"
                                 style="display:none;"
                             >
+
 
                                 <label>
                                     Harga per Orang
@@ -2806,14 +2530,17 @@
                                     placeholder="Contoh: 15000"
                                 >
 
+
                                 <div class="event-info">
                                     Jumlah orang akan diisi setelah event selesai.
                                 </div>
+
 
                             </div>
 
 
                             <div class="form-actions">
+
 
                                 <button
                                     type="button"
@@ -2823,6 +2550,7 @@
                                     BATAL
                                 </button>
 
+
                                 <button
                                     type="button"
                                     class="save-button"
@@ -2831,12 +2559,15 @@
                                     SIMPAN EVENT
                                 </button>
 
+
                             </div>
 
 
                         </div>
 
+
                     </div>
+
 
                 </div>
 
@@ -2844,12 +2575,14 @@
 
                 <div class="section">
 
+
                     <div class="section-title">
                         DAFTAR EVENT
                     </div>
 
 
                     <div id="event-list">
+
 
                         <div class="event">
 
@@ -2863,9 +2596,12 @@
 
                         </div>
 
+
                     </div>
 
+
                 </div>
+
 
             </div>
 
@@ -2879,6 +2615,7 @@
                 id="schedule-page"
                 style="display:none;"
             >
+
 
                 <div class="header">
 
@@ -2895,9 +2632,13 @@
 
                 <div class="schedule-month-picker">
 
-                    <label for="schedule-month">
+
+                    <label
+                        for="schedule-month"
+                    >
                         PILIH BULAN
                     </label>
+
 
                     <input
                         type="month"
@@ -2905,10 +2646,12 @@
                         onchange="loadSchedule()"
                     >
 
+
                 </div>
 
 
                 <div class="schedule-toolbar">
+
 
                     <button
                         type="button"
@@ -2935,20 +2678,42 @@
                         ›
                     </button>
 
+
                 </div>
 
 
                 <div class="schedule-calendar">
 
+
                     <div class="schedule-weekdays">
 
-                        <div>SEN</div>
-                        <div>SEL</div>
-                        <div>RAB</div>
-                        <div>KAM</div>
-                        <div>JUM</div>
-                        <div>SAB</div>
-                        <div>MIN</div>
+                        <div>
+                            SEN
+                        </div>
+
+                        <div>
+                            SEL
+                        </div>
+
+                        <div>
+                            RAB
+                        </div>
+
+                        <div>
+                            KAM
+                        </div>
+
+                        <div>
+                            JUM
+                        </div>
+
+                        <div>
+                            SAB
+                        </div>
+
+                        <div>
+                            MIN
+                        </div>
 
                     </div>
 
@@ -2958,13 +2723,9 @@
                         class="schedule-calendar-grid"
                     ></div>
 
+
                 </div>
 
-
-                <div
-                    id="schedule-list"
-                    style="display:none;"
-                ></div>
 
             </div>
 
@@ -2979,6 +2740,7 @@
                 style="display:none;"
             >
 
+
                 <div class="header">
 
                     <h1>
@@ -2989,6 +2751,7 @@
                         Kelola barang dan stok Sky Booth
                     </p>
 
+
                     <button
                         class="add-event-button"
                         onclick="showInventoryForm()"
@@ -2996,7 +2759,9 @@
                         + TAMBAH BARANG
                     </button>
 
+
                 </div>
+
 
 
                 <div
@@ -3004,11 +2769,14 @@
                     style="display:none;"
                 >
 
+
                     <div class="section">
+
 
                         <div
                             class="event event-form-box"
                         >
+
 
                             <h2>
                                 TAMBAH BARANG
@@ -3084,6 +2852,7 @@
 
                             <div class="form-actions">
 
+
                                 <button
                                     type="button"
                                     class="cancel-button"
@@ -3091,6 +2860,7 @@
                                 >
                                     BATAL
                                 </button>
+
 
                                 <button
                                     type="button"
@@ -3100,16 +2870,22 @@
                                     SIMPAN BARANG
                                 </button>
 
+
                             </div>
+
 
                         </div>
 
+
                     </div>
+
 
                 </div>
 
 
+
                 <div class="section">
+
 
                     <div class="section-title">
                         DAFTAR INVENTARIS
@@ -3117,6 +2893,7 @@
 
 
                     <div id="inventory-list">
+
 
                         <div class="event">
 
@@ -3130,9 +2907,12 @@
 
                         </div>
 
+
                     </div>
 
+
                 </div>
+
 
             </div>
 
@@ -3146,6 +2926,7 @@
                 id="finance-page"
                 style="display:none;"
             >
+
 
                 <div class="header">
 
@@ -3161,6 +2942,7 @@
 
 
                 <div class="finance-tabs">
+
 
                     <button
                         type="button"
@@ -3181,48 +2963,65 @@
                         PENGELUARAN
                     </button>
 
+
                 </div>
 
 
+
                 <!-- PEMASUKAN -->
+
 
                 <div
                     id="income-section"
                     class="finance-section"
                 >
 
+
                     <div class="section">
+
 
                         <div class="section-title">
                             PEMASUKAN
                         </div>
 
+
                         <div class="event">
+
 
                             <div class="finance-name">
                                 PENDAPATAN EVENT
                             </div>
 
+
                             <div class="event-info">
-                                Pendapatan event yang sudah selesai otomatis masuk ke sini.
+                                Event yang sudah selesai otomatis masuk sebagai pemasukan.
                             </div>
 
+
                         </div>
+
 
                     </div>
 
 
+
                     <div class="section">
+
 
                         <div class="section-title">
                             PEMASUKAN LAINNYA
                         </div>
 
-                        <div class="event event-form-box">
+
+                        <div
+                            class="event event-form-box"
+                        >
+
 
                             <label>
                                 Keterangan
                             </label>
+
 
                             <input
                                 type="text"
@@ -3234,6 +3033,7 @@
                             <label>
                                 Nominal
                             </label>
+
 
                             <input
                                 type="number"
@@ -3247,6 +3047,7 @@
                                 Tanggal
                             </label>
 
+
                             <input
                                 type="date"
                                 id="income-other-date"
@@ -3254,6 +3055,7 @@
 
 
                             <div class="form-actions">
+
 
                                 <button
                                     type="button"
@@ -3263,16 +3065,22 @@
                                     + SIMPAN PEMASUKAN
                                 </button>
 
+
                             </div>
+
 
                         </div>
 
+
                     </div>
+
 
                 </div>
 
 
+
                 <!-- PENGELUARAN -->
+
 
                 <div
                     id="expense-section"
@@ -3280,13 +3088,17 @@
                     style="display:none;"
                 >
 
+
                     <div class="section">
+
 
                         <div class="section-title">
                             JENIS PENGELUARAN
                         </div>
 
+
                         <div class="finance-category-grid">
+
 
                             <button
                                 type="button"
@@ -3294,19 +3106,29 @@
                                 onclick="showExpenseCategory('cetak')"
                             >
 
-                                <div class="finance-category-icon">
+                                <div
+                                    class="finance-category-icon"
+                                >
                                     🖨️
                                 </div>
 
-                                <div class="finance-category-name">
+
+                                <div
+                                    class="finance-category-name"
+                                >
                                     KEBUTUHAN CETAK
                                 </div>
 
-                                <div class="finance-category-info">
+
+                                <div
+                                    class="finance-category-info"
+                                >
                                     Kertas, tinta, ribbon, dan lainnya
                                 </div>
 
+
                             </button>
+
 
 
                             <button
@@ -3315,19 +3137,29 @@
                                 onclick="showExpenseCategory('kamera')"
                             >
 
-                                <div class="finance-category-icon">
+                                <div
+                                    class="finance-category-icon"
+                                >
                                     📷
                                 </div>
 
-                                <div class="finance-category-name">
+
+                                <div
+                                    class="finance-category-name"
+                                >
                                     KEBUTUHAN KAMERA
                                 </div>
 
-                                <div class="finance-category-info">
+
+                                <div
+                                    class="finance-category-info"
+                                >
                                     Baterai, memory card, dan lainnya
                                 </div>
 
+
                             </button>
+
 
 
                             <button
@@ -3336,19 +3168,29 @@
                                 onclick="showExpenseCategory('properti')"
                             >
 
-                                <div class="finance-category-icon">
+                                <div
+                                    class="finance-category-icon"
+                                >
                                     🎭
                                 </div>
 
-                                <div class="finance-category-name">
+
+                                <div
+                                    class="finance-category-name"
+                                >
                                     KEBUTUHAN PROPERTI
                                 </div>
 
-                                <div class="finance-category-info">
+
+                                <div
+                                    class="finance-category-info"
+                                >
                                     Dekorasi, backdrop, properti, dan lainnya
                                 </div>
 
+
                             </button>
+
 
 
                             <button
@@ -3357,56 +3199,79 @@
                                 onclick="showExpenseCategory('other')"
                             >
 
-                                <div class="finance-category-icon">
+                                <div
+                                    class="finance-category-icon"
+                                >
                                     ➕
                                 </div>
 
-                                <div class="finance-category-name">
+
+                                <div
+                                    class="finance-category-name"
+                                >
                                     LAINNYA
                                 </div>
 
-                                <div class="finance-category-info">
+
+                                <div
+                                    class="finance-category-info"
+                                >
                                     Pengeluaran di luar kategori
                                 </div>
 
+
                             </button>
 
+
                         </div>
+
 
                     </div>
 
 
+
                     <div class="section">
+
 
                         <div class="section-title">
                             CATAT PENGELUARAN
                         </div>
 
-                        <div class="event event-form-box">
+
+                        <div
+                            class="event event-form-box"
+                        >
+
 
                             <label>
                                 Kategori
                             </label>
 
+
                             <select
                                 id="expense-category"
                             >
+
 
                                 <option value="cetak">
                                     🖨️ Kebutuhan Cetak
                                 </option>
 
+
                                 <option value="kamera">
                                     📷 Kebutuhan Kamera
                                 </option>
+
 
                                 <option value="properti">
                                     🎭 Kebutuhan Properti
                                 </option>
 
+
                                 <option value="other">
                                     ➕ Lainnya
                                 </option>
+
 
                             </select>
 
@@ -3414,6 +3279,7 @@
                             <label>
                                 Keterangan
                             </label>
+
 
                             <input
                                 type="text"
@@ -3425,6 +3291,7 @@
                             <label>
                                 Nominal
                             </label>
+
 
                             <input
                                 type="number"
@@ -3438,6 +3305,7 @@
                                 Tanggal
                             </label>
 
+
                             <input
                                 type="date"
                                 id="expense-date"
@@ -3445,6 +3313,7 @@
 
 
                             <div class="form-actions">
+
 
                                 <button
                                     type="button"
@@ -3454,29 +3323,40 @@
                                     + SIMPAN PENGELUARAN
                                 </button>
 
+
                             </div>
+
 
                         </div>
 
+
                     </div>
+
 
                 </div>
 
 
+
                 <!-- REKAP -->
 
+
                 <div class="section">
+
 
                     <div class="section-title">
                         REKAP BULANAN
                     </div>
 
 
-                    <div class="event event-form-box">
+                    <div
+                        class="event event-form-box"
+                    >
+
 
                         <label>
                             PILIH BULAN
                         </label>
+
 
                         <input
                             type="month"
@@ -3484,18 +3364,26 @@
                             onchange="loadFinanceSummary()"
                         >
 
+
                     </div>
+
 
                 </div>
 
 
-                <div class="cards finance-summary-cards">
+
+                <div
+                    class="cards finance-summary-cards"
+                >
+
 
                     <div class="card">
+
 
                         <div class="card-title">
                             TOTAL PEMASUKAN
                         </div>
+
 
                         <div
                             class="card-value"
@@ -3504,14 +3392,18 @@
                             Rp0
                         </div>
 
+
                     </div>
+
 
 
                     <div class="card">
 
+
                         <div class="card-title">
                             TOTAL PENGELUARAN
                         </div>
+
 
                         <div
                             class="card-value"
@@ -3520,14 +3412,18 @@
                             Rp0
                         </div>
 
+
                     </div>
+
 
 
                     <div class="card">
 
+
                         <div class="card-title">
                             LABA BERSIH
                         </div>
+
 
                         <div
                             class="card-value"
@@ -3536,61 +3432,77 @@
                             Rp0
                         </div>
 
+
                     </div>
+
 
                 </div>
 
 
-                <!-- DIAGRAM -->
 
                 <div class="section">
+
 
                     <div class="section-title">
                         DIAGRAM REKAP
                     </div>
 
+
                     <div class="event">
+
 
                         <div id="finance-chart">
                             Diagram akan tampil setelah data keuangan tersedia.
                         </div>
 
+
                     </div>
+
 
                 </div>
 
 
-                <!-- RIWAYAT -->
 
                 <div class="section">
+
 
                     <div class="section-title">
                         RIWAYAT TRANSAKSI
                     </div>
 
+
                     <div id="finance-list">
 
+
                         <div class="finance-card">
+
 
                             <div class="finance-name">
                                 BELUM ADA TRANSAKSI
                             </div>
 
+
                             <div class="finance-info">
                                 Pemasukan dan pengeluaran akan muncul di sini.
                             </div>
 
+
                         </div>
+
 
                     </div>
 
+
                 </div>
 
+
             </div>
+
 
         </main>
 
     </div>
+
 
 
     <!-- =====================================================
@@ -3598,6 +3510,7 @@
     ====================================================== -->
 
     <div class="ticker-bar">
+
 
         <div class="ticker-track">
 
@@ -3609,7 +3522,9 @@
 
         </div>
 
+
     </div>
+
 
 
     <!-- =====================================================
@@ -3621,7 +3536,10 @@
     ></script>
 
 
-    <script src="script.js"></script>
+    <script
+        src="script.js"
+    ></script>
+
 
 </body>
 
