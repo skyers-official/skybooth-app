@@ -19,6 +19,42 @@ const supabaseClient =
 
 
 /* =========================================================
+   WELCOME
+========================================================= */
+
+function enterDashboard() {
+
+    const welcome =
+        document.getElementById(
+            "welcome-screen"
+        );
+
+
+    if (!welcome) {
+
+        return;
+
+    }
+
+
+    welcome.style.opacity =
+        "0";
+
+
+    setTimeout(
+        function() {
+
+            welcome.style.display =
+                "none";
+
+        },
+        250
+    );
+
+}
+
+
+/* =========================================================
    UTIL
 ========================================================= */
 
@@ -33,7 +69,9 @@ function formatRupiah(value) {
 
 function getToday() {
 
-    const now = new Date();
+    const now =
+        new Date();
+
 
     return (
         now.getFullYear() +
@@ -52,7 +90,9 @@ function getToday() {
 
 function getCurrentMonth() {
 
-    const now = new Date();
+    const now =
+        new Date();
+
 
     return (
         now.getFullYear() +
@@ -70,23 +110,36 @@ function getNextMonth(month) {
     const parts =
         month.split("-");
 
+
     let year =
         Number(parts[0]);
+
 
     let monthNumber =
         Number(parts[1]);
 
+
     monthNumber++;
 
-    if (monthNumber === 13) {
-        monthNumber = 1;
+
+    if (
+        monthNumber === 13
+    ) {
+
+        monthNumber =
+            1;
+
         year++;
+
     }
+
 
     return (
         year +
         "-" +
-        String(monthNumber).padStart(2, "0") +
+        String(
+            monthNumber
+        ).padStart(2, "0") +
         "-01"
     );
 
@@ -100,98 +153,146 @@ function getNextMonth(month) {
 async function showPage(page) {
 
     const pages = [
+
         "dashboard",
         "event",
         "schedule",
         "inventory",
         "finance"
+
     ];
 
-    pages.forEach(function(name) {
 
-        const element =
-            document.getElementById(
-                name + "-page"
-            );
+    pages.forEach(
+        function(name) {
 
-        if (element) {
-            element.style.display = "none";
+            const element =
+                document.getElementById(
+                    name +
+                    "-page"
+                );
+
+
+            if (element) {
+
+                element.style.display =
+                    "none";
+
+            }
+
         }
-
-    });
+    );
 
 
     const selected =
         document.getElementById(
-            page + "-page"
+            page +
+            "-page"
         );
 
+
     if (selected) {
-        selected.style.display = "block";
+
+        selected.style.display =
+            "block";
+
     }
 
 
-    const buttons =
-        document.querySelectorAll(
+    document
+        .querySelectorAll(
             ".menu button"
-        );
-
-    buttons.forEach(function(button) {
-        button.classList.remove("active");
-    });
-
-
-    const clicked =
-        Array.from(buttons).find(
+        )
+        .forEach(
             function(button) {
 
-                return (
-                    button.getAttribute("onclick") ===
-                    "showPage('" + page + "')"
+                button.classList.remove(
+                    "active"
                 );
 
             }
         );
 
 
+    const clicked =
+        document.querySelector(
+            `.menu button[onclick="showPage('${page}')"]`
+        );
+
+
     if (clicked) {
-        clicked.classList.add("active");
+
+        clicked.classList.add(
+            "active"
+        );
+
     }
 
 
-    if (page === "dashboard") {
+    if (
+        page ===
+        "dashboard"
+    ) {
+
         await updateDashboard();
+
     }
 
-    if (page === "event") {
+
+    if (
+        page ===
+        "event"
+    ) {
+
         await loadEvents();
+
     }
 
-    if (page === "schedule") {
 
-        const scheduleMonth =
+    if (
+        page ===
+        "schedule"
+    ) {
+
+        const input =
             document.getElementById(
                 "schedule-month"
             );
 
+
         if (
-            scheduleMonth &&
-            !scheduleMonth.value
+            input &&
+            !input.value
         ) {
-            scheduleMonth.value =
+
+            input.value =
                 getCurrentMonth();
+
         }
+
 
         await loadSchedule();
 
     }
 
-    if (page === "inventory") {
+
+    if (
+        page ===
+        "inventory"
+    ) {
+
         await loadInventory();
+
     }
 
-    if (page === "finance") {
+
+    if (
+        page ===
+        "finance"
+    ) {
+
         await loadFinancePage();
+
     }
 
 }
@@ -206,9 +307,10 @@ async function updateDashboard() {
     const {
         data: events,
         error
-    } = await supabaseClient
-        .from("events")
-        .select("*");
+    } =
+        await supabaseClient
+            .from("events")
+            .select("*");
 
 
     if (error) {
@@ -219,23 +321,39 @@ async function updateDashboard() {
         );
 
         return;
+
     }
 
 
-    const allEvents =
-        events || [];
+    const list =
+        events ||
+        [];
 
 
     const activeEvents =
-        allEvents.filter(function(event) {
-            return event.status === "aktif";
-        });
+        list.filter(
+            function(event) {
+
+                return (
+                    event.status ===
+                    "aktif"
+                );
+
+            }
+        );
 
 
     const finishedEvents =
-        allEvents.filter(function(event) {
-            return event.status === "selesai";
-        });
+        list.filter(
+            function(event) {
+
+                return (
+                    event.status ===
+                    "selesai"
+                );
+
+            }
+        );
 
 
     const totalEvent =
@@ -243,15 +361,18 @@ async function updateDashboard() {
             "total-event"
         );
 
+
     const totalFinished =
         document.getElementById(
             "total-finished"
         );
 
+
     const totalFullIncome =
         document.getElementById(
             "total-full-income"
         );
+
 
     const totalPersonIncome =
         document.getElementById(
@@ -260,54 +381,81 @@ async function updateDashboard() {
 
 
     if (totalEvent) {
+
         totalEvent.textContent =
             activeEvents.length;
+
     }
 
 
     if (totalFinished) {
+
         totalFinished.textContent =
             finishedEvents.length;
+
     }
 
 
-    let fullIncome = 0;
-    let personIncome = 0;
+    let fullIncome =
+        0;
 
 
-    finishedEvents.forEach(function(event) {
-
-        const amount =
-            Number(
-                event.pendapatan_final
-            ) || 0;
+    let personIncome =
+        0;
 
 
-        if (
-            event.income_type === "full"
-        ) {
-            fullIncome += amount;
+    finishedEvents.forEach(
+        function(event) {
+
+            const amount =
+                Number(
+                    event.pendapatan_final
+                ) ||
+                0;
+
+
+            if (
+                event.income_type ===
+                "full"
+            ) {
+
+                fullIncome +=
+                    amount;
+
+            }
+
+
+            if (
+                event.income_type ===
+                "per-person"
+            ) {
+
+                personIncome +=
+                    amount;
+
+            }
+
         }
-
-
-        if (
-            event.income_type === "per-person"
-        ) {
-            personIncome += amount;
-        }
-
-    });
+    );
 
 
     if (totalFullIncome) {
+
         totalFullIncome.textContent =
-            formatRupiah(fullIncome);
+            formatRupiah(
+                fullIncome
+            );
+
     }
 
 
     if (totalPersonIncome) {
+
         totalPersonIncome.textContent =
-            formatRupiah(personIncome);
+            formatRupiah(
+                personIncome
+            );
+
     }
 
 }
@@ -324,9 +472,14 @@ function showForm() {
             "event-form"
         );
 
+
     if (form) {
-        form.style.display = "block";
+
+        form.style.display =
+            "block";
+
     }
+
 
     toggleIncomeType();
 
@@ -340,9 +493,14 @@ function hideForm() {
             "event-form"
         );
 
+
     if (form) {
-        form.style.display = "none";
+
+        form.style.display =
+            "none";
+
     }
+
 
     clearEventForm();
 
@@ -352,22 +510,32 @@ function hideForm() {
 function clearEventForm() {
 
     [
+
         "event-name",
         "event-client",
         "event-date",
         "event-location",
         "event-price",
         "price-per-person"
-    ].forEach(function(id) {
 
-        const element =
-            document.getElementById(id);
+    ].forEach(
+        function(id) {
 
-        if (element) {
-            element.value = "";
+            const element =
+                document.getElementById(
+                    id
+                );
+
+
+            if (element) {
+
+                element.value =
+                    "";
+
+            }
+
         }
-
-    });
+    );
 
 
     const incomeType =
@@ -375,8 +543,12 @@ function clearEventForm() {
             "income-type"
         );
 
+
     if (incomeType) {
-        incomeType.value = "full";
+
+        incomeType.value =
+            "full";
+
     }
 
 
@@ -392,10 +564,12 @@ function toggleIncomeType() {
             "income-type"
         );
 
+
     const fullBox =
         document.getElementById(
             "full-price-box"
         );
+
 
     const perPersonBox =
         document.getElementById(
@@ -408,12 +582,15 @@ function toggleIncomeType() {
         !fullBox ||
         !perPersonBox
     ) {
+
         return;
+
     }
 
 
     if (
-        incomeType.value === "full"
+        incomeType.value ===
+        "full"
     ) {
 
         fullBox.style.display =
@@ -446,39 +623,47 @@ async function saveEvent() {
             "event-name"
         ).value.trim();
 
+
     const klien =
         document.getElementById(
             "event-client"
         ).value.trim();
+
 
     const tanggal =
         document.getElementById(
             "event-date"
         ).value;
 
+
     const lokasi =
         document.getElementById(
             "event-location"
         ).value.trim();
+
 
     const incomeType =
         document.getElementById(
             "income-type"
         ).value;
 
+
     const hargaFull =
         Number(
             document.getElementById(
                 "event-price"
             ).value
-        ) || 0;
+        ) ||
+        0;
+
 
     const hargaPerPerson =
         Number(
             document.getElementById(
                 "price-per-person"
             ).value
-        ) || 0;
+        ) ||
+        0;
 
 
     if (
@@ -493,11 +678,13 @@ async function saveEvent() {
         );
 
         return;
+
     }
 
 
     if (
-        incomeType === "full" &&
+        incomeType ===
+        "full" &&
         hargaFull <= 0
     ) {
 
@@ -506,11 +693,13 @@ async function saveEvent() {
         );
 
         return;
+
     }
 
 
     if (
-        incomeType === "per-person" &&
+        incomeType ===
+        "per-person" &&
         hargaPerPerson <= 0
     ) {
 
@@ -519,41 +708,69 @@ async function saveEvent() {
         );
 
         return;
+
     }
 
 
     const harga =
-        incomeType === "full"
+        incomeType ===
+        "full"
             ? hargaFull
             : hargaPerPerson;
 
 
     const {
         error
-    } = await supabaseClient
-        .from("events")
-        .insert([
-            {
-                id: Date.now(),
-                nama_event: namaEvent,
-                klien: klien,
-                tanggal: tanggal,
-                lokasi: lokasi,
-                income_type: incomeType,
-                harga: harga,
-                jumlah_orang: 0,
-                pendapatan_final:
-                    incomeType === "full"
-                        ? hargaFull
-                        : 0,
-                status: "aktif"
-            }
-        ]);
+    } =
+        await supabaseClient
+            .from("events")
+            .insert(
+                [
+                    {
+
+                        id:
+                            Date.now(),
+
+                        nama_event:
+                            namaEvent,
+
+                        klien:
+                            klien,
+
+                        tanggal:
+                            tanggal,
+
+                        lokasi:
+                            lokasi,
+
+                        income_type:
+                            incomeType,
+
+                        harga:
+                            harga,
+
+                        jumlah_orang:
+                            0,
+
+                        pendapatan_final:
+                            incomeType ===
+                            "full"
+                                ? hargaFull
+                                : 0,
+
+                        status:
+                            "aktif"
+
+                    }
+                ]
+            );
 
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Gagal menyimpan event: " +
@@ -561,13 +778,16 @@ async function saveEvent() {
         );
 
         return;
+
     }
 
 
     hideForm();
 
     await loadEvents();
+
     await updateDashboard();
+
     await loadSchedule();
 
 }
@@ -584,34 +804,47 @@ async function loadEvents() {
             "event-list"
         );
 
+
     if (!eventList) {
+
         return;
+
     }
 
 
     const {
         data: events,
         error
-    } = await supabaseClient
-        .from("events")
-        .select("*")
-        .eq("status", "aktif")
-        .order(
-            "tanggal",
-            {
-                ascending: true
-            }
-        );
+    } =
+        await supabaseClient
+            .from("events")
+            .select("*")
+            .eq(
+                "status",
+                "aktif"
+            )
+            .order(
+                "tanggal",
+                {
+                    ascending:
+                        true
+                }
+            );
 
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
+
         return;
+
     }
 
 
-    eventList.innerHTML = "";
+    eventList.innerHTML =
+        "";
 
 
     if (
@@ -620,7 +853,9 @@ async function loadEvents() {
     ) {
 
         eventList.innerHTML = `
+
             <div class="event">
+
                 <div class="event-name">
                     BELUM ADA EVENT
                 </div>
@@ -628,109 +863,125 @@ async function loadEvents() {
                 <div class="event-info">
                     Tambahkan event pertama kamu.
                 </div>
+
             </div>
+
         `;
 
         return;
+
     }
 
 
-    events.forEach(function(event) {
+    events.forEach(
+        function(event) {
 
-        const card =
-            document.createElement(
-                "div"
-            );
-
-        card.className = "event";
-
-
-        let incomeInfo = "";
-
-
-        if (
-            event.income_type === "full"
-        ) {
-
-            incomeInfo =
-                "💼 Full Event • " +
-                formatRupiah(
-                    event.harga
+            const card =
+                document.createElement(
+                    "div"
                 );
 
-        } else {
 
-            incomeInfo =
-                "👥 Per Orang • " +
-                formatRupiah(
-                    event.harga
-                ) +
-                " / orang";
+            card.className =
+                "event";
+
+
+            let incomeInfo =
+                "";
+
+
+            if (
+                event.income_type ===
+                "full"
+            ) {
+
+                incomeInfo =
+                    "💼 Full Event • " +
+                    formatRupiah(
+                        event.harga
+                    );
+
+            } else {
+
+                incomeInfo =
+                    "👥 Per Orang • " +
+                    formatRupiah(
+                        event.harga
+                    ) +
+                    " / orang";
+
+            }
+
+
+            card.innerHTML = `
+
+                <div class="event-name">
+                    📸 ${event.nama_event}
+                </div>
+
+                <div class="event-info">
+                    👤 Klien:
+                    ${event.klien || "-"}
+                </div>
+
+                <div class="event-info">
+                    📅
+                    ${event.tanggal || "-"}
+                </div>
+
+                <div class="event-info">
+                    📍
+                    ${event.lokasi || "-"}
+                </div>
+
+                <div class="event-info">
+                    ${incomeInfo}
+                </div>
+
+                <div class="event-actions">
+
+                    <button
+                        type="button"
+                        class="finish-event-button"
+                        onclick="finishEvent(${event.id})"
+                    >
+                        ✓ SELESAI
+                    </button>
+
+                    <button
+                        type="button"
+                        class="cancel-event-button"
+                        onclick="cancelEvent(${event.id})"
+                    >
+                        ✕ BATAL
+                    </button>
+
+                    <button
+                        type="button"
+                        class="delete-event-button"
+                        onclick="deleteEvent(${event.id})"
+                    >
+                        🗑️
+                    </button>
+
+                </div>
+
+            `;
+
+
+            eventList.appendChild(
+                card
+            );
+
         }
-
-
-        card.innerHTML = `
-
-            <div class="event-name">
-                📸 ${event.nama_event}
-            </div>
-
-            <div class="event-info">
-                👤 Klien: ${event.klien || "-"}
-            </div>
-
-            <div class="event-info">
-                📅 ${event.tanggal || "-"}
-            </div>
-
-            <div class="event-info">
-                📍 ${event.lokasi || "-"}
-            </div>
-
-            <div class="event-info">
-                ${incomeInfo}
-            </div>
-
-            <div class="event-actions">
-
-                <button
-                    type="button"
-                    class="finish-event-button"
-                    onclick="finishEvent(${event.id})"
-                >
-                    ✓ SELESAI
-                </button>
-
-                <button
-                    type="button"
-                    class="cancel-event-button"
-                    onclick="cancelEvent(${event.id})"
-                >
-                    ✕ BATAL
-                </button>
-
-                <button
-                    type="button"
-                    class="delete-event-button"
-                    onclick="deleteEvent(${event.id})"
-                >
-                    🗑️
-                </button>
-
-            </div>
-
-        `;
-
-
-        eventList.appendChild(card);
-
-    });
+    );
 
 }
 
 
 /* =========================================================
-   FINISH EVENT + AUTO FINANCE
+   FINISH EVENT
+   OTOMATIS MASUK PEMASUKAN
 ========================================================= */
 
 async function finishEvent(id) {
@@ -738,11 +989,15 @@ async function finishEvent(id) {
     const {
         data: event,
         error
-    } = await supabaseClient
-        .from("events")
-        .select("*")
-        .eq("id", id)
-        .single();
+    } =
+        await supabaseClient
+            .from("events")
+            .select("*")
+            .eq(
+                "id",
+                id
+            )
+            .single();
 
 
     if (
@@ -750,29 +1005,36 @@ async function finishEvent(id) {
         !event
     ) {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Event tidak ditemukan."
         );
 
         return;
+
     }
 
 
     let jumlahOrang =
         Number(
             event.jumlah_orang
-        ) || 0;
+        ) ||
+        0;
+
 
     let pendapatanFinal =
         Number(
             event.pendapatan_final
-        ) || 0;
+        ) ||
+        0;
 
 
     if (
-        event.income_type === "per-person"
+        event.income_type ===
+        "per-person"
     ) {
 
         const inputJumlah =
@@ -781,42 +1043,66 @@ async function finishEvent(id) {
             );
 
 
-        if (inputJumlah === null) {
+        if (
+            inputJumlah ===
+            null
+        ) {
+
             return;
+
         }
 
 
         jumlahOrang =
-            Number(inputJumlah) || 0;
+            Number(
+                inputJumlah
+            ) ||
+            0;
 
 
-        if (jumlahOrang <= 0) {
+        if (
+            jumlahOrang <=
+            0
+        ) {
 
             alert(
                 "Jumlah orang harus lebih dari 0."
             );
 
             return;
+
         }
 
 
         pendapatanFinal =
             jumlahOrang *
-            (Number(event.harga) || 0);
+            (
+                Number(
+                    event.harga
+                ) ||
+                0
+            );
+
     }
 
 
     if (
-        event.income_type === "full"
+        event.income_type ===
+        "full"
     ) {
 
         pendapatanFinal =
-            Number(event.harga) || 0;
+            Number(
+                event.harga
+            ) ||
+            0;
+
     }
 
 
     if (
-        pendapatanFinal <= 0
+        pendapatanFinal <=
+        0
     ) {
 
         alert(
@@ -824,82 +1110,127 @@ async function finishEvent(id) {
         );
 
         return;
+
     }
 
 
     const {
-        error: updateError
-    } = await supabaseClient
-        .from("events")
-        .update({
-            jumlah_orang: jumlahOrang,
-            pendapatan_final: pendapatanFinal,
-            status: "selesai",
-            tanggal_selesai:
-                new Date().toISOString()
-        })
-        .eq("id", id);
+        error:
+            updateError
+    } =
+        await supabaseClient
+            .from("events")
+            .update({
+
+                jumlah_orang:
+                    jumlahOrang,
+
+                pendapatan_final:
+                    pendapatanFinal,
+
+                status:
+                    "selesai",
+
+                tanggal_selesai:
+                    new Date()
+                        .toISOString()
+
+            })
+            .eq(
+                "id",
+                id
+            );
 
 
     if (updateError) {
 
-        console.error(updateError);
+        console.error(
+            updateError
+        );
 
         alert(
             "Gagal menyelesaikan event."
         );
 
         return;
+
     }
 
 
-    /* cek apakah sudah ada transaksi event */
-
     const {
-        data: existingTransaction,
-        error: transactionCheckError
-    } = await supabaseClient
-        .from("transactions")
-        .select("id")
-        .eq("type", "income")
-        .eq("category", "event")
-        .eq("event_id", event.id)
-        .limit(1);
-
-
-    if (transactionCheckError) {
-
-        console.error(
+        data:
+            existingTransaction,
+        error:
             transactionCheckError
-        );
+    } =
+        await supabaseClient
+            .from("transactions")
+            .select("id")
+            .eq(
+                "type",
+                "income"
+            )
+            .eq(
+                "category",
+                "event"
+            )
+            .eq(
+                "event_id",
+                event.id
+            )
+            .limit(1);
 
-    } else if (
-        !existingTransaction ||
-        existingTransaction.length === 0
+
+    if (
+        !transactionCheckError &&
+        (
+            !existingTransaction ||
+            existingTransaction.length ===
+            0
+        )
     ) {
 
         const {
-            error: transactionInsertError
-        } = await supabaseClient
-            .from("transactions")
-            .insert([
-                {
-                    id: Date.now(),
-                    type: "income",
-                    category: "event",
-                    amount: pendapatanFinal,
-                    description:
-                        "Pendapatan event: " +
-                        event.nama_event,
-                    event_id: event.id,
-                    transaction_date:
-                        event.tanggal ||
-                        getToday()
-                }
-            ]);
+            error:
+                transactionInsertError
+        } =
+            await supabaseClient
+                .from("transactions")
+                .insert(
+                    [
+                        {
+
+                            id:
+                                Date.now(),
+
+                            type:
+                                "income",
+
+                            category:
+                                "event",
+
+                            amount:
+                                pendapatanFinal,
+
+                            description:
+                                "Pendapatan event: " +
+                                event.nama_event,
+
+                            event_id:
+                                event.id,
+
+                            transaction_date:
+                                event.tanggal ||
+                                getToday()
+
+                        }
+                    ]
+                );
 
 
-        if (transactionInsertError) {
+        if (
+            transactionInsertError
+        ) {
 
             console.error(
                 transactionInsertError
@@ -915,8 +1246,11 @@ async function finishEvent(id) {
 
 
     await loadEvents();
+
     await updateDashboard();
+
     await loadSchedule();
+
     await loadFinanceSummary();
 
 }
@@ -935,37 +1269,55 @@ async function cancelEvent(id) {
 
 
     if (!ok) {
+
         return;
+
     }
 
 
     const {
         error
-    } = await supabaseClient
-        .from("events")
-        .update({
-            status: "batal",
-            pendapatan_final: 0,
-            tanggal_selesai:
-                new Date().toISOString()
-        })
-        .eq("id", id);
+    } =
+        await supabaseClient
+            .from("events")
+            .update({
+
+                status:
+                    "batal",
+
+                pendapatan_final:
+                    0,
+
+                tanggal_selesai:
+                    new Date()
+                        .toISOString()
+
+            })
+            .eq(
+                "id",
+                id
+            );
 
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Gagal membatalkan event."
         );
 
         return;
+
     }
 
 
     await loadEvents();
+
     await updateDashboard();
+
     await loadSchedule();
 
 }
@@ -984,39 +1336,50 @@ async function deleteEvent(id) {
 
 
     if (!ok) {
+
         return;
+
     }
 
 
     const {
         error
-    } = await supabaseClient
-        .from("events")
-        .delete()
-        .eq("id", id);
+    } =
+        await supabaseClient
+            .from("events")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
 
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Gagal menghapus event."
         );
 
         return;
+
     }
 
 
     await loadEvents();
+
     await updateDashboard();
+
     await loadSchedule();
 
 }
 
 
 /* =========================================================
-   SCHEDULE CALENDAR
+   SCHEDULE
 ========================================================= */
 
 async function loadSchedule() {
@@ -1026,10 +1389,12 @@ async function loadSchedule() {
             "schedule-calendar-grid"
         );
 
+
     const monthInput =
         document.getElementById(
             "schedule-month"
         );
+
 
     const monthTitle =
         document.getElementById(
@@ -1042,11 +1407,15 @@ async function loadSchedule() {
         !monthInput ||
         !monthTitle
     ) {
+
         return;
+
     }
 
 
-    if (!monthInput.value) {
+    if (
+        !monthInput.value
+    ) {
 
         monthInput.value =
             getCurrentMonth();
@@ -1058,7 +1427,10 @@ async function loadSchedule() {
         monthInput.value;
 
 
-    const [year, month] =
+    const [
+        year,
+        month
+    ] =
         selectedMonth
             .split("-")
             .map(Number);
@@ -1086,7 +1458,8 @@ async function loadSchedule() {
 
     const firstWeekday =
         (
-            firstDay.getUTCDay() + 6
+            firstDay.getUTCDay() +
+            6
         ) % 7;
 
 
@@ -1094,49 +1467,55 @@ async function loadSchedule() {
         new Intl.DateTimeFormat(
             "id-ID",
             {
-                month: "long",
-                year: "numeric"
+                month:
+                    "long",
+
+                year:
+                    "numeric"
             }
         )
-        .format(
-            new Date(
-                year,
-                month - 1,
-                1
+            .format(
+                new Date(
+                    year,
+                    month - 1,
+                    1
+                )
             )
-        )
-        .toUpperCase();
+            .toUpperCase();
 
 
     const {
         data: events,
         error
-    } = await supabaseClient
-        .from("events")
-        .select("*")
-        .in(
-            "status",
-            [
-                "aktif",
-                "selesai"
-            ]
-        )
-        .gte(
-            "tanggal",
-            selectedMonth + "-01"
-        )
-        .lt(
-            "tanggal",
-            getNextMonth(
-                selectedMonth
+    } =
+        await supabaseClient
+            .from("events")
+            .select("*")
+            .in(
+                "status",
+                [
+                    "aktif",
+                    "selesai"
+                ]
             )
-        )
-        .order(
-            "tanggal",
-            {
-                ascending: true
-            }
-        );
+            .gte(
+                "tanggal",
+                selectedMonth +
+                "-01"
+            )
+            .lt(
+                "tanggal",
+                getNextMonth(
+                    selectedMonth
+                )
+            )
+            .order(
+                "tanggal",
+                {
+                    ascending:
+                        true
+                }
+            );
 
 
     if (error) {
@@ -1147,18 +1526,23 @@ async function loadSchedule() {
         );
 
         calendarGrid.innerHTML = `
-            <div style="
-                grid-column: 1 / -1;
-                padding: 30px;
-                text-align:center;
-                font-family:Poppins,sans-serif;
-                color:#7189a5;
-            ">
+
+            <div
+                style="
+                    grid-column:1/-1;
+                    padding:30px;
+                    text-align:center;
+                    font-family:Poppins,sans-serif;
+                    color:#7189a5;
+                "
+            >
                 Gagal memuat kalender.
             </div>
+
         `;
 
         return;
+
     }
 
 
@@ -1166,30 +1550,43 @@ async function loadSchedule() {
         {};
 
 
-    (events || []).forEach(
-        function(event) {
+    (
+        events ||
+        []
+    )
+        .forEach(
+            function(event) {
 
-            if (!grouped[event.tanggal]) {
-                grouped[event.tanggal] = [];
+                if (
+                    !grouped[
+                        event.tanggal
+                    ]
+                ) {
+
+                    grouped[
+                        event.tanggal
+                    ] = [];
+
+                }
+
+
+                grouped[
+                    event.tanggal
+                ]
+                    .push(event);
+
             }
-
-            grouped[event.tanggal].push(
-                event
-            );
-
-        }
-    );
+        );
 
 
-    calendarGrid.innerHTML = "";
+    calendarGrid.innerHTML =
+        "";
 
-
-    /* kotak kosong sebelum tanggal 1 */
 
     for (
-        let i = 0;
-        i < firstWeekday;
-        i++
+        let index = 0;
+        index < firstWeekday;
+        index++
     ) {
 
         const empty =
@@ -1197,8 +1594,10 @@ async function loadSchedule() {
                 "div"
             );
 
+
         empty.className =
             "schedule-day empty";
+
 
         calendarGrid.appendChild(
             empty
@@ -1207,18 +1606,19 @@ async function loadSchedule() {
     }
 
 
-    const today =
+    const now =
         new Date();
 
-    const todayString =
-        today.getFullYear() +
+
+    const today =
+        now.getFullYear() +
         "-" +
         String(
-            today.getMonth() + 1
+            now.getMonth() + 1
         ).padStart(2, "0") +
         "-" +
         String(
-            today.getDate()
+            now.getDate()
         ).padStart(2, "0");
 
 
@@ -1231,10 +1631,11 @@ async function loadSchedule() {
         const dateString =
             selectedMonth +
             "-" +
-            String(day).padStart(
-                2,
-                "0"
-            );
+            String(day)
+                .padStart(
+                    2,
+                    "0"
+                );
 
 
         const dayBox =
@@ -1242,13 +1643,14 @@ async function loadSchedule() {
                 "div"
             );
 
+
         dayBox.className =
             "schedule-day";
 
 
         if (
             dateString ===
-            todayString
+            today
         ) {
 
             dayBox.classList.add(
@@ -1263,8 +1665,10 @@ async function loadSchedule() {
                 "div"
             );
 
+
         number.className =
             "schedule-day-number";
+
 
         number.textContent =
             day;
@@ -1275,81 +1679,91 @@ async function loadSchedule() {
         );
 
 
-        const dayEvents =
-            grouped[dateString] ||
-            [];
+        (
+            grouped[
+                dateString
+            ] ||
+            []
+        )
+            .forEach(
+                function(event) {
+
+                    const eventCard =
+                        document.createElement(
+                            "div"
+                        );
 
 
-        dayEvents.forEach(
-            function(event) {
+                    eventCard.className =
+                        "schedule-event-card";
 
-                const eventCard =
-                    document.createElement(
-                        "div"
+
+                    const eventName =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    eventName.className =
+                        "schedule-event-name";
+
+
+                    eventName.textContent =
+                        event.nama_event ||
+                        "-";
+
+
+                    const location =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    location.className =
+                        "schedule-event-location";
+
+
+                    location.textContent =
+                        event.lokasi ||
+                        "-";
+
+
+                    const client =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    client.className =
+                        "schedule-event-client";
+
+
+                    client.textContent =
+                        event.klien ||
+                        "-";
+
+
+                    eventCard.appendChild(
+                        eventName
                     );
 
-                eventCard.className =
-                    "schedule-event-card";
 
-
-                const eventName =
-                    document.createElement(
-                        "div"
+                    eventCard.appendChild(
+                        location
                     );
 
-                eventName.className =
-                    "schedule-event-name";
 
-                eventName.textContent =
-                    event.nama_event ||
-                    "-";
-
-
-                const location =
-                    document.createElement(
-                        "div"
+                    eventCard.appendChild(
+                        client
                     );
 
-                location.className =
-                    "schedule-event-location";
 
-                location.textContent =
-                    event.lokasi ||
-                    "-";
-
-
-                const client =
-                    document.createElement(
-                        "div"
+                    dayBox.appendChild(
+                        eventCard
                     );
 
-                client.className =
-                    "schedule-event-client";
-
-                client.textContent =
-                    event.klien ||
-                    "-";
-
-
-                eventCard.appendChild(
-                    eventName
-                );
-
-                eventCard.appendChild(
-                    location
-                );
-
-                eventCard.appendChild(
-                    client
-                );
-
-
-                dayBox.appendChild(
-                    eventCard
-                );
-
-            }
-        );
+                }
+            );
 
 
         calendarGrid.appendChild(
@@ -1372,7 +1786,9 @@ function changeScheduleMonth(
 
 
     if (!monthInput) {
+
         return;
+
     }
 
 
@@ -1425,9 +1841,12 @@ function showInventoryForm() {
             "inventory-form"
         );
 
+
     if (form) {
+
         form.style.display =
             "block";
+
     }
 
 }
@@ -1440,10 +1859,14 @@ function hideInventoryForm() {
             "inventory-form"
         );
 
+
     if (form) {
+
         form.style.display =
             "none";
+
     }
+
 
     clearInventoryForm();
 
@@ -1453,18 +1876,26 @@ function hideInventoryForm() {
 function clearInventoryForm() {
 
     [
+
         "item-name",
         "item-brand",
         "item-quantity",
         "item-price"
+
     ].forEach(
         function(id) {
 
             const element =
-                document.getElementById(id);
+                document.getElementById(
+                    id
+                );
+
 
             if (element) {
-                element.value = "";
+
+                element.value =
+                    "";
+
             }
 
         }
@@ -1476,8 +1907,12 @@ function clearInventoryForm() {
             "item-category"
         );
 
+
     if (category) {
-        category.value = "cetak";
+
+        category.value =
+            "cetak";
+
     }
 
 }
@@ -1490,29 +1925,35 @@ async function saveInventory() {
             "item-name"
         ).value.trim();
 
+
     const merk =
         document.getElementById(
             "item-brand"
         ).value.trim();
+
 
     const kategori =
         document.getElementById(
             "item-category"
         ).value;
 
+
     const jumlah =
         Number(
             document.getElementById(
                 "item-quantity"
             ).value
-        ) || 0;
+        ) ||
+        0;
+
 
     const harga =
         Number(
             document.getElementById(
                 "item-price"
             ).value
-        ) || 0;
+        ) ||
+        0;
 
 
     if (!nama) {
@@ -1522,28 +1963,47 @@ async function saveInventory() {
         );
 
         return;
+
     }
 
 
     const {
         error
-    } = await supabaseClient
-        .from("inventory")
-        .insert([
-            {
-                id: Date.now(),
-                nama: nama,
-                merk: merk,
-                kategori: kategori,
-                jumlah: jumlah,
-                harga: harga
-            }
-        ]);
+    } =
+        await supabaseClient
+            .from("inventory")
+            .insert(
+                [
+                    {
+
+                        id:
+                            Date.now(),
+
+                        nama:
+                            nama,
+
+                        merk:
+                            merk,
+
+                        kategori:
+                            kategori,
+
+                        jumlah:
+                            jumlah,
+
+                        harga:
+                            harga
+
+                    }
+                ]
+            );
 
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Gagal menyimpan barang: " +
@@ -1551,10 +2011,12 @@ async function saveInventory() {
         );
 
         return;
+
     }
 
 
     hideInventoryForm();
+
     await loadInventory();
 
 }
@@ -1567,41 +2029,53 @@ async function loadInventory() {
             "inventory-list"
         );
 
+
     if (!inventoryList) {
+
         return;
+
     }
 
 
     const {
         data: inventory,
         error
-    } = await supabaseClient
-        .from("inventory")
-        .select("*")
-        .order(
-            "created_at",
-            {
-                ascending: false
-            }
-        );
+    } =
+        await supabaseClient
+            .from("inventory")
+            .select("*")
+            .order(
+                "created_at",
+                {
+                    ascending:
+                        false
+                }
+            );
 
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
+
         return;
+
     }
 
 
-    inventoryList.innerHTML = "";
+    inventoryList.innerHTML =
+        "";
 
 
     if (
         !inventory ||
-        inventory.length === 0
+        inventory.length ===
+        0
     ) {
 
         inventoryList.innerHTML = `
+
             <div class="event">
 
                 <div class="event-name">
@@ -1613,9 +2087,11 @@ async function loadInventory() {
                 </div>
 
             </div>
+
         `;
 
         return;
+
     }
 
 
@@ -1627,36 +2103,42 @@ async function loadInventory() {
                     "div"
                 );
 
+
             card.className =
                 "event";
 
 
-            let kategoriText = "";
+            let kategoriText =
+                "🎭 Properti";
 
 
             if (
-                item.kategori === "cetak"
+                item.kategori ===
+                "cetak"
             ) {
+
                 kategoriText =
                     "🖨️ Cetak";
+
             }
             else if (
-                item.kategori === "kamera"
+                item.kategori ===
+                "kamera"
             ) {
+
                 kategoriText =
                     "📷 Kamera";
-            }
-            else {
-                kategoriText =
-                    "🎭 Properti";
+
             }
 
 
-            let stockControls = "";
+            let stockControls =
+                "";
 
 
             if (
-                item.kategori === "cetak"
+                item.kategori ===
+                "cetak"
             ) {
 
                 stockControls = `
@@ -1673,14 +2155,14 @@ async function loadInventory() {
 
                         <button
                             type="button"
-                            onclick="updateInventoryStock(${item.id}, 'add')"
+                            onclick="updateInventoryStock(${item.id},'add')"
                         >
                             ➕ TAMBAH
                         </button>
 
                         <button
                             type="button"
-                            onclick="updateInventoryStock(${item.id}, 'subtract')"
+                            onclick="updateInventoryStock(${item.id},'subtract')"
                         >
                             ➖ KURANGI
                         </button>
@@ -1688,6 +2170,7 @@ async function loadInventory() {
                     </div>
 
                 `;
+
             }
 
 
@@ -1698,21 +2181,24 @@ async function loadInventory() {
                 </div>
 
                 <div class="event-info">
-                    🏷️ Merk: ${item.merk || "-"}
+                    🏷️ MERK:
+                    ${item.merk || "-"}
                 </div>
 
                 <div class="event-info">
-                    📂 Kategori: ${kategoriText}
+                    📂 KATEGORI:
+                    ${kategoriText}
                 </div>
 
                 <div class="event-info">
-                    📦 Jumlah: ${item.jumlah}
+                    📦 JUMLAH:
+                    ${item.jumlah}
                 </div>
 
                 ${stockControls}
 
                 <div class="event-info">
-                    💰 Harga Satuan:
+                    💰 HARGA SATUAN:
                     ${formatRupiah(item.harga)}
                 </div>
 
@@ -1748,12 +2234,15 @@ async function updateInventoryStock(
 
     const input =
         document.getElementById(
-            "stock-input-" + id
+            "stock-input-" +
+            id
         );
 
 
     if (!input) {
+
         return;
+
     }
 
 
@@ -1764,7 +2253,9 @@ async function updateInventoryStock(
 
 
     if (
-        !Number.isFinite(jumlah) ||
+        !Number.isFinite(
+            jumlah
+        ) ||
         jumlah <= 0
     ) {
 
@@ -1773,17 +2264,22 @@ async function updateInventoryStock(
         );
 
         return;
+
     }
 
 
     const {
         data: item,
         error
-    } = await supabaseClient
-        .from("inventory")
-        .select("*")
-        .eq("id", id)
-        .single();
+    } =
+        await supabaseClient
+            .from("inventory")
+            .select("*")
+            .eq(
+                "id",
+                id
+            )
+            .single();
 
 
     if (
@@ -1791,31 +2287,45 @@ async function updateInventoryStock(
         !item
     ) {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Barang tidak ditemukan."
         );
 
         return;
+
     }
 
 
     let jumlahBaru =
-        Number(item.jumlah) || 0;
+        Number(
+            item.jumlah
+        ) ||
+        0;
 
 
     if (
-        mode === "add"
+        mode ===
+        "add"
     ) {
-        jumlahBaru += jumlah;
+
+        jumlahBaru +=
+            jumlah;
+
     }
 
 
     if (
-        mode === "subtract"
+        mode ===
+        "subtract"
     ) {
-        jumlahBaru -= jumlah;
+
+        jumlahBaru -=
+            jumlah;
+
     }
 
 
@@ -1828,28 +2338,40 @@ async function updateInventoryStock(
         );
 
         return;
+
     }
 
 
     const {
-        error: updateError
-    } = await supabaseClient
-        .from("inventory")
-        .update({
-            jumlah: jumlahBaru
-        })
-        .eq("id", id);
+        error:
+            updateError
+    } =
+        await supabaseClient
+            .from("inventory")
+            .update(
+                {
+                    jumlah:
+                        jumlahBaru
+                }
+            )
+            .eq(
+                "id",
+                id
+            );
 
 
     if (updateError) {
 
-        console.error(updateError);
+        console.error(
+            updateError
+        );
 
         alert(
             "Gagal mengubah stok."
         );
 
         return;
+
     }
 
 
@@ -1858,7 +2380,9 @@ async function updateInventoryStock(
 }
 
 
-async function deleteInventory(id) {
+async function deleteInventory(
+    id
+) {
 
     const ok =
         confirm(
@@ -1867,27 +2391,36 @@ async function deleteInventory(id) {
 
 
     if (!ok) {
+
         return;
+
     }
 
 
     const {
         error
-    } = await supabaseClient
-        .from("inventory")
-        .delete()
-        .eq("id", id);
+    } =
+        await supabaseClient
+            .from("inventory")
+            .delete()
+            .eq(
+                "id",
+                id
+            );
 
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Gagal menghapus barang."
         );
 
         return;
+
     }
 
 
@@ -1909,15 +2442,18 @@ async function showFinanceType(
             "income-section"
         );
 
+
     const expenseSection =
         document.getElementById(
             "expense-section"
         );
 
+
     const incomeTab =
         document.getElementById(
             "income-tab"
         );
+
 
     const expenseTab =
         document.getElementById(
@@ -1929,12 +2465,15 @@ async function showFinanceType(
         !incomeSection ||
         !expenseSection
     ) {
+
         return;
+
     }
 
 
     if (
-        type === "income"
+        type ===
+        "income"
     ) {
 
         incomeSection.style.display =
@@ -1943,11 +2482,11 @@ async function showFinanceType(
         expenseSection.style.display =
             "none";
 
-        incomeTab?.classList.add(
+        incomeTab.classList.add(
             "active"
         );
 
-        expenseTab?.classList.remove(
+        expenseTab.classList.remove(
             "active"
         );
 
@@ -1959,11 +2498,11 @@ async function showFinanceType(
         expenseSection.style.display =
             "block";
 
-        incomeTab?.classList.remove(
+        incomeTab.classList.remove(
             "active"
         );
 
-        expenseTab?.classList.add(
+        expenseTab.classList.add(
             "active"
         );
 
@@ -1981,8 +2520,12 @@ function showExpenseCategory(
             "expense-category"
         );
 
+
     if (select) {
-        select.value = category;
+
+        select.value =
+            category;
+
     }
 
 
@@ -1994,49 +2537,49 @@ function showExpenseCategory(
 
     cards.forEach(
         function(card) {
+
             card.classList.remove(
                 "active"
             );
+
         }
     );
 
 
-    const map = {
-        cetak: 0,
-        kamera: 1,
-        properti: 2,
-        other: 3
+    const indexMap = {
+
+        cetak:
+            0,
+
+        kamera:
+            1,
+
+        properti:
+            2,
+
+        other:
+            3
     };
 
 
-    if (
-        cards[map[category]]
-    ) {
+    const selectedCard =
+        cards[
+            indexMap[
+                category
+            ]
+        ];
 
-        cards[map[category]]
-            .classList.add(
-                "active"
-            );
+
+    if (selectedCard) {
+
+        selectedCard.classList.add(
+            "active"
+        );
 
     }
 
 }
 
-
-/* pemasukan event sekarang otomatis,
-   jadi fungsi ini hanya untuk kompatibilitas
-   jika masih ada tombol lama di cache. */
-
-function showIncomeCategory() {
-
-    return;
-
-}
-
-
-/* =========================================================
-   OTHER INCOME
-========================================================= */
 
 async function saveOtherIncome() {
 
@@ -2045,12 +2588,15 @@ async function saveOtherIncome() {
             "income-other-description"
         ).value.trim();
 
+
     const amount =
         Number(
             document.getElementById(
                 "income-other-amount"
             ).value
-        ) || 0;
+        ) ||
+        0;
+
 
     const date =
         document.getElementById(
@@ -2066,6 +2612,7 @@ async function saveOtherIncome() {
         );
 
         return;
+
     }
 
 
@@ -2078,29 +2625,50 @@ async function saveOtherIncome() {
         );
 
         return;
+
     }
 
 
     const {
         error
-    } = await supabaseClient
-        .from("transactions")
-        .insert([
-            {
-                id: Date.now(),
-                type: "income",
-                category: "other",
-                amount: amount,
-                description: description,
-                event_id: null,
-                transaction_date: date
-            }
-        ]);
+    } =
+        await supabaseClient
+            .from("transactions")
+            .insert(
+                [
+                    {
+
+                        id:
+                            Date.now(),
+
+                        type:
+                            "income",
+
+                        category:
+                            "other",
+
+                        amount:
+                            amount,
+
+                        description:
+                            description,
+
+                        event_id:
+                            null,
+
+                        transaction_date:
+                            date
+
+                    }
+                ]
+            );
 
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Gagal menyimpan pemasukan: " +
@@ -2108,23 +2676,30 @@ async function saveOtherIncome() {
         );
 
         return;
+
     }
 
 
     document.getElementById(
         "income-other-description"
-    ).value = "";
+    ).value =
+        "";
+
 
     document.getElementById(
         "income-other-amount"
-    ).value = "";
+    ).value =
+        "";
+
 
     document.getElementById(
         "income-other-date"
-    ).value = "";
+    ).value =
+        "";
 
 
     await loadFinanceSummary();
+
 
     alert(
         "Pemasukan berhasil disimpan."
@@ -2133,10 +2708,6 @@ async function saveOtherIncome() {
 }
 
 
-/* =========================================================
-   EXPENSE
-========================================================= */
-
 async function saveExpense() {
 
     const category =
@@ -2144,33 +2715,27 @@ async function saveExpense() {
             "expense-category"
         ).value;
 
+
     const description =
         document.getElementById(
             "expense-description"
         ).value.trim();
+
 
     const amount =
         Number(
             document.getElementById(
                 "expense-amount"
             ).value
-        ) || 0;
+        ) ||
+        0;
+
 
     const date =
         document.getElementById(
             "expense-date"
         ).value ||
         getToday();
-
-
-    if (!category) {
-
-        alert(
-            "Pilih kategori pengeluaran."
-        );
-
-        return;
-    }
 
 
     if (!description) {
@@ -2180,11 +2745,13 @@ async function saveExpense() {
         );
 
         return;
+
     }
 
 
     if (
-        amount <= 0
+        amount <=
+        0
     ) {
 
         alert(
@@ -2192,29 +2759,50 @@ async function saveExpense() {
         );
 
         return;
+
     }
 
 
     const {
         error
-    } = await supabaseClient
-        .from("transactions")
-        .insert([
-            {
-                id: Date.now(),
-                type: "expense",
-                category: category,
-                amount: amount,
-                description: description,
-                event_id: null,
-                transaction_date: date
-            }
-        ]);
+    } =
+        await supabaseClient
+            .from("transactions")
+            .insert(
+                [
+                    {
+
+                        id:
+                            Date.now(),
+
+                        type:
+                            "expense",
+
+                        category:
+                            category,
+
+                        amount:
+                            amount,
+
+                        description:
+                            description,
+
+                        event_id:
+                            null,
+
+                        transaction_date:
+                            date
+
+                    }
+                ]
+            );
 
 
     if (error) {
 
-        console.error(error);
+        console.error(
+            error
+        );
 
         alert(
             "Gagal menyimpan pengeluaran: " +
@@ -2222,23 +2810,30 @@ async function saveExpense() {
         );
 
         return;
+
     }
 
 
     document.getElementById(
         "expense-description"
-    ).value = "";
+    ).value =
+        "";
+
 
     document.getElementById(
         "expense-amount"
-    ).value = "";
+    ).value =
+        "";
+
 
     document.getElementById(
         "expense-date"
-    ).value = "";
+    ).value =
+        "";
 
 
     await loadFinanceSummary();
+
 
     alert(
         "Pengeluaran berhasil disimpan."
@@ -2246,10 +2841,6 @@ async function saveExpense() {
 
 }
 
-
-/* =========================================================
-   FINANCE SUMMARY
-========================================================= */
 
 async function loadFinancePage() {
 
@@ -2263,8 +2854,10 @@ async function loadFinancePage() {
         monthInput &&
         !monthInput.value
     ) {
+
         monthInput.value =
             getCurrentMonth();
+
     }
 
 
@@ -2272,6 +2865,7 @@ async function loadFinancePage() {
         document.getElementById(
             "income-other-date"
         );
+
 
     const expenseDate =
         document.getElementById(
@@ -2283,8 +2877,10 @@ async function loadFinancePage() {
         incomeDate &&
         !incomeDate.value
     ) {
+
         incomeDate.value =
             getToday();
+
     }
 
 
@@ -2292,14 +2888,17 @@ async function loadFinancePage() {
         expenseDate &&
         !expenseDate.value
     ) {
+
         expenseDate.value =
             getToday();
+
     }
 
 
     await showFinanceType(
         "income"
     );
+
 
     await loadFinanceSummary();
 
@@ -2315,7 +2914,9 @@ async function loadFinanceSummary() {
 
 
     if (!monthInput) {
+
         return;
+
     }
 
 
@@ -2327,25 +2928,28 @@ async function loadFinanceSummary() {
     const {
         data: transactions,
         error
-    } = await supabaseClient
-        .from("transactions")
-        .select("*")
-        .gte(
-            "transaction_date",
-            selectedMonth + "-01"
-        )
-        .lt(
-            "transaction_date",
-            getNextMonth(
-                selectedMonth
+    } =
+        await supabaseClient
+            .from("transactions")
+            .select("*")
+            .gte(
+                "transaction_date",
+                selectedMonth +
+                "-01"
             )
-        )
-        .order(
-            "transaction_date",
-            {
-                ascending: false
-            }
-        );
+            .lt(
+                "transaction_date",
+                getNextMonth(
+                    selectedMonth
+                )
+            )
+            .order(
+                "transaction_date",
+                {
+                    ascending:
+                        false
+                }
+            );
 
 
     if (error) {
@@ -2356,22 +2960,36 @@ async function loadFinanceSummary() {
         );
 
         return;
+
     }
 
 
     const list =
-        transactions || [];
+        transactions ||
+        [];
 
 
-    let totalIncome = 0;
-    let totalExpense = 0;
+    let totalIncome =
+        0;
+
+
+    let totalExpense =
+        0;
 
 
     const expenseByCategory = {
-        cetak: 0,
-        kamera: 0,
-        properti: 0,
-        other: 0
+
+        cetak:
+            0,
+
+        kamera:
+            0,
+
+        properti:
+            0,
+
+        other:
+            0
     };
 
 
@@ -2381,11 +2999,13 @@ async function loadFinanceSummary() {
             const amount =
                 Number(
                     transaction.amount
-                ) || 0;
+                ) ||
+                0;
 
 
             if (
-                transaction.type === "income"
+                transaction.type ===
+                "income"
             ) {
 
                 totalIncome +=
@@ -2395,7 +3015,8 @@ async function loadFinanceSummary() {
 
 
             if (
-                transaction.type === "expense"
+                transaction.type ===
+                "expense"
             ) {
 
                 totalExpense +=
@@ -2403,15 +3024,18 @@ async function loadFinanceSummary() {
 
 
                 if (
-                    Object.prototype.hasOwnProperty.call(
-                        expenseByCategory,
-                        transaction.category
-                    )
+                    Object.prototype
+                        .hasOwnProperty
+                        .call(
+                            expenseByCategory,
+                            transaction.category
+                        )
                 ) {
 
                     expenseByCategory[
                         transaction.category
-                    ] += amount;
+                    ] +=
+                        amount;
 
                 }
 
@@ -2431,10 +3055,12 @@ async function loadFinanceSummary() {
             "finance-summary-income"
         );
 
+
     const expenseElement =
         document.getElementById(
             "finance-summary-expense"
         );
+
 
     const profitElement =
         document.getElementById(
@@ -2443,26 +3069,32 @@ async function loadFinanceSummary() {
 
 
     if (incomeElement) {
+
         incomeElement.textContent =
             formatRupiah(
                 totalIncome
             );
+
     }
 
 
     if (expenseElement) {
+
         expenseElement.textContent =
             formatRupiah(
                 totalExpense
             );
+
     }
 
 
     if (profitElement) {
+
         profitElement.textContent =
             formatRupiah(
                 profit
             );
+
     }
 
 
@@ -2481,10 +3113,6 @@ async function loadFinanceSummary() {
 }
 
 
-/* =========================================================
-   FINANCE CHART
-========================================================= */
-
 function renderFinanceChart(
     totalIncome,
     totalExpense,
@@ -2499,50 +3127,38 @@ function renderFinanceChart(
 
 
     if (!chart) {
+
         return;
+
     }
 
 
-    const maximum =
+    const max =
         Math.max(
             totalIncome,
             totalExpense,
-            Math.abs(profit),
+            Math.abs(
+                profit
+            ),
             1
         );
 
 
-    const incomeHeight =
-        Math.max(
-            18,
-            Math.round(
-                totalIncome /
-                maximum *
-                170
-            )
-        );
+    const barHeight =
+        function(value) {
 
+            return Math.max(
+                18,
+                Math.round(
+                    (
+                        value /
+                        max
+                    ) *
+                    170
+                )
+            );
 
-    const expenseHeight =
-        Math.max(
-            18,
-            Math.round(
-                totalExpense /
-                maximum *
-                170
-            )
-        );
-
-
-    const profitHeight =
-        Math.max(
-            18,
-            Math.round(
-                Math.abs(profit) /
-                maximum *
-                170
-            )
-        );
+        };
 
 
     const profitColor =
@@ -2552,276 +3168,353 @@ function renderFinanceChart(
 
 
     const rows = [
-        {
-            label: "🖨️ CETAK",
-            value: expenseByCategory.cetak
-        },
-        {
-            label: "📷 KAMERA",
-            value: expenseByCategory.kamera
-        },
-        {
-            label: "🎭 PROPERTI",
-            value: expenseByCategory.properti
-        },
-        {
-            label: "➕ LAINNYA",
-            value: expenseByCategory.other
-        }
+
+        [
+            "🖨️ CETAK",
+            expenseByCategory.cetak
+        ],
+
+        [
+            "📷 KAMERA",
+            expenseByCategory.kamera
+        ],
+
+        [
+            "🎭 PROPERTI",
+            expenseByCategory.properti
+        ],
+
+        [
+            "➕ LAINNYA",
+            expenseByCategory.other
+        ]
+
     ];
 
 
     const maxCategory =
         Math.max(
             ...rows.map(
-                function(item) {
-                    return item.value;
+                function(row) {
+
+                    return row[1];
+
                 }
             ),
+
             1
         );
 
 
     chart.innerHTML = `
 
-        <div style="
-            width:100%;
-            display:flex;
-            flex-direction:column;
-            gap:28px;
-        ">
-
-            <div style="
+        <div
+            style="
                 width:100%;
-                height:240px;
                 display:flex;
-                justify-content:center;
-                align-items:flex-end;
+                flex-direction:column;
                 gap:28px;
-            ">
+            "
+        >
 
-                <div style="
-                    height:100%;
+            <div
+                style="
+                    width:100%;
+                    height:240px;
                     display:flex;
-                    flex-direction:column;
-                    align-items:center;
-                    justify-content:flex-end;
-                    gap:7px;
-                    min-width:80px;
-                ">
+                    justify-content:center;
+                    align-items:flex-end;
+                    gap:28px;
+                "
+            >
 
-                    <div style="
-                        font-family:Poppins,sans-serif;
-                        font-size:11px;
-                        font-weight:700;
-                        color:#2877c8;
-                    ">
-                        ${formatRupiah(totalIncome)}
+
+                <div
+                    style="
+                        height:100%;
+                        display:flex;
+                        flex-direction:column;
+                        align-items:center;
+                        justify-content:flex-end;
+                        gap:7px;
+                        min-width:80px;
+                    "
+                >
+
+                    <div
+                        style="
+                            font-family:Poppins,sans-serif;
+                            font-size:11px;
+                            font-weight:700;
+                            color:#2877c8;
+                        "
+                    >
+                        ${formatRupiah(
+                            totalIncome
+                        )}
                     </div>
 
-                    <div style="
-                        width:65px;
-                        height:${incomeHeight}px;
-                        border-radius:14px 14px 6px 6px;
-                        background:linear-gradient(
-                            180deg,
-                            #69b7ff,
-                            #2f7fd1
-                        );
-                    "></div>
 
-                    <div style="
-                        font-family:Poppins,sans-serif;
-                        font-size:11px;
-                        font-weight:700;
-                        color:#21456f;
-                    ">
+                    <div
+                        style="
+                            width:65px;
+                            height:${barHeight(
+                                totalIncome
+                            )}px;
+                            border-radius:14px 14px 6px 6px;
+                            background:linear-gradient(
+                                180deg,
+                                #69b7ff,
+                                #2f7fd1
+                            );
+                        "
+                    ></div>
+
+
+                    <div
+                        style="
+                            font-family:Poppins,sans-serif;
+                            font-size:11px;
+                            font-weight:700;
+                            color:#21456f;
+                        "
+                    >
                         PEMASUKAN
                     </div>
 
                 </div>
 
 
-                <div style="
-                    height:100%;
-                    display:flex;
-                    flex-direction:column;
-                    align-items:center;
-                    justify-content:flex-end;
-                    gap:7px;
-                    min-width:80px;
-                ">
 
-                    <div style="
-                        font-family:Poppins,sans-serif;
-                        font-size:11px;
-                        font-weight:700;
-                        color:#a83d3d;
-                    ">
-                        ${formatRupiah(totalExpense)}
+                <div
+                    style="
+                        height:100%;
+                        display:flex;
+                        flex-direction:column;
+                        align-items:center;
+                        justify-content:flex-end;
+                        gap:7px;
+                        min-width:80px;
+                    "
+                >
+
+                    <div
+                        style="
+                            font-family:Poppins,sans-serif;
+                            font-size:11px;
+                            font-weight:700;
+                            color:#a83d3d;
+                        "
+                    >
+                        ${formatRupiah(
+                            totalExpense
+                        )}
                     </div>
 
-                    <div style="
-                        width:65px;
-                        height:${expenseHeight}px;
-                        border-radius:14px 14px 6px 6px;
-                        background:linear-gradient(
-                            180deg,
-                            #f49a9a,
-                            #d85b5b
-                        );
-                    "></div>
 
-                    <div style="
-                        font-family:Poppins,sans-serif;
-                        font-size:11px;
-                        font-weight:700;
-                        color:#21456f;
-                    ">
+                    <div
+                        style="
+                            width:65px;
+                            height:${barHeight(
+                                totalExpense
+                            )}px;
+                            border-radius:14px 14px 6px 6px;
+                            background:linear-gradient(
+                                180deg,
+                                #f49a9a,
+                                #d85b5b
+                            );
+                        "
+                    ></div>
+
+
+                    <div
+                        style="
+                            font-family:Poppins,sans-serif;
+                            font-size:11px;
+                            font-weight:700;
+                            color:#21456f;
+                        "
+                    >
                         PENGELUARAN
                     </div>
 
                 </div>
 
 
-                <div style="
-                    height:100%;
-                    display:flex;
-                    flex-direction:column;
-                    align-items:center;
-                    justify-content:flex-end;
-                    gap:7px;
-                    min-width:80px;
-                ">
 
-                    <div style="
-                        font-family:Poppins,sans-serif;
-                        font-size:11px;
-                        font-weight:700;
-                        color:${profitColor};
-                    ">
-                        ${formatRupiah(profit)}
+                <div
+                    style="
+                        height:100%;
+                        display:flex;
+                        flex-direction:column;
+                        align-items:center;
+                        justify-content:flex-end;
+                        gap:7px;
+                        min-width:80px;
+                    "
+                >
+
+                    <div
+                        style="
+                            font-family:Poppins,sans-serif;
+                            font-size:11px;
+                            font-weight:700;
+                            color:${profitColor};
+                        "
+                    >
+                        ${formatRupiah(
+                            profit
+                        )}
                     </div>
 
-                    <div style="
-                        width:65px;
-                        height:${profitHeight}px;
-                        border-radius:14px 14px 6px 6px;
-                        background:${profitColor};
-                        opacity:0.82;
-                    "></div>
 
-                    <div style="
-                        font-family:Poppins,sans-serif;
-                        font-size:11px;
-                        font-weight:700;
-                        color:#21456f;
-                    ">
+                    <div
+                        style="
+                            width:65px;
+                            height:${barHeight(
+                                Math.abs(
+                                    profit
+                                )
+                            )}px;
+                            border-radius:14px 14px 6px 6px;
+                            background:${profitColor};
+                        "
+                    ></div>
+
+
+                    <div
+                        style="
+                            font-family:Poppins,sans-serif;
+                            font-size:11px;
+                            font-weight:700;
+                            color:#21456f;
+                        "
+                    >
                         LABA BERSIH
                     </div>
 
                 </div>
 
+
             </div>
 
 
-            <div style="
-                width:100%;
-                display:flex;
-                flex-direction:column;
-                gap:11px;
-            ">
 
-                <div style="
-                    font-family:Chicken Pie,sans-serif;
-                    text-transform:uppercase;
-                    font-size:18px;
-                    color:#173b68;
-                ">
+            <div>
+
+                <div
+                    style="
+                        font-family:Chicken Pie,sans-serif;
+                        text-transform:uppercase;
+                        font-size:18px;
+                        color:#173b68;
+                        margin-bottom:12px;
+                    "
+                >
                     RINCIAN PENGELUARAN
                 </div>
 
+
                 ${
                     rows.map(
-                        function(item) {
+                        function(row) {
 
                             const width =
                                 Math.max(
                                     0,
                                     Math.round(
-                                        item.value /
-                                        maxCategory *
+                                        (
+                                            row[1] /
+                                            maxCategory
+                                        ) *
                                         100
                                     )
                                 );
 
+
                             return `
-                                <div style="
-                                    width:100%;
-                                    display:grid;
-                                    grid-template-columns:115px 1fr auto;
-                                    align-items:center;
-                                    gap:9px;
-                                ">
 
-                                    <div style="
-                                        font-family:Poppins,sans-serif;
-                                        font-size:11px;
-                                        font-weight:700;
-                                        color:#21456f;
-                                    ">
-                                        ${item.label}
-                                    </div>
-
-                                    <div style="
+                                <div
+                                    style="
                                         width:100%;
-                                        height:10px;
-                                        border-radius:999px;
-                                        background:rgba(47,127,209,0.10);
-                                        overflow:hidden;
-                                    ">
+                                        display:grid;
+                                        grid-template-columns:115px 1fr auto;
+                                        align-items:center;
+                                        gap:9px;
+                                        margin-bottom:10px;
+                                    "
+                                >
 
-                                        <div style="
-                                            width:${width}%;
-                                            height:100%;
+                                    <div
+                                        style="
+                                            font-family:Poppins,sans-serif;
+                                            font-size:11px;
+                                            font-weight:700;
+                                            color:#21456f;
+                                        "
+                                    >
+                                        ${row[0]}
+                                    </div>
+
+
+                                    <div
+                                        style="
+                                            width:100%;
+                                            height:10px;
                                             border-radius:999px;
-                                            background:linear-gradient(
-                                                90deg,
-                                                #69b7ff,
-                                                #2f7fd1
-                                            );
-                                        "></div>
+                                            background:rgba(47,127,209,0.10);
+                                            overflow:hidden;
+                                        "
+                                    >
+
+                                        <div
+                                            style="
+                                                width:${width}%;
+                                                height:100%;
+                                                border-radius:999px;
+                                                background:linear-gradient(
+                                                    90deg,
+                                                    #69b7ff,
+                                                    #2f7fd1
+                                                );
+                                            "
+                                        ></div>
 
                                     </div>
 
-                                    <div style="
-                                        font-family:Poppins,sans-serif;
-                                        font-size:11px;
-                                        font-weight:700;
-                                        color:#21456f;
-                                        text-align:right;
-                                    ">
-                                        ${formatRupiah(item.value)}
+
+                                    <div
+                                        style="
+                                            font-family:Poppins,sans-serif;
+                                            font-size:11px;
+                                            font-weight:700;
+                                            color:#21456f;
+                                            text-align:right;
+                                        "
+                                    >
+                                        ${formatRupiah(
+                                            row[1]
+                                        )}
                                     </div>
 
                                 </div>
+
                             `;
 
                         }
-                    ).join("")
+                    )
+                    .join("")
                 }
 
             </div>
 
         </div>
+
     `;
 
 }
 
-
-/* =========================================================
-   FINANCE TRANSACTIONS
-========================================================= */
 
 async function renderFinanceTransactions(
     transactions
@@ -2834,19 +3527,24 @@ async function renderFinanceTransactions(
 
 
     if (!financeList) {
+
         return;
+
     }
 
 
-    financeList.innerHTML = "";
+    financeList.innerHTML =
+        "";
 
 
     if (
         !transactions ||
-        transactions.length === 0
+        transactions.length ===
+        0
     ) {
 
         financeList.innerHTML = `
+
             <div class="finance-card">
 
                 <div class="finance-name">
@@ -2858,9 +3556,11 @@ async function renderFinanceTransactions(
                 </div>
 
             </div>
+
         `;
 
         return;
+
     }
 
 
@@ -2868,13 +3568,19 @@ async function renderFinanceTransactions(
         transactions
             .map(
                 function(item) {
+
                     return item.event_id;
+
                 }
             )
             .filter(
                 function(id) {
-                    return id !== null &&
-                        id !== undefined;
+
+                    return (
+                        id !== null &&
+                        id !== undefined
+                    );
+
                 }
             );
 
@@ -2883,31 +3589,44 @@ async function renderFinanceTransactions(
         new Map();
 
 
-    if (eventIds.length > 0) {
+    if (
+        eventIds.length >
+        0
+    ) {
 
         const {
             data: events
-        } = await supabaseClient
-            .from("events")
-            .select(
-                "id,nama_event"
-            )
-            .in(
-                "id",
-                [...new Set(eventIds)]
-            );
-
-
-        (events || []).forEach(
-            function(event) {
-
-                eventsMap.set(
-                    event.id,
-                    event.nama_event
+        } =
+            await supabaseClient
+                .from("events")
+                .select(
+                    "id,nama_event"
+                )
+                .in(
+                    "id",
+                    [
+                        ...
+                        new Set(
+                            eventIds
+                        )
+                    ]
                 );
 
-            }
-        );
+
+        (
+            events ||
+            []
+        )
+            .forEach(
+                function(event) {
+
+                    eventsMap.set(
+                        event.id,
+                        event.nama_event
+                    );
+
+                }
+            );
 
     }
 
@@ -2925,85 +3644,109 @@ async function renderFinanceTransactions(
                 "finance-card";
 
 
-            const income =
+            const isIncome =
                 transaction.type ===
                 "income";
 
 
-            let categoryText =
+            let category =
                 transaction.category;
 
 
             if (
-                transaction.type === "income" &&
-                transaction.category === "event"
+                isIncome &&
+                transaction.category ===
+                "event"
             ) {
-                categoryText =
+
+                category =
                     "📸 PENDAPATAN EVENT";
+
             }
 
+
             if (
-                transaction.type === "income" &&
-                transaction.category === "other"
+                isIncome &&
+                transaction.category ===
+                "other"
             ) {
-                categoryText =
+
+                category =
                     "➕ PEMASUKAN LAINNYA";
+
             }
 
+
             if (
-                transaction.category === "cetak"
+                transaction.category ===
+                "cetak"
             ) {
-                categoryText =
+
+                category =
                     "🖨️ KEBUTUHAN CETAK";
+
             }
 
+
             if (
-                transaction.category === "kamera"
+                transaction.category ===
+                "kamera"
             ) {
-                categoryText =
+
+                category =
                     "📷 KEBUTUHAN KAMERA";
+
             }
 
+
             if (
-                transaction.category === "properti"
+                transaction.category ===
+                "properti"
             ) {
-                categoryText =
+
+                category =
                     "🎭 KEBUTUHAN PROPERTI";
+
             }
 
+
             if (
-                transaction.type === "expense" &&
-                transaction.category === "other"
+                !isIncome &&
+                transaction.category ===
+                "other"
             ) {
-                categoryText =
+
+                category =
                     "➕ PENGELUARAN LAINNYA";
+
             }
+
+
+            const color =
+                isIncome
+                    ? "#2877c8"
+                    : "#a83d3d";
+
+
+            const prefix =
+                isIncome
+                    ? "+"
+                    : "-";
 
 
             const eventName =
-                transaction.event_id !== null
+                transaction.event_id !==
+                null
                     ? eventsMap.get(
                         transaction.event_id
                     )
                     : "";
 
 
-            const color =
-                income
-                    ? "#2877c8"
-                    : "#a83d3d";
-
-
-            const prefix =
-                income
-                    ? "+ "
-                    : "- ";
-
-
             card.innerHTML = `
 
                 <div class="finance-name">
-                    ${categoryText}
+                    ${category}
                 </div>
 
                 <div class="finance-info">
@@ -3017,17 +3760,21 @@ async function renderFinanceTransactions(
                 ${
                     eventName
                         ? `
+
                             <div class="finance-info">
                                 📸 EVENT:
                                 ${eventName}
                             </div>
+
                         `
                         : ""
                 }
 
                 <div
                     class="finance-income"
-                    style="color:${color};"
+                    style="
+                        color:${color};
+                    "
                 >
                     ${prefix}
                     ${formatRupiah(
@@ -3056,14 +3803,11 @@ document.addEventListener(
     "DOMContentLoaded",
     async function() {
 
-        await updateDashboard();
-
-        await loadEvents();
-
         const scheduleMonth =
             document.getElementById(
                 "schedule-month"
             );
+
 
         if (
             scheduleMonth &&
@@ -3072,8 +3816,13 @@ document.addEventListener(
 
             scheduleMonth.value =
                 getCurrentMonth();
+
         }
 
+
+        await updateDashboard();
+
+        await loadEvents();
 
         await loadSchedule();
 
