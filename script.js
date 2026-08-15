@@ -29,23 +29,21 @@ function enterDashboard() {
             "welcome-screen"
         );
 
-
     if (!welcome) {
-
         return;
-
     }
-
 
     welcome.style.opacity =
         "0";
-
 
     setTimeout(
         function() {
 
             welcome.style.display =
                 "none";
+
+            welcome.style.opacity =
+                "1";
 
         },
         250
@@ -72,7 +70,6 @@ function getToday() {
     const now =
         new Date();
 
-
     return (
         now.getFullYear() +
         "-" +
@@ -93,7 +90,6 @@ function getCurrentMonth() {
     const now =
         new Date();
 
-
     return (
         now.getFullYear() +
         "-" +
@@ -110,36 +106,27 @@ function getNextMonth(month) {
     const parts =
         month.split("-");
 
-
     let year =
         Number(parts[0]);
-
 
     let monthNumber =
         Number(parts[1]);
 
-
     monthNumber++;
-
 
     if (
         monthNumber === 13
     ) {
 
-        monthNumber =
-            1;
-
+        monthNumber = 1;
         year++;
 
     }
 
-
     return (
         year +
         "-" +
-        String(
-            monthNumber
-        ).padStart(2, "0") +
+        String(monthNumber).padStart(2, "0") +
         "-01"
     );
 
@@ -153,13 +140,11 @@ function getNextMonth(month) {
 async function showPage(page) {
 
     const pages = [
-
         "dashboard",
         "event",
         "schedule",
         "inventory",
         "finance"
-
     ];
 
 
@@ -168,10 +153,8 @@ async function showPage(page) {
 
             const element =
                 document.getElementById(
-                    name +
-                    "-page"
+                    name + "-page"
                 );
-
 
             if (element) {
 
@@ -186,8 +169,7 @@ async function showPage(page) {
 
     const selected =
         document.getElementById(
-            page +
-            "-page"
+            page + "-page"
         );
 
 
@@ -230,8 +212,7 @@ async function showPage(page) {
 
 
     if (
-        page ===
-        "dashboard"
+        page === "dashboard"
     ) {
 
         await updateDashboard();
@@ -240,8 +221,7 @@ async function showPage(page) {
 
 
     if (
-        page ===
-        "event"
+        page === "event"
     ) {
 
         await loadEvents();
@@ -250,26 +230,23 @@ async function showPage(page) {
 
 
     if (
-        page ===
-        "schedule"
+        page === "schedule"
     ) {
 
-        const input =
+        const monthInput =
             document.getElementById(
                 "schedule-month"
             );
 
-
         if (
-            input &&
-            !input.value
+            monthInput &&
+            !monthInput.value
         ) {
 
-            input.value =
+            monthInput.value =
                 getCurrentMonth();
 
         }
-
 
         await loadSchedule();
 
@@ -277,8 +254,7 @@ async function showPage(page) {
 
 
     if (
-        page ===
-        "inventory"
+        page === "inventory"
     ) {
 
         await loadInventory();
@@ -287,8 +263,7 @@ async function showPage(page) {
 
 
     if (
-        page ===
-        "finance"
+        page === "finance"
     ) {
 
         await loadFinancePage();
@@ -326,8 +301,7 @@ async function updateDashboard() {
 
 
     const list =
-        events ||
-        [];
+        events || [];
 
 
     const activeEvents =
@@ -399,7 +373,6 @@ async function updateDashboard() {
     let fullIncome =
         0;
 
-
     let personIncome =
         0;
 
@@ -410,8 +383,7 @@ async function updateDashboard() {
             const amount =
                 Number(
                     event.pendapatan_final
-                ) ||
-                0;
+                ) || 0;
 
 
             if (
@@ -462,7 +434,7 @@ async function updateDashboard() {
 
 
 /* =========================================================
-   EVENT FORM
+   EVENT
 ========================================================= */
 
 function showForm() {
@@ -472,14 +444,12 @@ function showForm() {
             "event-form"
         );
 
-
     if (form) {
 
         form.style.display =
             "block";
 
     }
-
 
     toggleIncomeType();
 
@@ -493,14 +463,12 @@ function hideForm() {
             "event-form"
         );
 
-
     if (form) {
 
         form.style.display =
             "none";
 
     }
-
 
     clearEventForm();
 
@@ -510,14 +478,12 @@ function hideForm() {
 function clearEventForm() {
 
     [
-
         "event-name",
         "event-client",
         "event-date",
         "event-location",
         "event-price",
         "price-per-person"
-
     ].forEach(
         function(id) {
 
@@ -525,7 +491,6 @@ function clearEventForm() {
                 document.getElementById(
                     id
                 );
-
 
             if (element) {
 
@@ -612,10 +577,6 @@ function toggleIncomeType() {
 }
 
 
-/* =========================================================
-   SAVE EVENT
-========================================================= */
-
 async function saveEvent() {
 
     const namaEvent =
@@ -653,8 +614,7 @@ async function saveEvent() {
             document.getElementById(
                 "event-price"
             ).value
-        ) ||
-        0;
+        ) || 0;
 
 
     const hargaPerPerson =
@@ -662,8 +622,7 @@ async function saveEvent() {
             document.getElementById(
                 "price-per-person"
             ).value
-        ) ||
-        0;
+        ) || 0;
 
 
     if (
@@ -683,8 +642,7 @@ async function saveEvent() {
 
 
     if (
-        incomeType ===
-        "full" &&
+        incomeType === "full" &&
         hargaFull <= 0
     ) {
 
@@ -698,8 +656,7 @@ async function saveEvent() {
 
 
     if (
-        incomeType ===
-        "per-person" &&
+        incomeType === "per-person" &&
         hargaPerPerson <= 0
     ) {
 
@@ -724,46 +681,44 @@ async function saveEvent() {
     } =
         await supabaseClient
             .from("events")
-            .insert(
-                [
-                    {
+            .insert([
+                {
 
-                        id:
-                            Date.now(),
+                    id:
+                        Date.now(),
 
-                        nama_event:
-                            namaEvent,
+                    nama_event:
+                        namaEvent,
 
-                        klien:
-                            klien,
+                    klien:
+                        klien,
 
-                        tanggal:
-                            tanggal,
+                    tanggal:
+                        tanggal,
 
-                        lokasi:
-                            lokasi,
+                    lokasi:
+                        lokasi,
 
-                        income_type:
-                            incomeType,
+                    income_type:
+                        incomeType,
 
-                        harga:
-                            harga,
+                    harga:
+                        harga,
 
-                        jumlah_orang:
-                            0,
+                    jumlah_orang:
+                        0,
 
-                        pendapatan_final:
-                            incomeType ===
-                            "full"
-                                ? hargaFull
-                                : 0,
+                    pendapatan_final:
+                        incomeType ===
+                        "full"
+                            ? hargaFull
+                            : 0,
 
-                        status:
-                            "aktif"
+                    status:
+                        "aktif"
 
-                    }
-                ]
-            );
+                }
+            ]);
 
 
     if (error) {
@@ -792,10 +747,6 @@ async function saveEvent() {
 
 }
 
-
-/* =========================================================
-   LOAD EVENTS
-========================================================= */
 
 async function loadEvents() {
 
@@ -886,31 +837,17 @@ async function loadEvents() {
                 "event";
 
 
-            let incomeInfo =
-                "";
-
-
-            if (
-                event.income_type ===
-                "full"
-            ) {
-
-                incomeInfo =
-                    "💼 Full Event • " +
-                    formatRupiah(
-                        event.harga
-                    );
-
-            } else {
-
-                incomeInfo =
-                    "👥 Per Orang • " +
-                    formatRupiah(
-                        event.harga
-                    ) +
-                    " / orang";
-
-            }
+            const incomeInfo =
+                event.income_type === "full"
+                    ? "💼 Full Event • " +
+                      formatRupiah(
+                          event.harga
+                      )
+                    : "👥 Per Orang • " +
+                      formatRupiah(
+                          event.harga
+                      ) +
+                      " / orang";
 
 
             card.innerHTML = `
@@ -981,7 +918,6 @@ async function loadEvents() {
 
 /* =========================================================
    FINISH EVENT
-   OTOMATIS MASUK PEMASUKAN
 ========================================================= */
 
 async function finishEvent(id) {
@@ -1005,10 +941,6 @@ async function finishEvent(id) {
         !event
     ) {
 
-        console.error(
-            error
-        );
-
         alert(
             "Event tidak ditemukan."
         );
@@ -1021,15 +953,13 @@ async function finishEvent(id) {
     let jumlahOrang =
         Number(
             event.jumlah_orang
-        ) ||
-        0;
+        ) || 0;
 
 
     let pendapatanFinal =
         Number(
             event.pendapatan_final
-        ) ||
-        0;
+        ) || 0;
 
 
     if (
@@ -1037,14 +967,14 @@ async function finishEvent(id) {
         "per-person"
     ) {
 
-        const inputJumlah =
+        const jumlah =
             prompt(
                 "Berapa jumlah orang yang foto?"
             );
 
 
         if (
-            inputJumlah ===
+            jumlah ===
             null
         ) {
 
@@ -1054,15 +984,11 @@ async function finishEvent(id) {
 
 
         jumlahOrang =
-            Number(
-                inputJumlah
-            ) ||
-            0;
+            Number(jumlah) || 0;
 
 
         if (
-            jumlahOrang <=
-            0
+            jumlahOrang <= 0
         ) {
 
             alert(
@@ -1079,8 +1005,7 @@ async function finishEvent(id) {
             (
                 Number(
                     event.harga
-                ) ||
-                0
+                ) || 0
             );
 
     }
@@ -1094,15 +1019,13 @@ async function finishEvent(id) {
         pendapatanFinal =
             Number(
                 event.harga
-            ) ||
-            0;
+            ) || 0;
 
     }
 
 
     if (
-        pendapatanFinal <=
-        0
+        pendapatanFinal <= 0
     ) {
 
         alert(
@@ -1132,8 +1055,7 @@ async function finishEvent(id) {
                     "selesai",
 
                 tanggal_selesai:
-                    new Date()
-                        .toISOString()
+                    new Date().toISOString()
 
             })
             .eq(
@@ -1158,10 +1080,7 @@ async function finishEvent(id) {
 
 
     const {
-        data:
-            existingTransaction,
-        error:
-            transactionCheckError
+        data: existingTransaction
     } =
         await supabaseClient
             .from("transactions")
@@ -1182,58 +1101,50 @@ async function finishEvent(id) {
 
 
     if (
-        !transactionCheckError &&
-        (
-            !existingTransaction ||
-            existingTransaction.length ===
-            0
-        )
+        !existingTransaction ||
+        existingTransaction.length === 0
     ) {
 
         const {
             error:
-                transactionInsertError
+                transactionError
         } =
             await supabaseClient
                 .from("transactions")
-                .insert(
-                    [
-                        {
+                .insert([
+                    {
 
-                            id:
-                                Date.now(),
+                        id:
+                            Date.now(),
 
-                            type:
-                                "income",
+                        type:
+                            "income",
 
-                            category:
-                                "event",
+                        category:
+                            "event",
 
-                            amount:
-                                pendapatanFinal,
+                        amount:
+                            pendapatanFinal,
 
-                            description:
-                                "Pendapatan event: " +
-                                event.nama_event,
+                        description:
+                            "Pendapatan event: " +
+                            event.nama_event,
 
-                            event_id:
-                                event.id,
+                        event_id:
+                            event.id,
 
-                            transaction_date:
-                                event.tanggal ||
-                                getToday()
+                        transaction_date:
+                            event.tanggal ||
+                            getToday()
 
-                        }
-                    ]
-                );
+                    }
+                ]);
 
 
-        if (
-            transactionInsertError
-        ) {
+        if (transactionError) {
 
             console.error(
-                transactionInsertError
+                transactionError
             );
 
             alert(
@@ -1257,7 +1168,7 @@ async function finishEvent(id) {
 
 
 /* =========================================================
-   CANCEL EVENT
+   CANCEL / DELETE EVENT
 ========================================================= */
 
 async function cancelEvent(id) {
@@ -1289,8 +1200,7 @@ async function cancelEvent(id) {
                     0,
 
                 tanggal_selesai:
-                    new Date()
-                        .toISOString()
+                    new Date().toISOString()
 
             })
             .eq(
@@ -1322,10 +1232,6 @@ async function cancelEvent(id) {
 
 }
 
-
-/* =========================================================
-   DELETE EVENT
-========================================================= */
 
 async function deleteEvent(id) {
 
@@ -1413,9 +1319,7 @@ async function loadSchedule() {
     }
 
 
-    if (
-        !monthInput.value
-    ) {
+    if (!monthInput.value) {
 
         monthInput.value =
             getCurrentMonth();
@@ -1521,7 +1425,6 @@ async function loadSchedule() {
     if (error) {
 
         console.error(
-            "Schedule error:",
             error
         );
 
@@ -1532,8 +1435,6 @@ async function loadSchedule() {
                     grid-column:1/-1;
                     padding:30px;
                     text-align:center;
-                    font-family:Poppins,sans-serif;
-                    color:#7189a5;
                 "
             >
                 Gagal memuat kalender.
@@ -1550,29 +1451,21 @@ async function loadSchedule() {
         {};
 
 
-    (
-        events ||
-        []
-    )
+    (events || [])
         .forEach(
             function(event) {
 
                 if (
-                    !grouped[
-                        event.tanggal
-                    ]
+                    !grouped[event.tanggal]
                 ) {
 
-                    grouped[
-                        event.tanggal
-                    ] = [];
+                    grouped[event.tanggal] =
+                        [];
 
                 }
 
 
-                grouped[
-                    event.tanggal
-                ]
+                grouped[event.tanggal]
                     .push(event);
 
             }
@@ -1584,9 +1477,9 @@ async function loadSchedule() {
 
 
     for (
-        let index = 0;
-        index < firstWeekday;
-        index++
+        let i = 0;
+        i < firstWeekday;
+        i++
     ) {
 
         const empty =
@@ -1594,10 +1487,8 @@ async function loadSchedule() {
                 "div"
             );
 
-
         empty.className =
             "schedule-day empty";
-
 
         calendarGrid.appendChild(
             empty
@@ -1631,11 +1522,10 @@ async function loadSchedule() {
         const dateString =
             selectedMonth +
             "-" +
-            String(day)
-                .padStart(
-                    2,
-                    "0"
-                );
+            String(day).padStart(
+                2,
+                "0"
+            );
 
 
         const dayBox =
@@ -1680,9 +1570,7 @@ async function loadSchedule() {
 
 
         (
-            grouped[
-                dateString
-            ] ||
+            grouped[dateString] ||
             []
         )
             .forEach(
@@ -1747,16 +1635,13 @@ async function loadSchedule() {
                         eventName
                     );
 
-
                     eventCard.appendChild(
                         location
                     );
 
-
                     eventCard.appendChild(
                         client
                     );
-
 
                     dayBox.appendChild(
                         eventCard
@@ -1834,6 +1719,10 @@ function changeScheduleMonth(
    INVENTORY
 ========================================================= */
 
+let activeInventoryCategory =
+    "cetak";
+
+
 function showInventoryForm() {
 
     const form =
@@ -1876,12 +1765,10 @@ function hideInventoryForm() {
 function clearInventoryForm() {
 
     [
-
         "item-name",
         "item-brand",
         "item-quantity",
         "item-price"
-
     ].forEach(
         function(id) {
 
@@ -1889,7 +1776,6 @@ function clearInventoryForm() {
                 document.getElementById(
                     id
                 );
-
 
             if (element) {
 
@@ -1911,55 +1797,151 @@ function clearInventoryForm() {
     if (category) {
 
         category.value =
-            "cetak";
+            activeInventoryCategory;
 
     }
 
 }
 
 
+function filterInventory(
+    category
+) {
+
+    activeInventoryCategory =
+        category;
+
+
+    document
+        .querySelectorAll(
+            ".inventory-category-tab"
+        )
+        .forEach(
+            function(button) {
+
+                button.classList.toggle(
+                    "active",
+                    button.dataset.category ===
+                    category
+                );
+
+            }
+        );
+
+
+    loadInventory();
+
+}
+
+
+function getInventoryCategoryLabel(
+    category
+) {
+
+    const labels = {
+
+        cetak:
+            "🖨️ Cetak",
+
+        kamera:
+            "📷 Kamera",
+
+        properti:
+            "🎭 Properti",
+
+        other:
+            "➕ Lainnya"
+
+    };
+
+
+    return (
+        labels[category] ||
+        category ||
+        "-"
+    );
+
+}
+
+
+function setInventoryActiveTab(
+    category
+) {
+
+    activeInventoryCategory =
+        category;
+
+
+    document
+        .querySelectorAll(
+            ".inventory-category-tab"
+        )
+        .forEach(
+            function(button) {
+
+                button.classList.toggle(
+                    "active",
+                    button.dataset.category ===
+                    category
+                );
+
+            }
+        );
+
+}
+
+
 async function saveInventory() {
 
-    const nama =
+    const name =
         document.getElementById(
             "item-name"
         ).value.trim();
 
 
-    const merk =
+    const brand =
         document.getElementById(
             "item-brand"
         ).value.trim();
 
 
-    const kategori =
+    const category =
         document.getElementById(
             "item-category"
         ).value;
 
 
-    const jumlah =
+    const quantity =
         Number(
             document.getElementById(
                 "item-quantity"
             ).value
-        ) ||
-        0;
+        ) || 0;
 
 
-    const harga =
+    const price =
         Number(
             document.getElementById(
                 "item-price"
             ).value
-        ) ||
-        0;
+        ) || 0;
 
 
-    if (!nama) {
+    if (!name) {
 
         alert(
             "Masukkan nama barang."
+        );
+
+        return;
+
+    }
+
+
+    if (quantity < 0) {
+
+        alert(
+            "Jumlah tidak boleh kurang dari 0."
         );
 
         return;
@@ -1972,31 +1954,29 @@ async function saveInventory() {
     } =
         await supabaseClient
             .from("inventory")
-            .insert(
-                [
-                    {
+            .insert([
+                {
 
-                        id:
-                            Date.now(),
+                    id:
+                        Date.now(),
 
-                        nama:
-                            nama,
+                    nama:
+                        name,
 
-                        merk:
-                            merk,
+                    merk:
+                        brand,
 
-                        kategori:
-                            kategori,
+                    kategori:
+                        category,
 
-                        jumlah:
-                            jumlah,
+                    jumlah:
+                        quantity,
 
-                        harga:
-                            harga
+                    harga:
+                        price
 
-                    }
-                ]
-            );
+                }
+            ]);
 
 
     if (error) {
@@ -2013,6 +1993,11 @@ async function saveInventory() {
         return;
 
     }
+
+
+    setInventoryActiveTab(
+        category
+    );
 
 
     hideInventoryForm();
@@ -2044,6 +2029,10 @@ async function loadInventory() {
         await supabaseClient
             .from("inventory")
             .select("*")
+            .eq(
+                "kategori",
+                activeInventoryCategory
+            )
             .order(
                 "created_at",
                 {
@@ -2056,8 +2045,25 @@ async function loadInventory() {
     if (error) {
 
         console.error(
+            "Inventory error:",
             error
         );
+
+        inventoryList.innerHTML = `
+
+            <div class="event">
+
+                <div class="event-name">
+                    GAGAL MEMUAT INVENTARIS
+                </div>
+
+                <div class="event-info">
+                    ${error.message}
+                </div>
+
+            </div>
+
+        `;
 
         return;
 
@@ -2083,7 +2089,7 @@ async function loadInventory() {
                 </div>
 
                 <div class="event-info">
-                    Tambahkan barang pertama kamu.
+                    Belum ada barang di kategori ini.
                 </div>
 
             </div>
@@ -2105,112 +2111,135 @@ async function loadInventory() {
 
 
             card.className =
-                "event";
-
-
-            let kategoriText =
-                "🎭 Properti";
-
-
-            if (
-                item.kategori ===
-                "cetak"
-            ) {
-
-                kategoriText =
-                    "🖨️ Cetak";
-
-            }
-            else if (
-                item.kategori ===
-                "kamera"
-            ) {
-
-                kategoriText =
-                    "📷 Kamera";
-
-            }
-
-
-            let stockControls =
-                "";
-
-
-            if (
-                item.kategori ===
-                "cetak"
-            ) {
-
-                stockControls = `
-
-                    <div class="event-actions">
-
-                        <input
-                            type="number"
-                            min="1"
-                            id="stock-input-${item.id}"
-                            placeholder="Jumlah"
-                            style="width:120px;"
-                        >
-
-                        <button
-                            type="button"
-                            onclick="updateInventoryStock(${item.id},'add')"
-                        >
-                            ➕ TAMBAH
-                        </button>
-
-                        <button
-                            type="button"
-                            onclick="updateInventoryStock(${item.id},'subtract')"
-                        >
-                            ➖ KURANGI
-                        </button>
-
-                    </div>
-
-                `;
-
-            }
+                "inventory-item";
 
 
             card.innerHTML = `
 
-                <div class="event-name">
+                <button
+                    type="button"
+                    class="inventory-item-button"
+                    onclick="toggleInventoryDetail(${item.id})"
+                >
                     ${item.nama}
-                </div>
+                </button>
 
-                <div class="event-info">
-                    🏷️ MERK:
-                    ${item.merk || "-"}
-                </div>
 
-                <div class="event-info">
-                    📂 KATEGORI:
-                    ${kategoriText}
-                </div>
+                <div
+                    id="inventory-detail-${item.id}"
+                    class="inventory-detail"
+                >
 
-                <div class="event-info">
-                    📦 JUMLAH:
-                    ${item.jumlah}
-                </div>
+                    <div
+                        class="inventory-detail-divider"
+                    ></div>
 
-                ${stockControls}
 
-                <div class="event-info">
-                    💰 HARGA SATUAN:
-                    ${formatRupiah(item.harga)}
-                </div>
-
-                <div class="event-actions">
-
-                    <button
-                        type="button"
-                        class="delete-event-button"
-                        onclick="deleteInventory(${item.id})"
+                    <div
+                        class="inventory-detail-row"
                     >
-                        🗑️
-                    </button>
+
+                        <span
+                            class="inventory-detail-label"
+                        >
+                            Merk
+                        </span>
+
+                        <span
+                            class="inventory-detail-value"
+                        >
+                            ${item.merk || "-"}
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="inventory-detail-row"
+                    >
+
+                        <span
+                            class="inventory-detail-label"
+                        >
+                            Kategori
+                        </span>
+
+                        <span
+                            class="inventory-detail-value"
+                        >
+                            ${getInventoryCategoryLabel(
+                                item.kategori
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="inventory-detail-row"
+                    >
+
+                        <span
+                            class="inventory-detail-label"
+                        >
+                            Harga
+                        </span>
+
+                        <span
+                            class="inventory-detail-value"
+                        >
+                            ${formatRupiah(
+                                item.harga
+                            )}
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="inventory-stock-controls"
+                    >
+
+                        <button
+                            type="button"
+                            class="inventory-stock-button"
+                            onclick="updateInventoryStock(${item.id}, 'subtract')"
+                        >
+                            −
+                        </button>
+
+
+                        <div
+                            class="inventory-stock-value"
+                        >
+                            ${item.jumlah}
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="inventory-stock-button"
+                            onclick="updateInventoryStock(${item.id}, 'add')"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="inventory-delete-row"
+                    >
+
+                        <button
+                            type="button"
+                            class="inventory-delete-button"
+                            onclick="deleteInventory(${item.id})"
+                        >
+                            🗑️ HAPUS BARANG
+                        </button>
+
+                    </div>
 
                 </div>
 
@@ -2227,46 +2256,48 @@ async function loadInventory() {
 }
 
 
-async function updateInventoryStock(
-    id,
-    mode
+function toggleInventoryDetail(
+    id
 ) {
 
-    const input =
+    const detail =
         document.getElementById(
-            "stock-input-" +
+            "inventory-detail-" +
             id
         );
 
 
-    if (!input) {
+    if (!detail) {
 
         return;
 
     }
 
 
-    const jumlah =
-        Number(
-            input.value
+    const item =
+        detail.closest(
+            ".inventory-item"
         );
 
 
-    if (
-        !Number.isFinite(
-            jumlah
-        ) ||
-        jumlah <= 0
-    ) {
-
-        alert(
-            "Masukkan jumlah yang valid."
-        );
+    if (!item) {
 
         return;
 
     }
 
+
+    item.classList.toggle(
+        "open"
+    );
+
+}
+
+
+async function updateInventoryStock(
+    id,
+    mode
+) {
 
     const {
         data: item,
@@ -2300,11 +2331,10 @@ async function updateInventoryStock(
     }
 
 
-    let jumlahBaru =
+    let newQuantity =
         Number(
             item.jumlah
-        ) ||
-        0;
+        ) || 0;
 
 
     if (
@@ -2312,8 +2342,8 @@ async function updateInventoryStock(
         "add"
     ) {
 
-        jumlahBaru +=
-            jumlah;
+        newQuantity +=
+            1;
 
     }
 
@@ -2323,14 +2353,15 @@ async function updateInventoryStock(
         "subtract"
     ) {
 
-        jumlahBaru -=
-            jumlah;
+        newQuantity -=
+            1;
 
     }
 
 
     if (
-        jumlahBaru < 0
+        newQuantity <
+        0
     ) {
 
         alert(
@@ -2348,12 +2379,10 @@ async function updateInventoryStock(
     } =
         await supabaseClient
             .from("inventory")
-            .update(
-                {
-                    jumlah:
-                        jumlahBaru
-                }
-            )
+            .update({
+                jumlah:
+                    newQuantity
+            })
             .eq(
                 "id",
                 id
@@ -2367,7 +2396,8 @@ async function updateInventoryStock(
         );
 
         alert(
-            "Gagal mengubah stok."
+            "Gagal mengubah stok: " +
+            updateError.message
         );
 
         return;
@@ -2416,7 +2446,8 @@ async function deleteInventory(
         );
 
         alert(
-            "Gagal menghapus barang."
+            "Gagal menghapus barang: " +
+            error.message
         );
 
         return;
@@ -2559,22 +2590,22 @@ function showExpenseCategory(
 
         other:
             3
+
     };
 
 
-    const selectedCard =
+    if (
         cards[
-            indexMap[
-                category
-            ]
-        ];
+            indexMap[category]
+        ]
+    ) {
 
-
-    if (selectedCard) {
-
-        selectedCard.classList.add(
-            "active"
-        );
+        cards[
+            indexMap[category]
+        ]
+            .classList.add(
+                "active"
+            );
 
     }
 
@@ -2594,8 +2625,7 @@ async function saveOtherIncome() {
             document.getElementById(
                 "income-other-amount"
             ).value
-        ) ||
-        0;
+        ) || 0;
 
 
     const date =
@@ -2616,9 +2646,7 @@ async function saveOtherIncome() {
     }
 
 
-    if (
-        amount <= 0
-    ) {
+    if (amount <= 0) {
 
         alert(
             "Masukkan nominal pemasukan."
@@ -2634,34 +2662,32 @@ async function saveOtherIncome() {
     } =
         await supabaseClient
             .from("transactions")
-            .insert(
-                [
-                    {
+            .insert([
+                {
 
-                        id:
-                            Date.now(),
+                    id:
+                        Date.now(),
 
-                        type:
-                            "income",
+                    type:
+                        "income",
 
-                        category:
-                            "other",
+                    category:
+                        "other",
 
-                        amount:
-                            amount,
+                    amount:
+                        amount,
 
-                        description:
-                            description,
+                    description:
+                        description,
 
-                        event_id:
-                            null,
+                    event_id:
+                        null,
 
-                        transaction_date:
-                            date
+                    transaction_date:
+                        date
 
-                    }
-                ]
-            );
+                }
+            ]);
 
 
     if (error) {
@@ -2727,8 +2753,7 @@ async function saveExpense() {
             document.getElementById(
                 "expense-amount"
             ).value
-        ) ||
-        0;
+        ) || 0;
 
 
     const date =
@@ -2749,10 +2774,7 @@ async function saveExpense() {
     }
 
 
-    if (
-        amount <=
-        0
-    ) {
+    if (amount <= 0) {
 
         alert(
             "Masukkan nominal pengeluaran."
@@ -2768,34 +2790,32 @@ async function saveExpense() {
     } =
         await supabaseClient
             .from("transactions")
-            .insert(
-                [
-                    {
+            .insert([
+                {
 
-                        id:
-                            Date.now(),
+                    id:
+                        Date.now(),
 
-                        type:
-                            "expense",
+                    type:
+                        "expense",
 
-                        category:
-                            category,
+                    category:
+                        category,
 
-                        amount:
-                            amount,
+                    amount:
+                        amount,
 
-                        description:
-                            description,
+                    description:
+                        description,
 
-                        event_id:
-                            null,
+                    event_id:
+                        null,
 
-                        transaction_date:
-                            date
+                    transaction_date:
+                        date
 
-                    }
-                ]
-            );
+                }
+            ]);
 
 
     if (error) {
@@ -2955,7 +2975,7 @@ async function loadFinanceSummary() {
     if (error) {
 
         console.error(
-            "Finance summary error:",
+            "Finance error:",
             error
         );
 
@@ -2965,8 +2985,7 @@ async function loadFinanceSummary() {
 
 
     const list =
-        transactions ||
-        [];
+        transactions || [];
 
 
     let totalIncome =
@@ -2990,6 +3009,7 @@ async function loadFinanceSummary() {
 
         other:
             0
+
     };
 
 
@@ -2999,8 +3019,7 @@ async function loadFinanceSummary() {
             const amount =
                 Number(
                     transaction.amount
-                ) ||
-                0;
+                ) || 0;
 
 
             if (
@@ -3137,28 +3156,23 @@ function renderFinanceChart(
         Math.max(
             totalIncome,
             totalExpense,
-            Math.abs(
-                profit
-            ),
+            Math.abs(profit),
             1
         );
 
 
-    const barHeight =
-        function(value) {
+    function height(value) {
 
-            return Math.max(
-                18,
-                Math.round(
-                    (
-                        value /
-                        max
-                    ) *
-                    170
-                )
-            );
+        return Math.max(
+            18,
+            Math.round(
+                value /
+                max *
+                170
+            )
+        );
 
-        };
+    }
 
 
     const profitColor =
@@ -3228,7 +3242,6 @@ function renderFinanceChart(
                 "
             >
 
-
                 <div
                     style="
                         height:100%;
@@ -3258,7 +3271,7 @@ function renderFinanceChart(
                     <div
                         style="
                             width:65px;
-                            height:${barHeight(
+                            height:${height(
                                 totalIncome
                             )}px;
                             border-radius:14px 14px 6px 6px;
@@ -3276,14 +3289,12 @@ function renderFinanceChart(
                             font-family:Poppins,sans-serif;
                             font-size:11px;
                             font-weight:700;
-                            color:#21456f;
                         "
                     >
                         PEMASUKAN
                     </div>
 
                 </div>
-
 
 
                 <div
@@ -3315,7 +3326,7 @@ function renderFinanceChart(
                     <div
                         style="
                             width:65px;
-                            height:${barHeight(
+                            height:${height(
                                 totalExpense
                             )}px;
                             border-radius:14px 14px 6px 6px;
@@ -3333,14 +3344,12 @@ function renderFinanceChart(
                             font-family:Poppins,sans-serif;
                             font-size:11px;
                             font-weight:700;
-                            color:#21456f;
                         "
                     >
                         PENGELUARAN
                     </div>
 
                 </div>
-
 
 
                 <div
@@ -3372,7 +3381,7 @@ function renderFinanceChart(
                     <div
                         style="
                             width:65px;
-                            height:${barHeight(
+                            height:${height(
                                 Math.abs(
                                     profit
                                 )
@@ -3388,7 +3397,6 @@ function renderFinanceChart(
                             font-family:Poppins,sans-serif;
                             font-size:11px;
                             font-weight:700;
-                            color:#21456f;
                         "
                     >
                         LABA BERSIH
@@ -3396,9 +3404,7 @@ function renderFinanceChart(
 
                 </div>
 
-
             </div>
-
 
 
             <div>
@@ -3406,7 +3412,6 @@ function renderFinanceChart(
                 <div
                     style="
                         font-family:Chicken Pie,sans-serif;
-                        text-transform:uppercase;
                         font-size:18px;
                         color:#173b68;
                         margin-bottom:12px;
@@ -3424,10 +3429,8 @@ function renderFinanceChart(
                                 Math.max(
                                     0,
                                     Math.round(
-                                        (
-                                            row[1] /
-                                            maxCategory
-                                        ) *
+                                        row[1] /
+                                        maxCategory *
                                         100
                                     )
                                 );
@@ -3437,7 +3440,6 @@ function renderFinanceChart(
 
                                 <div
                                     style="
-                                        width:100%;
                                         display:grid;
                                         grid-template-columns:115px 1fr auto;
                                         align-items:center;
@@ -3448,10 +3450,8 @@ function renderFinanceChart(
 
                                     <div
                                         style="
-                                            font-family:Poppins,sans-serif;
                                             font-size:11px;
                                             font-weight:700;
-                                            color:#21456f;
                                         "
                                     >
                                         ${row[0]}
@@ -3486,10 +3486,8 @@ function renderFinanceChart(
 
                                     <div
                                         style="
-                                            font-family:Poppins,sans-serif;
                                             font-size:11px;
                                             font-weight:700;
-                                            color:#21456f;
                                             text-align:right;
                                         "
                                     >
@@ -3503,8 +3501,7 @@ function renderFinanceChart(
                             `;
 
                         }
-                    )
-                    .join("")
+                    ).join("")
                 }
 
             </div>
@@ -3590,8 +3587,7 @@ async function renderFinanceTransactions(
 
 
     if (
-        eventIds.length >
-        0
+        eventIds.length > 0
     ) {
 
         const {
@@ -3605,8 +3601,7 @@ async function renderFinanceTransactions(
                 .in(
                     "id",
                     [
-                        ...
-                        new Set(
+                        ...new Set(
                             eventIds
                         )
                     ]
@@ -3614,19 +3609,17 @@ async function renderFinanceTransactions(
 
 
         (
-            events ||
-            []
-        )
-            .forEach(
-                function(event) {
+            events || []
+        ).forEach(
+            function(event) {
 
-                    eventsMap.set(
-                        event.id,
-                        event.nama_event
-                    );
+                eventsMap.set(
+                    event.id,
+                    event.nama_event
+                );
 
-                }
-            );
+            }
+        );
 
     }
 
@@ -3644,7 +3637,7 @@ async function renderFinanceTransactions(
                 "finance-card";
 
 
-            const isIncome =
+            const income =
                 transaction.type ===
                 "income";
 
@@ -3654,7 +3647,7 @@ async function renderFinanceTransactions(
 
 
             if (
-                isIncome &&
+                income &&
                 transaction.category ===
                 "event"
             ) {
@@ -3666,7 +3659,7 @@ async function renderFinanceTransactions(
 
 
             if (
-                isIncome &&
+                income &&
                 transaction.category ===
                 "other"
             ) {
@@ -3711,7 +3704,7 @@ async function renderFinanceTransactions(
 
 
             if (
-                !isIncome &&
+                !income &&
                 transaction.category ===
                 "other"
             ) {
@@ -3723,20 +3716,19 @@ async function renderFinanceTransactions(
 
 
             const color =
-                isIncome
+                income
                     ? "#2877c8"
                     : "#a83d3d";
 
 
             const prefix =
-                isIncome
+                income
                     ? "+"
                     : "-";
 
 
             const eventName =
-                transaction.event_id !==
-                null
+                transaction.event_id !== null
                     ? eventsMap.get(
                         transaction.event_id
                     )
@@ -3760,21 +3752,18 @@ async function renderFinanceTransactions(
                 ${
                     eventName
                         ? `
-
                             <div class="finance-info">
                                 📸 EVENT:
                                 ${eventName}
                             </div>
-
                         `
                         : ""
                 }
 
+
                 <div
                     class="finance-income"
-                    style="
-                        color:${color};
-                    "
+                    style="color:${color};"
                 >
                     ${prefix}
                     ${formatRupiah(
