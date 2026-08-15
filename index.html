@@ -11,24 +11,12 @@
     >
 
     <title>Sky Booth</title>
-    
-    <link
-        rel="icon"
-        type="image/png"
-        href="logo.png"
-    >
-
-    <link
-        rel="apple-touch-icon"
-        href="logo.png"
-    >
 
     <style>
 
         @import url(
             'https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap'
         );
-
 
         @font-face {
 
@@ -47,6 +35,7 @@
 
             font-display:
                 swap;
+
         }
 
 
@@ -83,12 +72,9 @@
             --shadow-soft:
                 0 8px 24px
                 rgba(53,122,190,0.10);
+
         }
 
-
-        /* =====================================================
-           RESET
-        ====================================================== */
 
         * {
 
@@ -100,6 +86,7 @@
 
             padding:
                 0;
+
         }
 
 
@@ -107,6 +94,7 @@
 
             scroll-behavior:
                 smooth;
+
         }
 
 
@@ -157,12 +145,9 @@
 
             padding-bottom:
                 38px;
+
         }
 
-
-        /* =====================================================
-           TYPOGRAPHY
-        ====================================================== */
 
         h1,
         h2,
@@ -185,6 +170,7 @@
 
             letter-spacing:
                 0.3px;
+
         }
 
 
@@ -198,11 +184,12 @@
 
             text-transform:
                 uppercase;
+
         }
 
 
         /* =====================================================
-           WELCOME SCREEN
+           WELCOME
         ====================================================== */
 
         .welcome-screen {
@@ -250,15 +237,15 @@
                 );
 
             transition:
-                opacity
-                0.25s ease;
+                opacity 0.25s ease;
+
         }
 
 
         .welcome-card {
 
             width:
-                min(390px, 100%);
+                min(390px,100%);
 
             padding:
                 42px 30px;
@@ -290,6 +277,7 @@
             box-shadow:
                 0 24px 60px
                 rgba(40,119,200,0.18);
+
         }
 
 
@@ -318,6 +306,7 @@
 
                 0 6px 12px
                 rgba(20,65,130,0.25);
+
         }
 
 
@@ -325,13 +314,14 @@
 
             color:
                 #2f73d8;
+
         }
 
 
         .welcome-title {
 
             margin-top:
-                15px;
+                20px;
 
             font-family:
                 "Chicken Pie",
@@ -345,6 +335,7 @@
 
             color:
                 var(--navy);
+
         }
 
 
@@ -394,8 +385,6 @@
                 0 10px 24px
                 rgba(40,119,200,0.20);
 
-            transition:
-                0.2s ease;
         }
 
 
@@ -403,6 +392,7 @@
 
             transform:
                 translateY(-1px);
+
         }
 
 
@@ -410,6 +400,7 @@
 
             transform:
                 scale(0.98);
+
         }
 
 
@@ -430,6 +421,7 @@
 
             padding:
                 18px;
+
         }
 
 
@@ -447,12 +439,6 @@
 
             flex-shrink:
                 0;
-
-            display:
-                flex;
-
-            flex-direction:
-                column;
 
             padding:
                 26px 18px;
@@ -486,6 +472,7 @@
 
             top:
                 18px;
+
         }
 
 
@@ -496,6 +483,7 @@
 
             margin-bottom:
                 35px;
+
         }
 
 
@@ -524,6 +512,7 @@
 
                 0 5px 9px
                 rgba(20,65,130,0.28);
+
         }
 
 
@@ -534,6 +523,7 @@
 
             -webkit-text-stroke:
                 0.8px #ffffff;
+
         }
 
 
@@ -551,6 +541,7 @@
 
             gap:
                 9px;
+
         }
 
 
@@ -593,6 +584,7 @@
 
             transition:
                 0.2s ease;
+
         }
 
 
@@ -609,6 +601,7 @@
 
             transform:
                 translateY(-1px);
+
         }
 
 
@@ -638,6 +631,7 @@
 
             padding:
                 12px 18px;
+
         }
 
 
@@ -655,6 +649,7 @@
 
             padding:
                 10px 8px 35px;
+
         }
 
 
@@ -665,6 +660,7 @@
 
             color:
                 var(--navy);
+
         }
 
 
@@ -682,6 +678,7 @@
 
             font-weight:
                 600;
+
         }
 
 
@@ -705,6 +702,7 @@
 
             margin-bottom:
                 30px;
+
         }
 
 
@@ -736,6 +734,7 @@
 
             box-shadow:
                 var(--shadow-soft);
+
         }
 
 
@@ -756,6 +755,7 @@
 
             margin-bottom:
                 10px;
+
         }
 
 
@@ -766,6 +766,7 @@
 
             color:
                 var(--navy);
+
         }
 
 
@@ -773,6 +774,7 @@
 
             margin-top:
                 28px;
+
         }
 
 
@@ -786,11 +788,12 @@
 
             margin-bottom:
                 14px;
+
         }
 
 
         /* =====================================================
-           EVENT / FINANCE PANEL
+           PANELS
         ====================================================== */
 
         .event,
@@ -831,6 +834,7 @@
 
             box-shadow:
                 var(--shadow-soft);
+
         }
 
 
@@ -841,6 +845,7 @@
 
             overflow:
                 hidden;
+
         }
 
 
@@ -874,6 +879,7 @@
 
             pointer-events:
                 none;
+
         }
 
 
@@ -888,6 +894,7 @@
 
             margin-bottom:
                 10px;
+
         }
 
 
@@ -912,17 +919,19 @@
 
             line-height:
                 1.6;
+
         }
 
 
         /* =====================================================
-           FORMS
+           FORM
         ====================================================== */
 
         .event-form-box {
 
             max-width:
                 650px;
+
         }
 
 
@@ -936,6 +945,7 @@
 
             margin-bottom:
                 20px;
+
         }
 
 
@@ -962,6 +972,7 @@
 
             font-weight:
                 700;
+
         }
 
 
@@ -1006,9 +1017,6 @@
             -webkit-backdrop-filter:
                 blur(10px);
 
-            box-shadow:
-                inset 0 1px 0
-                rgba(255,255,255,0.65);
         }
 
 
@@ -1016,6 +1024,7 @@
 
             color:
                 #8ba0ba;
+
         }
 
 
@@ -1029,6 +1038,7 @@
 
                 0 0 0 4px
                 rgba(88,170,247,0.11);
+
         }
 
 
@@ -1049,6 +1059,7 @@
 
             margin-top:
                 22px;
+
         }
 
 
@@ -1086,9 +1097,6 @@
             cursor:
                 pointer;
 
-            box-shadow:
-                0 10px 22px
-                rgba(40,119,200,0.20);
         }
 
 
@@ -1119,6 +1127,7 @@
 
             cursor:
                 pointer;
+
         }
 
 
@@ -1138,6 +1147,7 @@
 
             margin-top:
                 16px;
+
         }
 
 
@@ -1162,6 +1172,7 @@
 
             cursor:
                 pointer;
+
         }
 
 
@@ -1172,6 +1183,7 @@
 
             color:
                 #23734f;
+
         }
 
 
@@ -1182,6 +1194,7 @@
 
             color:
                 #a83d3d;
+
         }
 
 
@@ -1192,6 +1205,7 @@
 
             color:
                 #d34848;
+
         }
 
 
@@ -1215,6 +1229,7 @@
 
             margin-bottom:
                 14px;
+
         }
 
 
@@ -1231,6 +1246,7 @@
 
             color:
                 var(--text-soft);
+
         }
 
 
@@ -1244,6 +1260,7 @@
 
             border-radius:
                 999px;
+
         }
 
 
@@ -1263,6 +1280,7 @@
 
             margin-bottom:
                 18px;
+
         }
 
 
@@ -1279,6 +1297,7 @@
 
             color:
                 var(--navy);
+
         }
 
 
@@ -1308,21 +1327,12 @@
             color:
                 var(--sky-blue-dark);
 
-            font-family:
-                "Poppins",
-                sans-serif;
-
             font-size:
                 25px;
-
-            font-weight:
-                700;
 
             cursor:
                 pointer;
 
-            box-shadow:
-                var(--shadow-soft);
         }
 
 
@@ -1344,17 +1354,9 @@
             padding:
                 12px;
 
-            backdrop-filter:
-                blur(18px);
-
-            -webkit-backdrop-filter:
-                blur(18px);
-
-            box-shadow:
-                var(--shadow-soft);
-
             overflow-x:
                 auto;
+
         }
 
 
@@ -1369,6 +1371,7 @@
                     7,
                     minmax(0,1fr)
                 );
+
         }
 
 
@@ -1376,6 +1379,7 @@
 
             margin-bottom:
                 8px;
+
         }
 
 
@@ -1387,10 +1391,6 @@
             padding:
                 8px 4px;
 
-            font-family:
-                "Poppins",
-                sans-serif;
-
             font-size:
                 11px;
 
@@ -1399,6 +1399,7 @@
 
             color:
                 var(--text-soft);
+
         }
 
 
@@ -1417,11 +1418,9 @@
             background:
                 rgba(255,255,255,0.24);
 
-            position:
-                relative;
-
             overflow:
                 hidden;
+
         }
 
 
@@ -1429,6 +1428,7 @@
 
             background:
                 rgba(255,255,255,0.10);
+
         }
 
 
@@ -1449,6 +1449,7 @@
 
             margin-bottom:
                 7px;
+
         }
 
 
@@ -1483,6 +1484,7 @@
                     #69b7ff,
                     #2f7fd1
                 );
+
         }
 
 
@@ -1519,8 +1521,6 @@
                 0 5px 14px
                 rgba(53,122,190,0.09);
 
-            overflow:
-                hidden;
         }
 
 
@@ -1537,6 +1537,7 @@
 
             margin-bottom:
                 4px;
+
         }
 
 
@@ -1558,6 +1559,406 @@
 
             line-height:
                 1.35;
+
+        }
+
+
+        /* =====================================================
+           INVENTORY
+        ====================================================== */
+
+        .inventory-toolbar {
+
+            width:
+                100%;
+
+            display:
+                flex;
+
+            gap:
+                10px;
+
+            overflow-x:
+                auto;
+
+            padding:
+                3px 2px 8px;
+
+            margin-top:
+                24px;
+
+            scrollbar-width:
+                none;
+
+        }
+
+
+        .inventory-toolbar::-webkit-scrollbar {
+
+            display:
+                none;
+
+        }
+
+
+        .inventory-category-tab {
+
+            flex:
+                0 0 auto;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.75);
+
+            background:
+                rgba(255,255,255,0.42);
+
+            color:
+                var(--text-soft);
+
+            padding:
+                11px 17px;
+
+            border-radius:
+                999px;
+
+            font-family:
+                "Poppins",
+                sans-serif;
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            white-space:
+                nowrap;
+
+            cursor:
+                pointer;
+
+        }
+
+
+        .inventory-category-tab.active {
+
+            color:
+                #ffffff;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #69b7ff,
+                    #2f7fd1
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,0.80);
+
+            box-shadow:
+                0 8px 20px
+                rgba(40,119,200,0.18);
+
+        }
+
+
+        .inventory-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(180px,1fr)
+                );
+
+            gap:
+                12px;
+
+        }
+
+
+        .inventory-item {
+
+            width:
+                100%;
+
+            border:
+                1px solid
+                var(--glass-border);
+
+            border-radius:
+                17px;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.66),
+                    rgba(255,255,255,0.36)
+                );
+
+            box-shadow:
+                var(--shadow-soft);
+
+            overflow:
+                hidden;
+
+        }
+
+
+        .inventory-item-button {
+
+            width:
+                100%;
+
+            min-height:
+                62px;
+
+            padding:
+                15px 16px;
+
+            border:
+                0;
+
+            background:
+                transparent;
+
+            color:
+                var(--navy);
+
+            text-align:
+                left;
+
+            font-family:
+                "Chicken Pie",
+                sans-serif;
+
+            font-size:
+                17px;
+
+            cursor:
+                pointer;
+
+        }
+
+
+        .inventory-item-button:hover {
+
+            background:
+                rgba(255,255,255,0.36);
+
+        }
+
+
+        .inventory-detail {
+
+            display:
+                none;
+
+            padding:
+                0 16px 16px;
+
+        }
+
+
+        .inventory-item.open
+        .inventory-detail {
+
+            display:
+                block;
+
+        }
+
+
+        .inventory-detail-divider {
+
+            height:
+                1px;
+
+            width:
+                100%;
+
+            margin-bottom:
+                14px;
+
+            background:
+                rgba(113,137,165,0.18);
+
+        }
+
+
+        .inventory-detail-row {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            margin-top:
+                8px;
+
+            font-family:
+                "Poppins",
+                sans-serif;
+
+            font-size:
+                12px;
+
+        }
+
+
+        .inventory-detail-label {
+
+            color:
+                var(--text-soft);
+
+        }
+
+
+        .inventory-detail-value {
+
+            color:
+                var(--navy);
+
+            font-weight:
+                700;
+
+            text-align:
+                right;
+
+        }
+
+
+        .inventory-stock-controls {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            gap:
+                10px;
+
+            margin-top:
+                17px;
+
+        }
+
+
+        .inventory-stock-button {
+
+            width:
+                38px;
+
+            height:
+                38px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.75);
+
+            border-radius:
+                999px;
+
+            background:
+                rgba(255,255,255,0.50);
+
+            color:
+                var(--navy);
+
+            font-size:
+                18px;
+
+            font-weight:
+                700;
+
+            cursor:
+                pointer;
+
+        }
+
+
+        .inventory-stock-value {
+
+            min-width:
+                70px;
+
+            text-align:
+                center;
+
+            font-size:
+                18px;
+
+            font-weight:
+                700;
+
+            color:
+                var(--navy);
+
+        }
+
+
+        .inventory-delete-row {
+
+            display:
+                flex;
+
+            justify-content:
+                flex-end;
+
+            margin-top:
+                14px;
+
+        }
+
+
+        .inventory-delete-button {
+
+            border:
+                1px solid
+                rgba(255,255,255,0.70);
+
+            border-radius:
+                10px;
+
+            background:
+                rgba(239,108,108,0.12);
+
+            color:
+                #c74b4b;
+
+            padding:
+                8px 11px;
+
+            font-family:
+                "Poppins",
+                sans-serif;
+
+            font-size:
+                12px;
+
+            font-weight:
+                700;
+
+            cursor:
+                pointer;
+
         }
 
 
@@ -1578,6 +1979,7 @@
 
             flex-wrap:
                 wrap;
+
         }
 
 
@@ -1599,10 +2001,6 @@
             border-radius:
                 999px;
 
-            font-family:
-                "Poppins",
-                sans-serif;
-
             font-size:
                 13px;
 
@@ -1611,6 +2009,7 @@
 
             cursor:
                 pointer;
+
         }
 
 
@@ -1627,13 +2026,6 @@
                     #2f7fd1
                 );
 
-            border:
-                1px solid
-                rgba(255,255,255,0.78);
-
-            box-shadow:
-                0 8px 20px
-                rgba(40,119,200,0.18);
         }
 
 
@@ -1643,7 +2035,6 @@
                 grid;
 
             grid-template-columns:
-
                 repeat(
                     auto-fit,
                     minmax(210px,1fr)
@@ -1651,6 +2042,7 @@
 
             gap:
                 14px;
+
         }
 
 
@@ -1680,24 +2072,6 @@
             cursor:
                 pointer;
 
-            backdrop-filter:
-                blur(16px);
-
-            -webkit-backdrop-filter:
-                blur(16px);
-
-            box-shadow:
-                var(--shadow-soft);
-
-            transition:
-                0.2s ease;
-        }
-
-
-        .finance-category-card:hover {
-
-            transform:
-                translateY(-2px);
         }
 
 
@@ -1706,9 +2080,6 @@
             border-color:
                 rgba(88,170,247,0.65);
 
-            box-shadow:
-                0 10px 28px
-                rgba(40,119,200,0.15);
         }
 
 
@@ -1719,6 +2090,7 @@
 
             margin-bottom:
                 10px;
+
         }
 
 
@@ -1732,26 +2104,21 @@
 
             margin-bottom:
                 6px;
+
         }
 
 
         .finance-category-info {
 
-            font-family:
-                "Poppins",
-                sans-serif;
+            font-size:
+                12px;
 
             color:
                 var(--text-soft);
 
-            font-size:
-                12px;
-
-            font-weight:
-                600;
-
             line-height:
                 1.45;
+
         }
 
 
@@ -1759,6 +2126,7 @@
 
             margin-top:
                 24px;
+
         }
 
 
@@ -1766,6 +2134,7 @@
 
             color:
                 #23734f;
+
         }
 
 
@@ -1774,18 +2143,12 @@
             margin-top:
                 12px;
 
-            color:
-                var(--sky-blue-dark);
-
-            font-family:
-                "Poppins",
-                sans-serif;
-
             font-size:
                 17px;
 
             font-weight:
                 700;
+
         }
 
 
@@ -1806,21 +2169,6 @@
             justify-content:
                 center;
 
-            text-align:
-                center;
-
-            font-family:
-                "Poppins",
-                sans-serif;
-
-            font-size:
-                13px;
-
-            font-weight:
-                600;
-
-            color:
-                var(--text-soft);
         }
 
 
@@ -1861,18 +2209,9 @@
                 1px solid
                 rgba(255,255,255,0.78);
 
-            backdrop-filter:
-                blur(18px);
-
-            -webkit-backdrop-filter:
-                blur(18px);
-
-            box-shadow:
-                0 -5px 20px
-                rgba(53,122,190,0.08);
-
             z-index:
                 9999;
+
         }
 
 
@@ -1887,18 +2226,11 @@
             padding-left:
                 100%;
 
-            font-family:
-                "Poppins",
-                sans-serif;
-
             font-size:
                 11px;
 
             font-weight:
                 600;
-
-            letter-spacing:
-                0.5px;
 
             color:
                 var(--sky-blue-dark);
@@ -1906,6 +2238,7 @@
             animation:
                 tickerMove
                 22s linear infinite;
+
         }
 
 
@@ -1915,13 +2248,16 @@
 
                 transform:
                     translateX(0);
+
             }
 
             to {
 
                 transform:
                     translateX(-100%);
+
             }
+
         }
 
 
@@ -1938,6 +2274,7 @@
 
                 padding:
                     12px;
+
             }
 
 
@@ -1957,6 +2294,7 @@
 
                 border-radius:
                     21px;
+
             }
 
 
@@ -1964,6 +2302,7 @@
 
                 margin-bottom:
                     20px;
+
             }
 
 
@@ -1980,6 +2319,7 @@
 
                 padding:
                     3px 2px 6px;
+
             }
 
 
@@ -2003,8 +2343,6 @@
                 padding:
                     12px 14px;
 
-                border-radius:
-                    999px;
             }
 
 
@@ -2012,13 +2350,7 @@
 
                 padding:
                     8px 2px 24px;
-            }
 
-
-            .header h1 {
-
-                font-size:
-                    29px;
             }
 
 
@@ -2029,14 +2361,9 @@
 
                 min-height:
                     135px;
+
             }
 
-
-            .finance-category-grid {
-
-                grid-template-columns:
-                    1fr 1fr;
-            }
         }
 
 
@@ -2046,6 +2373,7 @@
 
                 padding:
                     34px 22px;
+
             }
 
 
@@ -2053,6 +2381,7 @@
 
                 font-size:
                     38px;
+
             }
 
 
@@ -2060,6 +2389,7 @@
 
                 font-size:
                     21px;
+
             }
 
 
@@ -2067,6 +2397,7 @@
 
                 grid-template-columns:
                     1fr;
+
             }
 
 
@@ -2079,6 +2410,7 @@
 
                 padding:
                     17px;
+
             }
 
 
@@ -2086,6 +2418,7 @@
 
                 font-size:
                     27px;
+
             }
 
 
@@ -2094,6 +2427,7 @@
 
                 width:
                     100%;
+
             }
 
 
@@ -2102,41 +2436,26 @@
 
                 flex:
                     1;
+
             }
 
 
-            .schedule-month-title {
+            .inventory-grid {
 
-                min-width:
-                    150px;
+                grid-template-columns:
+                    1fr;
 
-                font-size:
-                    20px;
             }
 
 
-            .schedule-day {
+            .inventory-category-tab {
 
-                min-width:
-                    105px;
-
-                min-height:
-                    125px;
-            }
-
-
-            .schedule-event-name {
+                padding:
+                    10px 15px;
 
                 font-size:
                     11px;
-            }
 
-
-            .schedule-event-location,
-            .schedule-event-client {
-
-                font-size:
-                    8px;
             }
 
 
@@ -2144,6 +2463,7 @@
 
                 grid-template-columns:
                     1fr;
+
             }
 
 
@@ -2151,6 +2471,7 @@
 
                 width:
                     100%;
+
             }
 
 
@@ -2158,6 +2479,7 @@
 
                 flex:
                     1;
+
             }
 
 
@@ -2165,6 +2487,7 @@
 
                 height:
                     32px;
+
             }
 
 
@@ -2175,7 +2498,9 @@
 
                 animation-duration:
                     18s;
+
             }
+
         }
 
     </style>
@@ -2187,7 +2512,7 @@
 
 
     <!-- =====================================================
-         WELCOME SCREEN
+         WELCOME
     ====================================================== -->
 
     <div
@@ -2201,11 +2526,9 @@
                 SKY<span>.BOOTH</span>
             </div>
 
-
             <div class="welcome-title">
                 DASHBOARD
             </div>
-
 
             <button
                 type="button"
@@ -2228,12 +2551,9 @@
     <div class="app">
 
 
-        <!-- =================================================
-             SIDEBAR
-        ================================================== -->
+        <!-- SIDEBAR -->
 
         <aside class="sidebar">
-
 
             <div class="brand-box">
 
@@ -2246,7 +2566,6 @@
 
             <div class="menu">
 
-
                 <button
                     class="active"
                     onclick="showPage('dashboard')"
@@ -2254,13 +2573,11 @@
                     🏠 DASHBOARD
                 </button>
 
-
                 <button
                     onclick="showPage('event')"
                 >
                     📸 EVENT
                 </button>
-
 
                 <button
                     onclick="showPage('schedule')"
@@ -2268,13 +2585,11 @@
                     📅 JADWAL
                 </button>
 
-
                 <button
                     onclick="showPage('inventory')"
                 >
                     📦 INVENTARIS
                 </button>
-
 
                 <button
                     onclick="showPage('finance')"
@@ -2282,28 +2597,20 @@
                     💰 KEUANGAN
                 </button>
 
-
             </div>
 
         </aside>
 
 
 
-        <!-- =================================================
-             MAIN CONTENT
-        ================================================== -->
-
         <main class="content">
 
 
-            <!-- =================================================
-                 DASHBOARD
-            ================================================== -->
+            <!-- DASHBOARD -->
 
             <div
                 id="dashboard-page"
             >
-
 
                 <div class="header">
 
@@ -2319,7 +2626,6 @@
 
 
                 <div class="cards">
-
 
                     <div class="card">
 
@@ -2384,22 +2690,18 @@
 
                     </div>
 
-
                 </div>
 
             </div>
 
 
 
-            <!-- =================================================
-                 EVENT
-            ================================================== -->
+            <!-- EVENT -->
 
             <div
                 id="event-page"
                 style="display:none;"
             >
-
 
                 <div class="header">
 
@@ -2410,7 +2712,6 @@
                     <p>
                         Kelola event photobooth kamu
                     </p>
-
 
                     <button
                         class="add-event-button"
@@ -2427,19 +2728,15 @@
                     style="display:none;"
                 >
 
-
                     <div class="section">
-
 
                         <div
                             class="event event-form-box"
                         >
 
-
                             <h2>
                                 TAMBAH EVENT
                             </h2>
-
 
                             <label>
                                 Nama Event
@@ -2488,7 +2785,6 @@
                                 Jenis Pendapatan
                             </label>
 
-
                             <select
                                 id="income-type"
                                 onchange="toggleIncomeType()"
@@ -2509,7 +2805,6 @@
                                 id="full-price-box"
                             >
 
-
                                 <label>
                                     Harga Event
                                 </label>
@@ -2520,7 +2815,6 @@
                                     placeholder="Contoh: 1500000"
                                 >
 
-
                             </div>
 
 
@@ -2528,7 +2822,6 @@
                                 id="per-person-price-box"
                                 style="display:none;"
                             >
-
 
                                 <label>
                                     Harga per Orang
@@ -2540,17 +2833,14 @@
                                     placeholder="Contoh: 15000"
                                 >
 
-
                                 <div class="event-info">
                                     Jumlah orang akan diisi setelah event selesai.
                                 </div>
-
 
                             </div>
 
 
                             <div class="form-actions">
-
 
                                 <button
                                     type="button"
@@ -2560,7 +2850,6 @@
                                     BATAL
                                 </button>
 
-
                                 <button
                                     type="button"
                                     class="save-button"
@@ -2569,30 +2858,22 @@
                                     SIMPAN EVENT
                                 </button>
 
-
                             </div>
-
 
                         </div>
 
-
                     </div>
-
 
                 </div>
 
 
-
                 <div class="section">
-
 
                     <div class="section-title">
                         DAFTAR EVENT
                     </div>
 
-
                     <div id="event-list">
-
 
                         <div class="event">
 
@@ -2606,26 +2887,20 @@
 
                         </div>
 
-
                     </div>
 
-
                 </div>
-
 
             </div>
 
 
 
-            <!-- =================================================
-                 JADWAL
-            ================================================== -->
+            <!-- JADWAL -->
 
             <div
                 id="schedule-page"
                 style="display:none;"
             >
-
 
                 <div class="header">
 
@@ -2642,13 +2917,9 @@
 
                 <div class="schedule-month-picker">
 
-
-                    <label
-                        for="schedule-month"
-                    >
+                    <label for="schedule-month">
                         PILIH BULAN
                     </label>
-
 
                     <input
                         type="month"
@@ -2656,12 +2927,10 @@
                         onchange="loadSchedule()"
                     >
 
-
                 </div>
 
 
                 <div class="schedule-toolbar">
-
 
                     <button
                         type="button"
@@ -2688,42 +2957,20 @@
                         ›
                     </button>
 
-
                 </div>
 
 
                 <div class="schedule-calendar">
 
-
                     <div class="schedule-weekdays">
 
-                        <div>
-                            SEN
-                        </div>
-
-                        <div>
-                            SEL
-                        </div>
-
-                        <div>
-                            RAB
-                        </div>
-
-                        <div>
-                            KAM
-                        </div>
-
-                        <div>
-                            JUM
-                        </div>
-
-                        <div>
-                            SAB
-                        </div>
-
-                        <div>
-                            MIN
-                        </div>
+                        <div>SEN</div>
+                        <div>SEL</div>
+                        <div>RAB</div>
+                        <div>KAM</div>
+                        <div>JUM</div>
+                        <div>SAB</div>
+                        <div>MIN</div>
 
                     </div>
 
@@ -2733,23 +2980,18 @@
                         class="schedule-calendar-grid"
                     ></div>
 
-
                 </div>
-
 
             </div>
 
 
 
-            <!-- =================================================
-                 INVENTARIS
-            ================================================== -->
+            <!-- INVENTARIS -->
 
             <div
                 id="inventory-page"
                 style="display:none;"
             >
-
 
                 <div class="header">
 
@@ -2769,9 +3011,7 @@
                         + TAMBAH BARANG
                     </button>
 
-
                 </div>
-
 
 
                 <div
@@ -2779,14 +3019,11 @@
                     style="display:none;"
                 >
 
-
                     <div class="section">
-
 
                         <div
                             class="event event-form-box"
                         >
-
 
                             <h2>
                                 TAMBAH BARANG
@@ -2835,6 +3072,10 @@
                                     🎭 Properti
                                 </option>
 
+                                <option value="other">
+                                    ➕ Lainnya
+                                </option>
+
                             </select>
 
 
@@ -2846,6 +3087,7 @@
                                 type="number"
                                 id="item-quantity"
                                 placeholder="Contoh: 100"
+                                min="0"
                             >
 
 
@@ -2857,11 +3099,11 @@
                                 type="number"
                                 id="item-price"
                                 placeholder="Contoh: 15000"
+                                min="0"
                             >
 
 
                             <div class="form-actions">
-
 
                                 <button
                                     type="button"
@@ -2880,63 +3122,78 @@
                                     SIMPAN BARANG
                                 </button>
 
-
                             </div>
-
 
                         </div>
 
-
                     </div>
-
 
                 </div>
 
+
+                <div class="inventory-toolbar">
+
+                    <button
+                        type="button"
+                        class="inventory-category-tab active"
+                        data-category="cetak"
+                        onclick="filterInventory('cetak')"
+                    >
+                        🖨️ CETAK
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="inventory-category-tab"
+                        data-category="kamera"
+                        onclick="filterInventory('kamera')"
+                    >
+                        📷 KAMERA
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="inventory-category-tab"
+                        data-category="properti"
+                        onclick="filterInventory('properti')"
+                    >
+                        🎭 PROPERTI
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="inventory-category-tab"
+                        data-category="other"
+                        onclick="filterInventory('other')"
+                    >
+                        ➕ LAINNYA
+                    </button>
+
+                </div>
 
 
                 <div class="section">
 
-
-                    <div class="section-title">
-                        DAFTAR INVENTARIS
-                    </div>
-
-
-                    <div id="inventory-list">
-
-
-                        <div class="event">
-
-                            <div class="event-name">
-                                BELUM ADA BARANG
-                            </div>
-
-                            <div class="event-info">
-                                Tambahkan barang pertama kamu.
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
+                    <div
+                        id="inventory-list"
+                        class="inventory-grid"
+                    ></div>
 
                 </div>
-
 
             </div>
 
 
 
-            <!-- =================================================
-                 KEUANGAN
-            ================================================== -->
+            <!-- KEUANGAN -->
 
             <div
                 id="finance-page"
                 style="display:none;"
             >
-
 
                 <div class="header">
 
@@ -2952,7 +3209,6 @@
 
 
                 <div class="finance-tabs">
-
 
                     <button
                         type="button"
@@ -2973,22 +3229,17 @@
                         PENGELUARAN
                     </button>
 
-
                 </div>
 
 
-
                 <!-- PEMASUKAN -->
-
 
                 <div
                     id="income-section"
                     class="finance-section"
                 >
 
-
                     <div class="section">
-
 
                         <div class="section-title">
                             PEMASUKAN
@@ -2997,26 +3248,20 @@
 
                         <div class="event">
 
-
                             <div class="finance-name">
                                 PENDAPATAN EVENT
                             </div>
-
 
                             <div class="event-info">
                                 Event yang sudah selesai otomatis masuk sebagai pemasukan.
                             </div>
 
-
                         </div>
-
 
                     </div>
 
 
-
                     <div class="section">
-
 
                         <div class="section-title">
                             PEMASUKAN LAINNYA
@@ -3027,11 +3272,9 @@
                             class="event event-form-box"
                         >
 
-
                             <label>
                                 Keterangan
                             </label>
-
 
                             <input
                                 type="text"
@@ -3043,7 +3286,6 @@
                             <label>
                                 Nominal
                             </label>
-
 
                             <input
                                 type="number"
@@ -3057,7 +3299,6 @@
                                 Tanggal
                             </label>
 
-
                             <input
                                 type="date"
                                 id="income-other-date"
@@ -3065,7 +3306,6 @@
 
 
                             <div class="form-actions">
-
 
                                 <button
                                     type="button"
@@ -3075,15 +3315,11 @@
                                     + SIMPAN PEMASUKAN
                                 </button>
 
-
                             </div>
-
 
                         </div>
 
-
                     </div>
-
 
                 </div>
 
@@ -3091,16 +3327,13 @@
 
                 <!-- PENGELUARAN -->
 
-
                 <div
                     id="expense-section"
                     class="finance-section"
                     style="display:none;"
                 >
 
-
                     <div class="section">
-
 
                         <div class="section-title">
                             JENIS PENGELUARAN
@@ -3109,36 +3342,25 @@
 
                         <div class="finance-category-grid">
 
-
                             <button
                                 type="button"
                                 class="finance-category-card active"
                                 onclick="showExpenseCategory('cetak')"
                             >
 
-                                <div
-                                    class="finance-category-icon"
-                                >
+                                <div class="finance-category-icon">
                                     🖨️
                                 </div>
 
-
-                                <div
-                                    class="finance-category-name"
-                                >
+                                <div class="finance-category-name">
                                     KEBUTUHAN CETAK
                                 </div>
 
-
-                                <div
-                                    class="finance-category-info"
-                                >
+                                <div class="finance-category-info">
                                     Kertas, tinta, ribbon, dan lainnya
                                 </div>
 
-
                             </button>
-
 
 
                             <button
@@ -3147,29 +3369,19 @@
                                 onclick="showExpenseCategory('kamera')"
                             >
 
-                                <div
-                                    class="finance-category-icon"
-                                >
+                                <div class="finance-category-icon">
                                     📷
                                 </div>
 
-
-                                <div
-                                    class="finance-category-name"
-                                >
+                                <div class="finance-category-name">
                                     KEBUTUHAN KAMERA
                                 </div>
 
-
-                                <div
-                                    class="finance-category-info"
-                                >
+                                <div class="finance-category-info">
                                     Baterai, memory card, dan lainnya
                                 </div>
 
-
                             </button>
-
 
 
                             <button
@@ -3178,29 +3390,19 @@
                                 onclick="showExpenseCategory('properti')"
                             >
 
-                                <div
-                                    class="finance-category-icon"
-                                >
+                                <div class="finance-category-icon">
                                     🎭
                                 </div>
 
-
-                                <div
-                                    class="finance-category-name"
-                                >
+                                <div class="finance-category-name">
                                     KEBUTUHAN PROPERTI
                                 </div>
 
-
-                                <div
-                                    class="finance-category-info"
-                                >
+                                <div class="finance-category-info">
                                     Dekorasi, backdrop, properti, dan lainnya
                                 </div>
 
-
                             </button>
-
 
 
                             <button
@@ -3209,39 +3411,26 @@
                                 onclick="showExpenseCategory('other')"
                             >
 
-                                <div
-                                    class="finance-category-icon"
-                                >
+                                <div class="finance-category-icon">
                                     ➕
                                 </div>
 
-
-                                <div
-                                    class="finance-category-name"
-                                >
+                                <div class="finance-category-name">
                                     LAINNYA
                                 </div>
 
-
-                                <div
-                                    class="finance-category-info"
-                                >
+                                <div class="finance-category-info">
                                     Pengeluaran di luar kategori
                                 </div>
 
-
                             </button>
 
-
                         </div>
-
 
                     </div>
 
 
-
                     <div class="section">
-
 
                         <div class="section-title">
                             CATAT PENGELUARAN
@@ -3252,7 +3441,6 @@
                             class="event event-form-box"
                         >
 
-
                             <label>
                                 Kategori
                             </label>
@@ -3262,26 +3450,21 @@
                                 id="expense-category"
                             >
 
-
                                 <option value="cetak">
                                     🖨️ Kebutuhan Cetak
                                 </option>
-
 
                                 <option value="kamera">
                                     📷 Kebutuhan Kamera
                                 </option>
 
-
                                 <option value="properti">
                                     🎭 Kebutuhan Properti
                                 </option>
 
-
                                 <option value="other">
                                     ➕ Lainnya
                                 </option>
-
 
                             </select>
 
@@ -3290,18 +3473,16 @@
                                 Keterangan
                             </label>
 
-
                             <input
                                 type="text"
                                 id="expense-description"
-                                placeholder="Contoh: Beli kertas foto 2 pack"
+                                placeholder="Contoh: Beli kertas foto"
                             >
 
 
                             <label>
                                 Nominal
                             </label>
-
 
                             <input
                                 type="number"
@@ -3315,7 +3496,6 @@
                                 Tanggal
                             </label>
 
-
                             <input
                                 type="date"
                                 id="expense-date"
@@ -3323,7 +3503,6 @@
 
 
                             <div class="form-actions">
-
 
                                 <button
                                     type="button"
@@ -3333,15 +3512,11 @@
                                     + SIMPAN PENGELUARAN
                                 </button>
 
-
                             </div>
-
 
                         </div>
 
-
                     </div>
-
 
                 </div>
 
@@ -3349,9 +3524,7 @@
 
                 <!-- REKAP -->
 
-
                 <div class="section">
-
 
                     <div class="section-title">
                         REKAP BULANAN
@@ -3361,7 +3534,6 @@
                     <div
                         class="event event-form-box"
                     >
-
 
                         <label>
                             PILIH BULAN
@@ -3374,26 +3546,20 @@
                             onchange="loadFinanceSummary()"
                         >
 
-
                     </div>
 
-
                 </div>
-
 
 
                 <div
                     class="cards finance-summary-cards"
                 >
 
-
                     <div class="card">
-
 
                         <div class="card-title">
                             TOTAL PEMASUKAN
                         </div>
-
 
                         <div
                             class="card-value"
@@ -3402,18 +3568,14 @@
                             Rp0
                         </div>
 
-
                     </div>
-
 
 
                     <div class="card">
 
-
                         <div class="card-title">
                             TOTAL PENGELUARAN
                         </div>
-
 
                         <div
                             class="card-value"
@@ -3422,18 +3584,14 @@
                             Rp0
                         </div>
 
-
                     </div>
-
 
 
                     <div class="card">
 
-
                         <div class="card-title">
                             LABA BERSIH
                         </div>
-
 
                         <div
                             class="card-value"
@@ -3442,16 +3600,12 @@
                             Rp0
                         </div>
 
-
                     </div>
-
 
                 </div>
 
 
-
                 <div class="section">
-
 
                     <div class="section-title">
                         DIAGRAM REKAP
@@ -3460,21 +3614,16 @@
 
                     <div class="event">
 
-
                         <div id="finance-chart">
                             Diagram akan tampil setelah data keuangan tersedia.
                         </div>
 
-
                     </div>
-
 
                 </div>
 
 
-
                 <div class="section">
-
 
                     <div class="section-title">
                         RIWAYAT TRANSAKSI
@@ -3483,28 +3632,21 @@
 
                     <div id="finance-list">
 
-
                         <div class="finance-card">
-
 
                             <div class="finance-name">
                                 BELUM ADA TRANSAKSI
                             </div>
 
-
                             <div class="finance-info">
                                 Pemasukan dan pengeluaran akan muncul di sini.
                             </div>
 
-
                         </div>
-
 
                     </div>
 
-
                 </div>
-
 
             </div>
 
@@ -3515,12 +3657,9 @@
 
 
 
-    <!-- =====================================================
-         RUNNING TEXT
-    ====================================================== -->
+    <!-- TICKER -->
 
     <div class="ticker-bar">
-
 
         <div class="ticker-track">
 
@@ -3532,24 +3671,17 @@
 
         </div>
 
-
     </div>
 
 
 
-    <!-- =====================================================
-         SUPABASE
-    ====================================================== -->
+    <!-- SUPABASE -->
 
     <script
         src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
     ></script>
 
-
-    <script
-        src="script.js"
-    ></script>
-
+    <script src="script.js"></script>
 
 </body>
 
